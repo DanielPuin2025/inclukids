@@ -1,0 +1,218 @@
+/* ==================================================================
+   IncluKids - Sistema de diseño "Ficha de catálogo"
+   Se carga DESPUÉS de bootstrap.min.css para sobrescribirlo.
+   ================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --tinta: #24303A;
+    --papel: #EEF2ED;
+    --papel-tarjeta: #FFFFFF;
+    --petroleo: #2B5F63;
+    --petroleo-oscuro: #1D4448;
+    --ocre: #C98A2B;
+    --ocre-oscuro: #A66F1E;
+    --lenguaje: #8B4B6B;
+    --ciencias: #4B7B5E;
+    --borde: #D7DED9;
+    --texto-suave: #5B6B66;
+    --exito: #3C7A4E;
+    --peligro: #B24632;
+}
+
+/* ---------- Base ---------- */
+body {
+    background-color: var(--papel) !important;
+    color: var(--tinta) !important;
+    font-family: 'IBM Plex Sans', -apple-system, sans-serif !important;
+    font-size: 15.5px;
+    line-height: 1.55;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    color: var(--tinta);
+    letter-spacing: -0.01em;
+}
+
+.codigo, .badge, .navbar-brand, .btn, label, .form-label,
+.dropdown-header, th {
+    font-family: 'IBM Plex Mono', monospace !important;
+}
+
+a {
+    color: var(--petroleo);
+}
+a:hover {
+    color: var(--petroleo-oscuro);
+}
+
+/* ---------- Botones ---------- */
+.btn {
+    border-radius: 6px !important;
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.1rem;
+    border-width: 1.5px !important;
+}
+
+.btn-primary, .btn-success {
+    background-color: var(--petroleo) !important;
+    border-color: var(--petroleo) !important;
+    color: white !important;
+}
+.btn-primary:hover, .btn-success:hover {
+    background-color: var(--petroleo-oscuro) !important;
+    border-color: var(--petroleo-oscuro) !important;
+}
+
+.btn-outline-primary, .btn-outline-secondary {
+    color: var(--petroleo) !important;
+    border-color: var(--petroleo) !important;
+}
+.btn-outline-primary:hover, .btn-outline-secondary:hover {
+    background-color: var(--petroleo) !important;
+    color: white !important;
+}
+
+.btn-outline-danger {
+    color: var(--peligro) !important;
+    border-color: var(--peligro) !important;
+}
+.btn-outline-danger:hover {
+    background-color: var(--peligro) !important;
+    color: white !important;
+}
+
+.btn-lg {
+    padding: 0.8rem 1.4rem;
+}
+
+/* ---------- Tarjetas ---------- */
+.card {
+    background-color: var(--papel-tarjeta) !important;
+    border: 1.5px solid var(--borde) !important;
+    border-left: 5px solid var(--petroleo) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 1px 3px rgba(36, 48, 58, 0.06) !important;
+}
+
+.ficha-lenguaje { border-left-color: var(--lenguaje) !important; }
+.ficha-ciencias { border-left-color: var(--ciencias) !important; }
+
+/* ---------- Formularios ---------- */
+.form-control, .form-select {
+    border: 1.5px solid var(--borde) !important;
+    border-radius: 6px !important;
+    font-family: 'IBM Plex Sans', sans-serif !important;
+    padding: 0.55rem 0.8rem;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--petroleo) !important;
+    box-shadow: 0 0 0 3px rgba(43, 95, 99, 0.15) !important;
+}
+
+.form-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--texto-suave);
+    font-weight: 600;
+}
+
+/* ---------- Tablas ---------- */
+.table {
+    background-color: var(--papel-tarjeta);
+}
+.table thead th {
+    background-color: var(--papel);
+    color: var(--texto-suave);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    border-bottom: 2px solid var(--borde) !important;
+}
+.table td {
+    vertical-align: middle;
+    border-color: var(--borde) !important;
+}
+
+/* ---------- Alertas ---------- */
+.alert-success {
+    background-color: #E7F1EA !important;
+    border-color: var(--exito) !important;
+    color: var(--exito) !important;
+    border-radius: 6px !important;
+}
+.alert-danger, .alert-warning {
+    background-color: #FBEAE6 !important;
+    border-color: var(--peligro) !important;
+    color: var(--peligro) !important;
+    border-radius: 6px !important;
+}
+
+.bg-success { background-color: var(--exito) !important; }
+.bg-warning { background-color: var(--ocre) !important; color: white !important; }
+.bg-danger  { background-color: var(--peligro) !important; }
+
+/* ---------- Sidebar del dashboard (layout + color, todo en un solo lugar) ---------- */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    padding: 20px;
+    background-color: var(--petroleo) !important;
+}
+.content {
+    margin-left: 250px;
+    padding: 30px;
+}
+.sidebar h2 {
+    color: white !important;
+    font-family: 'IBM Plex Mono', monospace !important;
+    font-size: 20px;
+    letter-spacing: 0.03em;
+    text-align: center;
+    margin-bottom: 40px;
+}
+.sidebar a {
+    color: #D9E8E6 !important;
+    font-family: 'IBM Plex Mono', monospace !important;
+    font-size: 13.5px;
+    display: block;
+    padding: 10px 4px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+.sidebar a:hover {
+    background-color: rgba(255,255,255,0.1) !important;
+    color: white !important;
+    text-decoration: none;
+}
+
+/* ---------- Código tipo "sello" ---------- */
+.codigo {
+    display: inline-block;
+    background-color: var(--tinta);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    letter-spacing: 0.03em;
+}
+
+/* ---------- List group ---------- */
+.list-group-item {
+    border-color: var(--borde) !important;
+    border-radius: 6px !important;
+    margin-bottom: 6px;
+}
+.list-group-item-action:hover {
+    background-color: var(--papel) !important;
+}
