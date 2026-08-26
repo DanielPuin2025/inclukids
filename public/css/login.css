@@ -305,6 +305,9 @@ html, body.login-body {
 .login-submit__spinner {
     display: none;
 }
+.login-submit.is-loading {
+    pointer-events: none;
+}
 .login-submit.is-loading .login-submit__label {
     opacity: 0.7;
 }

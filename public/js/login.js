@@ -54,8 +54,13 @@
 
     if (form && submitBtn) {
         form.addEventListener("submit", function () {
+            // OJO: nunca poner submitBtn.disabled = true aquí. Deshabilitar
+            // el propio botón de envío durante su evento "submit" hace que
+            // algunos navegadores cancelen el envío del formulario (el
+            // campo name="login" nunca llega al servidor). El estado
+            // "cargando" se ve con la clase CSS; pointer-events:none evita
+            // el doble clic sin tocar el atributo disabled.
             submitBtn.classList.add("is-loading");
-            submitBtn.disabled = true;
         });
     }
 })();
