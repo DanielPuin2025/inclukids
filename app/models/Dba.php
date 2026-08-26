@@ -43,6 +43,28 @@ class Dba
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * DBA correspondientes a los cursos a cargo de un docente: un
+     * docente está a cargo de un grado/grupo completo (no de una
+     * materia específica), así que ve el DBA de todas las materias
+     * para los grados de sus cursos.
+     */
+    public function listarPorDocente($idDocente)
+    {
+        $sql = "SELECT DISTINCT d.id_dba, d.id_materia, d.grado, d.periodo, d.codigo, d.descripcion,
+                       m.nombre AS materia
+                FROM dba d
+                INNER JOIN cursos c ON c.grado = d.grado
+                LEFT JOIN materias m ON d.id_materia = m.id_materia
+                WHERE c.id_docente = ?
+                ORDER BY d.grado, m.nombre, d.periodo, d.codigo";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$idDocente]);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function obtenerPorId($idDba)
     {
         $sql = "SELECT id_dba, id_materia, grado, periodo, codigo, descripcion

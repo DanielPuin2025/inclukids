@@ -39,6 +39,25 @@ class Estudiante
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Estudiantes de los cursos a cargo de un docente (para el
+     * visualizador del docente, que solo debe ver su propio grupo).
+     */
+    public function listarPorDocente($idDocente)
+    {
+        $sql = "SELECT e.id_estudiante, e.nombres, e.apellidos, e.id_curso,
+                       c.grado, c.grupo
+                FROM estudiantes e
+                INNER JOIN cursos c ON e.id_curso = c.id_curso
+                WHERE c.id_docente = ?
+                ORDER BY c.grado, c.grupo, e.nombres ASC";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$idDocente]);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function obtenerPorId($idEstudiante)
     {
         $sql = "SELECT id_estudiante, nombres, apellidos, id_curso

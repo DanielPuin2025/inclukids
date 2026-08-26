@@ -68,6 +68,10 @@ $modulo = $_GET["modulo"] ?? "dashboard";
 
 <hr>
 
+<a href="visualizador.php">👁️ Mi visualizador</a>
+
+<hr>
+
 
 </div>
 

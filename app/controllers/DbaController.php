@@ -16,6 +16,12 @@ class DbaController
         return $modelo->listarPorMateriaGradoPeriodo($idMateria, $grado, $periodo);
     }
 
+    public function listarPorDocente($idDocente)
+    {
+        $modelo = new Dba();
+        return $modelo->listarPorDocente($idDocente);
+    }
+
     public function obtenerPorId($idDba)
     {
         $modelo = new Dba();
