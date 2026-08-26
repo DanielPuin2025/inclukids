@@ -10,7 +10,6 @@ class LoginController
 
             $correo = $_POST["correo"];
             $password = $_POST["password"];
-            $rolSeleccionado = $_POST["rol"] ?? "docente";
 
             $modelo = new Docente();
             $docente = $modelo->autenticar($correo, $password);
@@ -20,13 +19,11 @@ class LoginController
                 return;
             }
 
-            if ($docente["rol"] !== $rolSeleccionado) {
-                $_SESSION["error_login"] = $docente["rol"] === "administrador"
-                    ? "Esta cuenta es de administrador. Selecciona esa opción para ingresar."
-                    : "Esta cuenta es de docente. Selecciona esa opción para ingresar.";
-                return;
-            }
-
+            // El botón Docente/Administrador es solo una guía visual: quien
+            // decide a dónde va cada quien es el rol real guardado en la
+            // cuenta, nunca lo que el usuario haya marcado en el selector
+            // (así unas credenciales correctas nunca se quedan "afuera"
+            // por haber elegido el botón equivocado).
             $_SESSION["id_docente"] = $docente["id_docente"];
             $_SESSION["nombre"] = $docente["nombres"];
             $_SESSION["rol"] = $docente["rol"];
