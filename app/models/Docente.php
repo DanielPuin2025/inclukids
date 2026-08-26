@@ -14,7 +14,7 @@ class Docente
 
     public function autenticar($correo, $contrasena)
     {
-        $sql = "SELECT id_docente, nombres, apellidos, correo, contraseña
+        $sql = "SELECT id_docente, nombres, apellidos, correo, rol, contraseña
                 FROM docentes
                 WHERE correo = ?";
 
@@ -52,7 +52,7 @@ class Docente
 
     public function obtenerPorId($idDocente)
     {
-        $sql = "SELECT id_docente, nombres, apellidos, correo
+        $sql = "SELECT id_docente, nombres, apellidos, correo, rol
                 FROM docentes
                 WHERE id_docente = ?";
 
@@ -64,7 +64,7 @@ class Docente
 
     public function listar()
     {
-        $sql = "SELECT id_docente, nombres, apellidos, correo
+        $sql = "SELECT id_docente, nombres, apellidos, correo, rol
                 FROM docentes
                 ORDER BY nombres";
 
@@ -77,13 +77,17 @@ class Docente
     /**
      * Crea un docente nuevo. La contraseña se guarda con hash
      * desde el inicio (nunca en texto plano).
+     *
+     * El registro público (app/views/auth/guardar_registro.php) nunca
+     * debe crear administradores, por eso el rol siempre queda fijo
+     * en 'docente' aquí.
      */
     public function crear($nombres, $apellidos, $correo, $contrasena)
     {
         $hash = password_hash($contrasena, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO docentes (nombres, apellidos, correo, contraseña)
-                VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO docentes (nombres, apellidos, correo, rol, contraseña)
+                VALUES (?, ?, ?, 'docente', ?)";
 
         $consulta = $this->conexion->prepare($sql);
         return $consulta->execute([$nombres, $apellidos, $correo, $hash]);

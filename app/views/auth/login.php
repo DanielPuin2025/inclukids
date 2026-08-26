@@ -1,5 +1,8 @@
 <?php
 $registrado = isset($_GET["registrado"]);
+
+$error = $_SESSION["error_login"] ?? null;
+unset($_SESSION["error_login"]);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -12,74 +15,104 @@ $registrado = isset($_GET["registrado"]);
 
     <title>IncluKids - Iniciar Sesión</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
     <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
+    <link href="/IncluKids/public/css/login.css" rel="stylesheet">
 
 </head>
 
-<body class="bg-light">
+<body class="login-body">
 
-<div class="container">
+<div class="login-shell">
 
-    <div class="row justify-content-center mt-5">
+    <div class="login-hero">
+        <div class="login-hero__blob login-hero__blob--1"></div>
+        <div class="login-hero__blob login-hero__blob--2"></div>
+        <div class="login-hero__blob login-hero__blob--3"></div>
 
-        <div class="col-md-4">
-
-            <div class="card shadow">
-
-                <div class="card-header text-center bg-primary text-white">
-
-                    <h3>IncluKids</h3>
-
-                </div>
-
-                <div class="card-body">
-
-                    <?php if ($registrado): ?>
-                        <div class="alert alert-success">
-                            ¡Cuenta creada! Ya puedes iniciar sesión.
-                        </div>
-                    <?php endif; ?>
-
-                    <form action="" method="POST">
-
-                        <div class="mb-3">
-
-                            <label class="form-label">Correo electrónico</label>
-
-                            <input type="email" name="correo" class="form-control" required>
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">Contraseña</label>
-
-                            <input type="password" name="password" class="form-control" required>
-
-                        </div>
-
-                        <button type="submit" name="login" class="btn btn-success w-100">
-
-                            Iniciar sesión
-
-                        </button>
-
-                    </form>
-
-                    <p class="text-center mt-3 mb-0">
-                        ¿No tienes cuenta? <a href="app/views/auth/registro.php">Regístrate aquí</a>
-                    </p>
-
-                </div>
-
+        <div class="login-hero__content">
+            <div class="login-sello">
+                <span class="login-sello__mark">IK</span>
+                <span class="login-sello__text">IncluKids</span>
             </div>
+            <p class="login-hero__institucion">Megacolegio El Progreso</p>
+            <p class="login-hero__tagline">
+                Seguimiento pedagógico inclusivo para cada estudiante,
+                a cargo de cada docente.
+            </p>
+        </div>
+    </div>
+
+    <div class="login-panel">
+
+        <div class="login-card">
+
+            <div class="login-card__brand">IncluKids</div>
+
+            <?php if ($registrado): ?>
+                <div class="login-alert login-alert--exito" role="status">
+                    ¡Cuenta creada! Ya puedes iniciar sesión.
+                </div>
+            <?php endif; ?>
+
+            <?php if ($error): ?>
+                <div class="login-alert login-alert--error" role="alert">
+                    <?= htmlspecialchars($error) ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="role-toggle" data-rol="docente" id="roleToggle">
+                <div class="role-toggle__pill" aria-hidden="true"></div>
+                <button type="button" class="role-toggle__btn is-active" data-rol="docente" id="btnRolDocente" aria-pressed="true">
+                    <span class="role-toggle__icon">🧑‍🏫</span> Docente
+                </button>
+                <button type="button" class="role-toggle__btn" data-rol="administrador" id="btnRolAdmin" aria-pressed="false">
+                    <span class="role-toggle__icon">🛡️</span> Administrador
+                </button>
+            </div>
+
+            <p class="role-toggle__hint" id="roleHint">
+                Ingresa con tu correo institucional de docente.
+            </p>
+
+            <form action="" method="POST" id="loginForm" novalidate>
+
+                <input type="hidden" name="rol" id="rolSeleccionado" value="docente">
+
+                <div class="field">
+                    <span class="field__icon">✉️</span>
+                    <input type="email" name="correo" id="correo" class="field__input" placeholder=" " required autocomplete="email">
+                    <label for="correo" class="field__label">Correo electrónico</label>
+                </div>
+
+                <div class="field">
+                    <span class="field__icon">🔒</span>
+                    <input type="password" name="password" id="password" class="field__input" placeholder=" " required autocomplete="current-password">
+                    <label for="password" class="field__label">Contraseña</label>
+                    <button type="button" class="field__toggle" id="togglePassword" aria-label="Mostrar contraseña" aria-pressed="false">
+                        👁️
+                    </button>
+                </div>
+
+                <button type="submit" name="login" class="btn login-submit w-100" id="loginSubmit">
+                    <span class="login-submit__label">Iniciar sesión</span>
+                    <span class="login-submit__spinner" aria-hidden="true">📖</span>
+                </button>
+
+            </form>
+
+            <p class="text-center mt-3 mb-0 login-card__footer">
+                ¿No tienes cuenta? <a href="app/views/auth/registro.php">Regístrate aquí</a>
+            </p>
 
         </div>
 
     </div>
 
 </div>
+
+<script src="/IncluKids/public/js/login.js"></script>
 
 </body>
 
