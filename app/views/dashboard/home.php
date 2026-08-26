@@ -6,6 +6,9 @@ if (!isset($_SESSION["id_docente"])) {
     exit();
 }
 
+require_once __DIR__ . "/../../helpers/auth.php";
+requireAdministrador("visualizador.php");
+
 require_once __DIR__ . "/../../controllers/DashboardController.php";
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 require_once __DIR__ . "/../../controllers/ActividadController.php";

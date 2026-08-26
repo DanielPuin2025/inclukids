@@ -11,11 +11,15 @@ require_once __DIR__ . "/../../controllers/CursoController.php";
 
 $idEstudiante = (int) ($_GET["id_estudiante"] ?? 0);
 
+$volverEstudiantes = (($_SESSION["rol"] ?? "docente") === "administrador")
+    ? "../dashboard/home.php?modulo=estudiantes"
+    : "../dashboard/visualizador.php";
+
 $estudianteController = new EstudianteController();
 $estudiante = $estudianteController->obtenerPorId($idEstudiante);
 
 if (!$estudiante) {
-    header("Location: ../dashboard/home.php?modulo=estudiantes");
+    header("Location: $volverEstudiantes");
     exit();
 }
 
@@ -33,7 +37,7 @@ $cursos = $cursoController->listarPorDocente($_SESSION["id_docente"]);
 <body>
 <div class="container mt-5" style="max-width: 500px;">
 
-    <a href="../dashboard/home.php?modulo=estudiantes" class="text-decoration-none">&larr; Volver a Estudiantes</a>
+    <a href="<?= $volverEstudiantes ?>" class="text-decoration-none">&larr; Volver a Estudiantes</a>
 
     <h2 class="mt-3 mb-4">Editar estudiante</h2>
 
