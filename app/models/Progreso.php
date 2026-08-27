@@ -47,7 +47,13 @@ class Progreso
     /**
      * Todo el progreso que ha registrado un docente, a través de
      * todas sus sesiones y estudiantes. Es la fuente del panel de
-     * progreso del docente (más reciente por estudiante + historial).
+     * progreso del docente. Ordenado por sesión (más reciente
+     * primero) porque el progreso se lleva por sesión, no como un
+     * estado único del estudiante — un mismo estudiante puede tener
+     * un registro distinto en cada sesión. El orden global por fecha
+     * también sirve para sacar el "más reciente por estudiante": el
+     * primer registro que se encuentra de cada estudiante, recorriendo
+     * de arriba hacia abajo, es necesariamente el más nuevo.
      */
     public function listarPorDocente($idDocente)
     {
@@ -62,7 +68,7 @@ class Progreso
                 LEFT JOIN Cursos c ON s.id_curso = c.id_curso
                 LEFT JOIN DBA d ON s.id_dba = d.id_dba
                 WHERE s.id_docente = ?
-                ORDER BY e.nombres ASC, e.apellidos ASC, s.fecha DESC";
+                ORDER BY s.fecha DESC, s.id_sesion DESC, e.nombres ASC, e.apellidos ASC";
 
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute([$idDocente]);
