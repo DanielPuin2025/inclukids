@@ -14,6 +14,7 @@ unset($_SESSION["error_login"]);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>IncluKids - Iniciar Sesión</title>
+    <link rel="icon" href="/IncluKids/public/img/logo-inclukids.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
@@ -27,15 +28,14 @@ unset($_SESSION["error_login"]);
 <div class="login-shell">
 
     <div class="login-hero">
+        <img src="/IncluKids/public/img/logo-colegio.jpg" alt="" aria-hidden="true" class="login-hero__marca-agua">
+
         <div class="login-hero__blob login-hero__blob--1"></div>
         <div class="login-hero__blob login-hero__blob--2"></div>
         <div class="login-hero__blob login-hero__blob--3"></div>
 
         <div class="login-hero__content">
-            <div class="login-sello">
-                <span class="login-sello__mark">IK</span>
-                <span class="login-sello__text">IncluKids</span>
-            </div>
+            <img src="/IncluKids/public/img/logo-inclukids.jpg" alt="IncluKids" class="login-sello">
             <p class="login-hero__institucion">Megacolegio El Progreso</p>
             <p class="login-hero__tagline">
                 Seguimiento pedagógico inclusivo para cada estudiante,
@@ -48,7 +48,9 @@ unset($_SESSION["error_login"]);
 
         <div class="login-card">
 
-            <div class="login-card__brand">IncluKids</div>
+            <div class="login-card__brand">
+                <img src="/IncluKids/public/img/logo-inclukids.jpg" alt="IncluKids" class="login-card__brand-img">
+            </div>
 
             <?php if ($registrado): ?>
                 <div class="login-alert login-alert--exito" role="status">

@@ -66,6 +66,7 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi panel - IncluKids</title>
+<link rel="icon" href="/IncluKids/public/img/logo-inclukids.jpg">
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
 <link href="/IncluKids/public/css/panel.css" rel="stylesheet">
@@ -113,7 +114,10 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
 
 <div class="container mt-5">
 
-    <h2 class="mb-1">👁️ Mi panel</h2>
+    <div class="d-flex align-items-center gap-3 mb-1">
+        <img src="/IncluKids/public/img/logo-inclukids.jpg" alt="IncluKids" style="width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 2px 6px rgba(36,48,58,0.15);">
+        <h2 class="mb-0">👁️ Mi panel</h2>
+    </div>
     <p class="text-muted mb-0">Estudiantes, DBA, sesiones y progreso de los cursos a tu cargo.</p>
 
     <a href="../sesiones/paso1_curso.php" class="btn btn-primary btn-lg panel-cta">

@@ -23,6 +23,7 @@ $estadisticas = $dashboardController->obtenerEstadisticas();
 
 <title>Panel de administración - IncluKids</title>
 
+<link rel="icon" href="/IncluKids/public/img/logo-inclukids.jpg">
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
 <link href="/IncluKids/public/css/panel.css" rel="stylesheet">
@@ -77,7 +78,10 @@ $estadisticas = $dashboardController->obtenerEstadisticas();
 
 <div class="container mt-5" style="max-width: 1100px;">
 
-    <h2 class="mb-1">🛡️ Panel de administración</h2>
+    <div class="d-flex align-items-center gap-3 mb-1">
+        <img src="/IncluKids/public/img/logo-inclukids.jpg" alt="IncluKids" style="width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 2px 6px rgba(36,48,58,0.15);">
+        <h2 class="mb-0">🛡️ Panel de administración</h2>
+    </div>
     <p class="text-muted mb-4">Bienvenido, <?= htmlspecialchars($_SESSION["nombre"] ?? '') ?>. Vista global de IncluKids.</p>
 
     <div class="row g-3 mb-4">
