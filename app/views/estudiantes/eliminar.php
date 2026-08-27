@@ -29,10 +29,12 @@ $volverEstudiantes = $esAdmin
 
 if ($idEstudiante > 0) {
     try {
+        // Elimina también el progreso registrado del estudiante (ya
+        // no tiene sentido guardarlo sin el estudiante al que pertenece).
         $estudianteController->eliminar($idEstudiante);
     } catch (PDOException $e) {
-        die("No se pudo eliminar: probablemente tiene registros de progreso ligados. "
-            . "<a href='" . htmlspecialchars($volverEstudiantes) . "'>Volver</a>");
+        die("No se pudo eliminar: " . htmlspecialchars($e->getMessage())
+            . " <a href='" . htmlspecialchars($volverEstudiantes) . "'>Volver</a>");
     }
 }
 

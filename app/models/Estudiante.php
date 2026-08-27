@@ -89,11 +89,31 @@ class Estudiante
         return $consulta->execute([$nombres, $apellidos, $idCurso, $idEstudiante]);
     }
 
+    /**
+     * Elimina un estudiante junto con su progreso registrado. El
+     * progreso de un estudiante no tiene ningún valor por sí solo una
+     * vez que el estudiante ya no existe, así que se borra con él en
+     * la misma transacción en vez de bloquear el borrado (que es lo
+     * que pasaba antes: la restricción de la tabla Progreso impedía
+     * eliminar a cualquier estudiante con progreso, sin dar forma de
+     * resolverlo).
+     */
     public function eliminar($idEstudiante)
     {
-        $sql = "DELETE FROM estudiantes WHERE id_estudiante = ?";
+        $this->conexion->beginTransaction();
 
-        $consulta = $this->conexion->prepare($sql);
-        return $consulta->execute([$idEstudiante]);
+        try {
+            $this->conexion->prepare("DELETE FROM progreso WHERE id_estudiante = ?")
+                ->execute([$idEstudiante]);
+
+            $consulta = $this->conexion->prepare("DELETE FROM estudiantes WHERE id_estudiante = ?");
+            $consulta->execute([$idEstudiante]);
+
+            $this->conexion->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conexion->rollBack();
+            throw $e;
+        }
     }
 }
