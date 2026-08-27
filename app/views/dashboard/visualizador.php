@@ -76,7 +76,10 @@ $sesiones = $sesionController->listarPorDocente($idDocente);
         </div>
     </div>
 
-    <h4 class="mt-4">📅 Mis sesiones de clase</h4>
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h4 class="mb-0">📅 Mis sesiones de clase</h4>
+        <a href="../progreso/panel.php" class="btn btn-sm btn-outline-primary">📊 Ver progreso de mis estudiantes</a>
+    </div>
     <div class="card mb-4">
         <div class="card-body">
             <table class="table table-bordered">

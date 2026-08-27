@@ -45,6 +45,32 @@ class Progreso
     }
 
     /**
+     * Todo el progreso que ha registrado un docente, a través de
+     * todas sus sesiones y estudiantes. Es la fuente del panel de
+     * progreso del docente (más reciente por estudiante + historial).
+     */
+    public function listarPorDocente($idDocente)
+    {
+        $sql = "SELECT p.id_progreso, p.estado, p.observaciones,
+                       e.id_estudiante, e.nombres, e.apellidos,
+                       s.id_sesion, s.fecha,
+                       c.grado, c.grupo,
+                       d.codigo AS dba_codigo, d.descripcion AS dba_descripcion
+                FROM Progreso p
+                INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
+                INNER JOIN Estudiantes e ON p.id_estudiante = e.id_estudiante
+                LEFT JOIN Cursos c ON s.id_curso = c.id_curso
+                LEFT JOIN DBA d ON s.id_dba = d.id_dba
+                WHERE s.id_docente = ?
+                ORDER BY e.nombres ASC, e.apellidos ASC, s.fecha DESC";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$idDocente]);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Historial de progreso de un estudiante específico a través
      * de todas sus sesiones, con fecha y actividad.
      */
