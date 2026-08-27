@@ -43,7 +43,7 @@ $actividades = $sesionActividadController->listarPorSesion($idSesion);
         <?php foreach ($actividades as $actividad): ?>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <?= htmlspecialchars($actividad['nombre']) ?>
-                <a href="../juego/seleccionar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>&id_sesion=<?= $idSesion ?>"
+                <a href="../juegos/jugar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>&id_sesion=<?= $idSesion ?>"
                    class="btn btn-sm btn-success">▶️ Jugar</a>
             </li>
         <?php endforeach; ?>
