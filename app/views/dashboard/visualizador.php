@@ -21,9 +21,10 @@ $sesiones = $sesionController->listarPorDocente($idDocente);
 $progresoController = new ProgresoController();
 $registrosProgreso = $progresoController->listarPorDocente($idDocente);
 
-// Estado más reciente por estudiante (la consulta ya viene ordenada
-// por estudiante y fecha descendente, así que el primero que
-// encontramos para cada uno es su estado más reciente).
+// Estado más reciente por estudiante, solo para el resumen rápido
+// (las insignias del encabezado). La consulta ya viene ordenada por
+// fecha descendente, así que el primero que encontramos de cada
+// estudiante es su estado más reciente.
 $progresoPorEstudiante = [];
 foreach ($registrosProgreso as $r) {
     $id = (int) $r["id_estudiante"];
@@ -37,6 +38,24 @@ foreach ($progresoPorEstudiante as $r) {
     if (isset($conteoProgreso[$r["estado"]])) {
         $conteoProgreso[$r["estado"]]++;
     }
+}
+
+// El progreso se lleva por sesión (cada sesión es un registro
+// independiente por estudiante), así que el detalle se agrupa por
+// sesión y no como un estado único por estudiante.
+$progresoPorSesion = [];
+foreach ($registrosProgreso as $r) {
+    $idSesionProgreso = (int) $r["id_sesion"];
+    if (!isset($progresoPorSesion[$idSesionProgreso])) {
+        $progresoPorSesion[$idSesionProgreso] = [
+            "fecha" => $r["fecha"],
+            "dba_codigo" => $r["dba_codigo"],
+            "grado" => $r["grado"],
+            "grupo" => $r["grupo"],
+            "estudiantes" => [],
+        ];
+    }
+    $progresoPorSesion[$idSesionProgreso]["estudiantes"][] = $r;
 }
 
 $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" => "danger"];
@@ -103,55 +122,17 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
 
     <div class="panel-tiles">
 
-        <!-- Mis estudiantes -->
-        <div class="panel-tile panel-tile--estudiantes" data-abierto="false" id="tileEstudiantes">
-            <button type="button" class="panel-tile__header" aria-expanded="false" aria-controls="contenidoEstudiantes">
+        <!-- Mis estudiantes: enlace directo a la tabla completa, no despliega aquí -->
+        <a href="../estudiantes/mis_estudiantes.php" class="panel-tile panel-tile--estudiantes panel-tile--enlace">
+            <span class="panel-tile__header">
                 <span class="panel-tile__icono">👨‍🎓</span>
                 <span class="panel-tile__texto">
                     <span class="panel-tile__titulo">Mis estudiantes</span>
                     <span class="panel-tile__subtitulo"><?= count($estudiantes) ?> a cargo</span>
                 </span>
-                <span class="panel-tile__chevron">▾</span>
-            </button>
-            <div class="panel-tile__contenido" id="contenidoEstudiantes">
-                <div class="panel-tile__contenido-inner">
-
-                    <div class="d-flex justify-content-end mb-3 mt-2">
-                        <a href="../estudiantes/nuevo.php" class="btn btn-sm btn-success">+ Nuevo estudiante</a>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="table table-bordered mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Nombres</th>
-                                    <th>Apellidos</th>
-                                    <th>Curso</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (empty($estudiantes)): ?>
-                                <tr>
-                                    <td colspan="4" class="text-center">No tienes estudiantes a cargo todavía.</td>
-                                </tr>
-                                <?php else: foreach ($estudiantes as $estudiante): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($estudiante["nombres"]) ?></td>
-                                    <td><?= htmlspecialchars($estudiante["apellidos"]) ?></td>
-                                    <td><?= (int) $estudiante["grado"] ?>°<?= htmlspecialchars($estudiante["grupo"]) ?></td>
-                                    <td>
-                                        <a href="../estudiantes/editar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
-                                    </td>
-                                </tr>
-                                <?php endforeach; endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+                <span class="panel-tile__chevron panel-tile__chevron--enlace">→</span>
+            </span>
+        </a>
 
         <!-- Mis sesiones de clase -->
         <div class="panel-tile panel-tile--sesiones" data-abierto="false" id="tileSesiones">
@@ -224,39 +205,42 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
             <div class="panel-tile__contenido" id="contenidoProgreso">
                 <div class="panel-tile__contenido-inner">
 
-                    <?php if (empty($progresoPorEstudiante)): ?>
+                    <?php if (empty($progresoPorSesion)): ?>
                         <p class="text-muted mt-2 mb-0">
                             Todavía no has registrado progreso de ningún estudiante.
                             Usa "Registrar progreso" desde una sesión de clase.
                         </p>
                     <?php else: ?>
-                        <div class="table-responsive mt-2">
-                            <table class="table table-bordered mb-2">
-                                <thead>
-                                    <tr>
-                                        <th>Estudiante</th>
-                                        <th>Estado</th>
-                                        <th>Fecha</th>
-                                        <th>DBA</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($progresoPorEstudiante as $r): ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars($r["nombres"] . " " . $r["apellidos"]) ?></td>
-                                        <td>
-                                            <span class="badge bg-<?= $colores[$r["estado"]] ?? "secondary" ?>">
-                                                <?= htmlspecialchars($r["estado"]) ?>
-                                            </span>
-                                        </td>
-                                        <td><?= htmlspecialchars($r["fecha"]) ?></td>
-                                        <td><?= htmlspecialchars($r["dba_codigo"] ?? "-") ?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                        <p class="text-muted small mt-2 mb-3">
+                            El progreso se lleva sesión por sesión: cada estudiante
+                            puede tener un registro distinto en cada una.
+                        </p>
+
+                        <?php foreach ($progresoPorSesion as $sesionProgreso): ?>
+                        <div class="progreso-sesion">
+                            <div class="progreso-sesion__titulo">
+                                📅 <?= htmlspecialchars($sesionProgreso["fecha"]) ?>
+                                <?php if ($sesionProgreso["grado"] !== null): ?>
+                                    · <?= (int) $sesionProgreso["grado"] ?>°<?= htmlspecialchars($sesionProgreso["grupo"]) ?>
+                                <?php endif; ?>
+                                <?php if ($sesionProgreso["dba_codigo"]): ?>
+                                    · <?= htmlspecialchars($sesionProgreso["dba_codigo"]) ?>
+                                <?php endif; ?>
+                            </div>
+                            <ul class="progreso-sesion__lista">
+                                <?php foreach ($sesionProgreso["estudiantes"] as $reg): ?>
+                                <li>
+                                    <span><?= htmlspecialchars($reg["nombres"] . " " . $reg["apellidos"]) ?></span>
+                                    <span class="badge bg-<?= $colores[$reg["estado"]] ?? "secondary" ?>">
+                                        <?= htmlspecialchars($reg["estado"]) ?>
+                                    </span>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
-                        <a href="../progreso/panel.php" class="btn btn-sm btn-outline-primary">Ver historial completo &rarr;</a>
+                        <?php endforeach; ?>
+
+                        <a href="../progreso/panel.php" class="btn btn-sm btn-outline-primary mt-2">Ver historial completo &rarr;</a>
                     <?php endif; ?>
 
                 </div>
