@@ -9,7 +9,7 @@ if (!isset($_SESSION["id_docente"])) {
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 
 $volverEstudiantes = (($_SESSION["rol"] ?? "docente") === "administrador")
-    ? "../dashboard/home.php?modulo=estudiantes"
+    ? "../estudiantes/index.php"
     : "../dashboard/visualizador.php";
 
 $idEstudiante = (int) ($_GET["id_estudiante"] ?? 0);

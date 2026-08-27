@@ -12,7 +12,7 @@ $cursoController = new CursoController();
 $cursos = $cursoController->listarPorDocente($_SESSION["id_docente"]);
 
 $volverEstudiantes = (($_SESSION["rol"] ?? "docente") === "administrador")
-    ? "../dashboard/home.php?modulo=estudiantes"
+    ? "../estudiantes/index.php"
     : "../dashboard/visualizador.php";
 ?>
 <!DOCTYPE html>
