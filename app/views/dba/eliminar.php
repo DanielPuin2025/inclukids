@@ -11,11 +11,20 @@ $idDba = (int) ($_GET["id_dba"] ?? 0);
 
 if ($idDba > 0) {
     $dbaController = new DbaController();
-    try {
-        $dbaController->eliminar($idDba);
-    } catch (PDOException $e) {
-        die("No se pudo eliminar: probablemente tiene actividades ligadas a este DBA. "
+
+    if ($dbaController->tieneUsoReal($idDba)) {
+        die("No se pudo eliminar: este DBA (o una actividad suya) ya se usó en una "
+            . "sesión de clase real, así que no se puede borrar sin perder ese historial. "
             . "<a href='index.php'>Volver</a>");
+    }
+
+    try {
+        // Cascada segura: solo llega aquí si nada de esto está ligado
+        // a una sesión de clase real (ya se validó arriba).
+        $dbaController->eliminarConActividades($idDba);
+    } catch (PDOException $e) {
+        die("No se pudo eliminar: " . htmlspecialchars($e->getMessage())
+            . " <a href='index.php'>Volver</a>");
     }
 }
 

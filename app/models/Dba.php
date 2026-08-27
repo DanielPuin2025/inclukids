@@ -103,4 +103,76 @@ class Dba
         $consulta = $this->conexion->prepare($sql);
         return $consulta->execute([$idDba]);
     }
+
+    /**
+     * True si este DBA ya se usó en algo real: una sesión de clase
+     * dictada con él, o una actividad suya que ya se asignó a una
+     * sesión. En ese caso NO se debe permitir borrar en cascada (se
+     * perdería historial real de clase), así que el llamador debe
+     * bloquear el borrado.
+     */
+    public function tieneUsoReal($idDba)
+    {
+        $sql = "SELECT
+                    (SELECT COUNT(*) FROM sesionesclase WHERE id_dba = ?)
+                    +
+                    (SELECT COUNT(*) FROM sesionactividad sa
+                        INNER JOIN actividades a ON sa.id_actividad = a.id_actividad
+                        WHERE a.id_dba = ?)
+                    AS total";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$idDba, $idDba]);
+
+        return (int) $consulta->fetchColumn() > 0;
+    }
+
+    /**
+     * Actividades (juegos) asociadas a este DBA, solo para mostrarle
+     * al administrador qué se va a borrar junto con el DBA.
+     */
+    public function actividadesAsociadas($idDba)
+    {
+        $sql = "SELECT id_actividad, nombre FROM actividades WHERE id_dba = ? ORDER BY nombre";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$idDba]);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Elimina el DBA junto con sus actividades y el contenido jugable
+     * de esas actividades (preguntas y rondas). Solo debe llamarse
+     * después de confirmar con tieneUsoReal() que nada de esto está
+     * ligado a una sesión de clase real.
+     */
+    public function eliminarConActividades($idDba)
+    {
+        $this->conexion->beginTransaction();
+
+        try {
+            $actividades = $this->actividadesAsociadas($idDba);
+
+            foreach ($actividades as $actividad) {
+                $idActividad = $actividad["id_actividad"];
+
+                $this->conexion->prepare("DELETE FROM contenidoactividad WHERE id_actividad = ?")
+                    ->execute([$idActividad]);
+                $this->conexion->prepare("DELETE FROM contenido_juego WHERE id_actividad = ?")
+                    ->execute([$idActividad]);
+                $this->conexion->prepare("DELETE FROM actividades WHERE id_actividad = ?")
+                    ->execute([$idActividad]);
+            }
+
+            $this->conexion->prepare("DELETE FROM dba WHERE id_dba = ?")
+                ->execute([$idDba]);
+
+            $this->conexion->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conexion->rollBack();
+            throw $e;
+        }
+    }
 }

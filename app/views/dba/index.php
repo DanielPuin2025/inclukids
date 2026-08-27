@@ -54,7 +54,7 @@ $dbaLista = $dbaController->listar();
                         <td>
                             <a href="editar.php?id_dba=<?= (int) $dba['id_dba'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
                             <a href="eliminar.php?id_dba=<?= (int) $dba['id_dba'] ?>" class="btn btn-sm btn-outline-danger"
-                               onclick="return confirm('¿Eliminar este DBA? Puede afectar actividades ligadas a él.');">Eliminar</a>
+                               onclick="return confirm('¿Eliminar este DBA? También se eliminarán sus actividades y el contenido jugable de cada una. Si el DBA o alguna de sus actividades ya se usó en una sesión de clase real, no se podrá eliminar.');">Eliminar</a>
                         </td>
                     </tr>
                     <?php endforeach; endif; ?>
