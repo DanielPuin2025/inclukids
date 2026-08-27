@@ -16,6 +16,7 @@ unset($_SESSION["error_registro"]);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IncluKids - Registro de docente</title>
+    <link rel="icon" href="/IncluKids/public/img/logo-inclukids.jpg">
     <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
     <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
 </head>
@@ -23,6 +24,10 @@ unset($_SESSION["error_registro"]);
 <div class="container">
     <div class="row justify-content-center mt-5">
         <div class="col-md-5">
+            <div class="text-center mb-3">
+                <img src="/IncluKids/public/img/logo-inclukids.jpg" alt="IncluKids"
+                     style="width: 80px; height: 80px; border-radius: 50%; box-shadow: 0 4px 12px rgba(36,48,58,0.15);">
+            </div>
             <div class="card shadow">
                 <div class="card-header text-center bg-primary text-white">
                     <h3>Crear cuenta - IncluKids</h3>
