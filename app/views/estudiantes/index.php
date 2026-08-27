@@ -9,10 +9,10 @@ if (!isset($_SESSION["id_docente"])) {
 require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
-require_once __DIR__ . "/../../controllers/EstudianteController.php";
+require_once __DIR__ . "/../../controllers/CursoController.php";
 
-$controller = new EstudianteController();
-$estudiantes = $controller->listar();
+$cursoController = new CursoController();
+$cursos = $cursoController->listar();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,52 +22,50 @@ $estudiantes = $controller->listar();
 <title>Estudiantes - IncluKids</title>
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
+<link href="/IncluKids/public/css/panel.css" rel="stylesheet">
 </head>
 <body>
 <div class="container mt-5">
 
     <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al panel</a>
 
-    <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
-        <h2 class="mb-0">👨‍🎓 Estudiantes</h2>
-        <a href="nuevo.php" class="btn btn-success">+ Nuevo estudiante</a>
-    </div>
+    <h2 class="mt-3 mb-1">👨‍🎓 Estudiantes</h2>
+    <p class="text-muted mb-4">
+        Elige un curso para ver sus estudiantes y el progreso registrado en sus sesiones.
+    </p>
 
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered mb-0">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Curso</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($estudiantes)): ?>
-                        <tr>
-                            <td colspan="5" class="text-center">No hay estudiantes registrados.</td>
-                        </tr>
-                        <?php else: foreach ($estudiantes as $estudiante): ?>
-                        <tr>
-                            <td><?= (int) $estudiante["id_estudiante"] ?></td>
-                            <td><?= htmlspecialchars($estudiante["nombres"]) ?></td>
-                            <td><?= htmlspecialchars($estudiante["apellidos"]) ?></td>
-                            <td><?= $estudiante["grado"] !== null ? (int) $estudiante["grado"] . "°" . htmlspecialchars($estudiante["grupo"]) : "Sin curso" ?></td>
-                            <td>
-                                <a href="editar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
-                                <a href="eliminar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar este estudiante?');">Eliminar</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; endif; ?>
-                    </tbody>
-                </table>
-            </div>
+    <?php if (empty($cursos)): ?>
+
+        <div class="alert alert-warning">
+            No hay cursos registrados todavía. Crea uno desde
+            <a href="../cursos/nuevo.php">Cursos</a> para poder agrupar estudiantes.
         </div>
-    </div>
+
+    <?php else: ?>
+
+        <div class="panel-grid">
+            <?php foreach ($cursos as $curso): ?>
+            <a href="curso.php?id_curso=<?= (int) $curso['id_curso'] ?>" class="panel-tile panel-tile--estudiantes panel-tile--enlace">
+                <span class="panel-tile__header">
+                    <span class="panel-tile__icono">🏫</span>
+                    <span class="panel-tile__texto">
+                        <span class="panel-tile__titulo"><?= (int) $curso['grado'] ?>°<?= htmlspecialchars($curso['grupo']) ?></span>
+                        <span class="panel-tile__subtitulo">
+                            <?= (int) $curso['n_estudiantes'] ?> estudiante<?= (int) $curso['n_estudiantes'] === 1 ? '' : 's' ?>
+                            <?php if ($curso['docente_nombres']): ?>
+                                · <?= htmlspecialchars($curso['docente_nombres'] . ' ' . $curso['docente_apellidos']) ?>
+                            <?php else: ?>
+                                · sin docente asignado
+                            <?php endif; ?>
+                        </span>
+                    </span>
+                    <span class="panel-tile__chevron panel-tile__chevron--enlace">→</span>
+                </span>
+            </a>
+            <?php endforeach; ?>
+        </div>
+
+    <?php endif; ?>
 
 </div>
 </body>
