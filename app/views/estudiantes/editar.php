@@ -12,7 +12,7 @@ require_once __DIR__ . "/../../controllers/CursoController.php";
 $idEstudiante = (int) ($_GET["id_estudiante"] ?? 0);
 
 $volverEstudiantes = (($_SESSION["rol"] ?? "docente") === "administrador")
-    ? "../dashboard/home.php?modulo=estudiantes"
+    ? "../estudiantes/index.php"
     : "../dashboard/visualizador.php";
 
 $estudianteController = new EstudianteController();

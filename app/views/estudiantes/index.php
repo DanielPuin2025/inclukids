@@ -12,80 +12,63 @@ requireAdministrador("../dashboard/visualizador.php");
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 
 $controller = new EstudianteController();
-
 $estudiantes = $controller->listar();
-
 ?>
-
 <!DOCTYPE html>
-
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
-
-<title>Estudiantes</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudiantes - IncluKids</title>
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-
+<link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
 </head>
-
 <body>
-
 <div class="container mt-5">
 
-<h2>Listado de estudiantes</h2>
+    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al panel</a>
 
-<table class="table table-bordered">
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
+        <h2 class="mb-0">👨‍🎓 Estudiantes</h2>
+        <a href="nuevo.php" class="btn btn-success">+ Nuevo estudiante</a>
+    </div>
 
-<thead>
-
-<tr>
-
-<th>ID</th>
-
-<th>Nombres</th>
-
-<th>Apellidos</th>
-
-<th>Curso</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<?php if (empty($estudiantes)): ?>
-
-<tr>
-<td colspan="4" class="text-center">No hay estudiantes registrados.</td>
-</tr>
-
-<?php else: foreach($estudiantes as $estudiante){ ?>
-
-<tr>
-
-<td><?= (int) $estudiante["id_estudiante"] ?></td>
-
-<td><?= htmlspecialchars($estudiante["nombres"]) ?></td>
-
-<td><?= htmlspecialchars($estudiante["apellidos"]) ?></td>
-
-<td><?= $estudiante["grado"] !== null ? (int) $estudiante["grado"] . "°" . htmlspecialchars($estudiante["grupo"]) : "Sin curso" ?></td>
-
-</tr>
-
-<?php } endif; ?>
-
-</tbody>
-
-</table>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Curso</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($estudiantes)): ?>
+                        <tr>
+                            <td colspan="5" class="text-center">No hay estudiantes registrados.</td>
+                        </tr>
+                        <?php else: foreach ($estudiantes as $estudiante): ?>
+                        <tr>
+                            <td><?= (int) $estudiante["id_estudiante"] ?></td>
+                            <td><?= htmlspecialchars($estudiante["nombres"]) ?></td>
+                            <td><?= htmlspecialchars($estudiante["apellidos"]) ?></td>
+                            <td><?= $estudiante["grado"] !== null ? (int) $estudiante["grado"] . "°" . htmlspecialchars($estudiante["grupo"]) : "Sin curso" ?></td>
+                            <td>
+                                <a href="editar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
+                                <a href="eliminar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar este estudiante?');">Eliminar</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 </div>
-
 </body>
-
 </html>

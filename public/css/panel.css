@@ -31,6 +31,51 @@
 .panel-tile--sesiones { --acento: var(--ocre); }
 .panel-tile--progreso { --acento: var(--exito); }
 .panel-tile--dba { --acento: var(--lenguaje); }
+.panel-tile--cursos { --acento: var(--ocre); }
+.panel-tile--actividades { --acento: var(--ciencias); }
+.panel-tile--visualizador { --acento: var(--petroleo-oscuro); }
+
+/* Cuadrícula de accesos grandes (panel de administración): los mismos
+   .panel-tile de siempre, en columnas en vez de una lista vertical. */
+.panel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 40px;
+}
+.panel-grid .panel-tile {
+    height: 100%;
+}
+
+/* Tarjetas de estadística clicables del dashboard de administración */
+.stat-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--papel-tarjeta);
+    border: 1.5px solid var(--borde);
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+a.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(36, 48, 58, 0.1);
+}
+.stat-card__numero {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--petroleo);
+    margin: 4px 0 0;
+}
+.stat-card__etiqueta {
+    font-size: 13px;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: 600;
+}
 
 .panel-tile__header {
     width: 100%;
