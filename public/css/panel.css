@@ -1,0 +1,125 @@
+/* ==================================================================
+   IncluKids - "Mi panel" del docente (visualizador.php)
+   Tarjetas grandes tocables que se despliegan en el sitio, en vez de
+   mostrar todas las tablas apiladas de una vez. Se carga después de
+   inclukids.css y reutiliza sus variables de color.
+   ================================================================== */
+
+.panel-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0 28px;
+}
+
+.panel-tiles {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 40px;
+}
+
+.panel-tile {
+    --acento: var(--petroleo);
+    background: var(--papel-tarjeta);
+    border: 1.5px solid var(--borde);
+    border-left: 6px solid var(--acento);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(36, 48, 58, 0.06);
+}
+.panel-tile--sesiones { --acento: var(--ocre); }
+.panel-tile--progreso { --acento: var(--exito); }
+.panel-tile--dba { --acento: var(--lenguaje); }
+
+.panel-tile__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+.panel-tile__header:hover {
+    background: var(--papel);
+}
+.panel-tile__header:focus-visible {
+    outline: 2px solid var(--petroleo);
+    outline-offset: -2px;
+}
+
+.panel-tile__icono {
+    font-size: 30px;
+    flex-shrink: 0;
+    width: 44px;
+    text-align: center;
+}
+
+.panel-tile__texto {
+    flex: 1;
+    min-width: 0;
+}
+.panel-tile__titulo {
+    display: block;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--tinta);
+}
+.panel-tile__subtitulo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--texto-suave);
+    margin-top: 3px;
+}
+
+.mini-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+.mini-badge--logrado { background: #E7F1EA; color: var(--exito); }
+.mini-badge--proceso { background: #FBF3E1; color: var(--ocre-oscuro); }
+.mini-badge--apoyo { background: #FBEAE6; color: var(--peligro); }
+
+.panel-tile__chevron {
+    font-size: 16px;
+    color: var(--texto-suave);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+.panel-tile[data-abierto="true"] .panel-tile__chevron {
+    transform: rotate(180deg);
+}
+
+.panel-tile__contenido {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+.panel-tile[data-abierto="true"] .panel-tile__contenido {
+    max-height: 2500px;
+}
+.panel-tile__contenido-inner {
+    padding: 4px 20px 20px;
+    border-top: 1px solid var(--borde);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .panel-tile__contenido,
+    .panel-tile__chevron {
+        transition: none !important;
+    }
+}
