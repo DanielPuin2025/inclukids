@@ -13,17 +13,18 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 
-$volverEstudiantes = (($_SESSION["rol"] ?? "docente") === "administrador")
-    ? "../estudiantes/index.php"
-    : "../dashboard/visualizador.php";
-
 $idEstudiante = (int) ($_POST["id_estudiante"] ?? 0); // 0 = es nuevo
 $nombres = trim($_POST["nombres"] ?? "");
 $apellidos = trim($_POST["apellidos"] ?? "");
 $idCurso = (int) ($_POST["id_curso"] ?? 0);
 
+$esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
+$volverEstudiantes = $esAdmin
+    ? ($idCurso > 0 ? "curso.php?id_curso=$idCurso" : "index.php")
+    : "../dashboard/visualizador.php";
+
 if ($nombres === "" || $apellidos === "" || $idCurso === 0) {
-    die("Faltan datos. <a href='$volverEstudiantes'>Volver</a>");
+    die("Faltan datos. <a href='" . htmlspecialchars($volverEstudiantes) . "'>Volver</a>");
 }
 
 $estudianteController = new EstudianteController();

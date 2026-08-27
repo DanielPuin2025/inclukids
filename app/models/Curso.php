@@ -15,7 +15,8 @@ class Curso
     public function listar()
     {
         $sql = "SELECT c.id_curso, c.grado, c.grupo, c.anio, c.id_docente,
-                       d.nombres AS docente_nombres, d.apellidos AS docente_apellidos
+                       d.nombres AS docente_nombres, d.apellidos AS docente_apellidos,
+                       (SELECT COUNT(*) FROM estudiantes e WHERE e.id_curso = c.id_curso) AS n_estudiantes
                 FROM cursos c
                 LEFT JOIN docentes d ON c.id_docente = d.id_docente
                 ORDER BY c.grado, c.grupo";
