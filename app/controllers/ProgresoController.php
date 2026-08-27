@@ -16,6 +16,12 @@ class ProgresoController
         return $modelo->listarPorSesion($idSesion);
     }
 
+    public function listarPorDocente($idDocente)
+    {
+        $modelo = new Progreso();
+        return $modelo->listarPorDocente($idDocente);
+    }
+
     public function listarPorEstudiante($idEstudiante)
     {
         $modelo = new Progreso();
