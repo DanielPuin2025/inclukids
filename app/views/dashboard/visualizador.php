@@ -52,12 +52,49 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
 <link href="/IncluKids/public/css/panel.css" rel="stylesheet">
 </head>
 <body>
+
+<div class="avatar-menu" id="avatarMenu">
+    <button type="button" class="avatar-menu__boton" id="avatarBoton" aria-expanded="false" aria-haspopup="true" aria-label="Cuenta y accesibilidad">
+        <?= htmlspecialchars(strtoupper(substr($_SESSION['nombre'] ?? '?', 0, 1))) ?>
+    </button>
+
+    <div class="avatar-menu__panel" id="avatarPanel">
+        <div class="avatar-menu__nombre"><?= htmlspecialchars($_SESSION['nombre'] ?? '') ?></div>
+
+        <div class="avatar-menu__seccion">
+            <div class="avatar-menu__titulo">♿ Accesibilidad</div>
+
+            <div class="avatar-menu__item">
+                <span>Tamaño de texto</span>
+                <div class="tamano-texto-botones">
+                    <button type="button" class="btn-tamano" data-tamano="normal">A</button>
+                    <button type="button" class="btn-tamano" data-tamano="grande">A+</button>
+                    <button type="button" class="btn-tamano" data-tamano="extra">A++</button>
+                </div>
+            </div>
+
+            <label class="avatar-menu__item avatar-menu__switch">
+                <span>Alto contraste</span>
+                <input type="checkbox" id="toggleContraste">
+                <span class="switch-visual" aria-hidden="true"></span>
+            </label>
+
+            <label class="avatar-menu__item avatar-menu__switch">
+                <span>Reducir movimiento</span>
+                <input type="checkbox" id="toggleMovimiento">
+                <span class="switch-visual" aria-hidden="true"></span>
+            </label>
+        </div>
+
+        <hr>
+
+        <a href="../../../logout.php" class="avatar-menu__logout">🚪 Cerrar sesión</a>
+    </div>
+</div>
+
 <div class="container mt-5">
 
-    <div class="d-flex justify-content-between align-items-center">
-        <h2 class="mb-1">👁️ Mi panel</h2>
-        <a href="../../../logout.php" class="btn btn-sm btn-outline-secondary">🚪 Cerrar sesión</a>
-    </div>
+    <h2 class="mb-1">👁️ Mi panel</h2>
     <p class="text-muted mb-0">Estudiantes, DBA, sesiones y progreso de los cursos a tu cargo.</p>
 
     <a href="../sesiones/paso1_curso.php" class="btn btn-primary btn-lg panel-cta">
@@ -286,6 +323,97 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
             boton.setAttribute('aria-expanded', abierto ? 'false' : 'true');
         });
     });
+
+    // ---------- Menú de cuenta + accesibilidad ----------
+    (function () {
+        var CLAVE_PREFS = 'inclukids_a11y';
+
+        function cargarPrefs() {
+            try {
+                return JSON.parse(localStorage.getItem(CLAVE_PREFS)) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+        function guardarPrefs(prefs) {
+            try {
+                localStorage.setItem(CLAVE_PREFS, JSON.stringify(prefs));
+            } catch (e) {
+                // Si el navegador bloquea localStorage (modo privado, etc.),
+                // la preferencia simplemente no se recuerda entre visitas.
+            }
+        }
+
+        var prefs = cargarPrefs();
+
+        function aplicarTamano(tamano) {
+            document.documentElement.classList.remove('texto-grande', 'texto-extra');
+            if (tamano === 'grande') document.documentElement.classList.add('texto-grande');
+            if (tamano === 'extra') document.documentElement.classList.add('texto-extra');
+
+            document.querySelectorAll('.btn-tamano').forEach(function (b) {
+                b.classList.toggle('activo', b.dataset.tamano === tamano);
+            });
+        }
+
+        aplicarTamano(prefs.tamano || 'normal');
+        document.body.classList.toggle('alto-contraste', !!prefs.contraste);
+        document.body.classList.toggle('reducir-movimiento', !!prefs.movimiento);
+
+        var toggleContraste = document.getElementById('toggleContraste');
+        var toggleMovimiento = document.getElementById('toggleMovimiento');
+        if (toggleContraste) toggleContraste.checked = !!prefs.contraste;
+        if (toggleMovimiento) toggleMovimiento.checked = !!prefs.movimiento;
+
+        document.querySelectorAll('.btn-tamano').forEach(function (boton) {
+            boton.addEventListener('click', function () {
+                prefs.tamano = boton.dataset.tamano;
+                guardarPrefs(prefs);
+                aplicarTamano(prefs.tamano);
+            });
+        });
+
+        if (toggleContraste) {
+            toggleContraste.addEventListener('change', function () {
+                prefs.contraste = toggleContraste.checked;
+                guardarPrefs(prefs);
+                document.body.classList.toggle('alto-contraste', prefs.contraste);
+            });
+        }
+
+        if (toggleMovimiento) {
+            toggleMovimiento.addEventListener('change', function () {
+                prefs.movimiento = toggleMovimiento.checked;
+                guardarPrefs(prefs);
+                document.body.classList.toggle('reducir-movimiento', prefs.movimiento);
+            });
+        }
+
+        var avatarMenu = document.getElementById('avatarMenu');
+        var avatarBoton = document.getElementById('avatarBoton');
+
+        if (avatarBoton && avatarMenu) {
+            avatarBoton.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var abierto = avatarMenu.classList.toggle('abierto');
+                avatarBoton.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!avatarMenu.contains(e.target)) {
+                    avatarMenu.classList.remove('abierto');
+                    avatarBoton.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    avatarMenu.classList.remove('abierto');
+                    avatarBoton.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+    })();
 </script>
 
 </body>
