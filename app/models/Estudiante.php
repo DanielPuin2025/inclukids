@@ -39,6 +39,25 @@ class Estudiante
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Estudiantes de los cursos a cargo de un docente (para el
+     * visualizador del docente, que solo debe ver su propio grupo).
+     */
+    public function listarPorDocente($idDocente)
+    {
+        $sql = "SELECT e.id_estudiante, e.nombres, e.apellidos, e.id_curso,
+                       c.grado, c.grupo
+                FROM estudiantes e
+                INNER JOIN cursos c ON e.id_curso = c.id_curso
+                WHERE c.id_docente = ?
+                ORDER BY c.grado, c.grupo, e.nombres ASC";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$idDocente]);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function obtenerPorId($idEstudiante)
     {
         $sql = "SELECT id_estudiante, nombres, apellidos, id_curso
@@ -70,11 +89,31 @@ class Estudiante
         return $consulta->execute([$nombres, $apellidos, $idCurso, $idEstudiante]);
     }
 
+    /**
+     * Elimina un estudiante junto con su progreso registrado. El
+     * progreso de un estudiante no tiene ningún valor por sí solo una
+     * vez que el estudiante ya no existe, así que se borra con él en
+     * la misma transacción en vez de bloquear el borrado (que es lo
+     * que pasaba antes: la restricción de la tabla Progreso impedía
+     * eliminar a cualquier estudiante con progreso, sin dar forma de
+     * resolverlo).
+     */
     public function eliminar($idEstudiante)
     {
-        $sql = "DELETE FROM estudiantes WHERE id_estudiante = ?";
+        $this->conexion->beginTransaction();
 
-        $consulta = $this->conexion->prepare($sql);
-        return $consulta->execute([$idEstudiante]);
+        try {
+            $this->conexion->prepare("DELETE FROM progreso WHERE id_estudiante = ?")
+                ->execute([$idEstudiante]);
+
+            $consulta = $this->conexion->prepare("DELETE FROM estudiantes WHERE id_estudiante = ?");
+            $consulta->execute([$idEstudiante]);
+
+            $this->conexion->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conexion->rollBack();
+            throw $e;
+        }
     }
 }

@@ -33,7 +33,7 @@ $estudiantes = $estudianteController->listarPorCurso($sesion["id_curso"]);
 <body>
 <div class="container mt-5" style="max-width: 700px;">
 
-    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al dashboard</a>
+    <a href="../dashboard/visualizador.php" class="text-decoration-none">&larr; Volver a mi panel</a>
 
     <h2 class="mt-3 mb-1">Registrar progreso</h2>
     <p class="text-muted mb-4">Marca el avance de cada estudiante en esta sesión (fecha: <?= htmlspecialchars($sesion['fecha']) ?>)</p>

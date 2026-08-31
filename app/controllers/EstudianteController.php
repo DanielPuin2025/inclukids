@@ -16,6 +16,12 @@ class EstudianteController
         return $modelo->listarPorCurso($idCurso);
     }
 
+    public function listarPorDocente($idDocente)
+    {
+        $modelo = new Estudiante();
+        return $modelo->listarPorDocente($idDocente);
+    }
+
     public function obtenerPorId($idEstudiante)
     {
         $modelo = new Estudiante();

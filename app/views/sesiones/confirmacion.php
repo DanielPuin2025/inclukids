@@ -43,7 +43,7 @@ $actividades = $sesionActividadController->listarPorSesion($idSesion);
         <?php foreach ($actividades as $actividad): ?>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <?= htmlspecialchars($actividad['nombre']) ?>
-                <a href="../juego/seleccionar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>&id_sesion=<?= $idSesion ?>"
+                <a href="../juegos/jugar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>&id_sesion=<?= $idSesion ?>"
                    class="btn btn-sm btn-success">▶️ Jugar</a>
             </li>
         <?php endforeach; ?>
@@ -54,7 +54,7 @@ $actividades = $sesionActividadController->listarPorSesion($idSesion);
         el progreso individual de cada estudiante.
     </p>
 
-    <a href="../dashboard/home.php" class="btn btn-secondary">Volver al dashboard</a>
+    <a href="../dashboard/visualizador.php" class="btn btn-secondary">Volver a mi panel</a>
     <a href="registrar_progreso.php?id_sesion=<?= $idSesion ?>" class="btn btn-primary">Registrar progreso</a>
 
 </div>

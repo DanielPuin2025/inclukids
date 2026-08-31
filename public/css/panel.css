@@ -1,0 +1,532 @@
+/* ==================================================================
+   IncluKids - "Mi panel" del docente (visualizador.php)
+   Tarjetas grandes tocables que se despliegan en el sitio, en vez de
+   mostrar todas las tablas apiladas de una vez. Se carga después de
+   inclukids.css y reutiliza sus variables de color.
+   ================================================================== */
+
+.panel-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0 28px;
+}
+
+/* ---------- Encabezado de página (logo + título) ---------- */
+.panel-encabezado {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 4px;
+}
+.panel-encabezado__logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(36, 48, 58, 0.15);
+    flex-shrink: 0;
+}
+.panel-encabezado h2 {
+    margin: 0;
+}
+
+.panel-tiles {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 40px;
+}
+
+.panel-tile {
+    --acento: var(--petroleo);
+    background: var(--papel-tarjeta);
+    border: 1.5px solid var(--borde);
+    border-left: 6px solid var(--acento);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(36, 48, 58, 0.06);
+    transition: box-shadow 0.16s ease, transform 0.12s ease, border-color 0.16s ease;
+}
+.panel-grid .panel-tile:hover,
+a.panel-tile--enlace:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(36, 48, 58, 0.1);
+}
+.panel-tile--sesiones { --acento: var(--ocre); }
+.panel-tile--progreso { --acento: var(--exito); }
+.panel-tile--dba { --acento: var(--lenguaje); }
+.panel-tile--cursos { --acento: var(--ocre); }
+.panel-tile--actividades { --acento: var(--ciencias); }
+.panel-tile--visualizador { --acento: var(--petroleo-oscuro); }
+
+/* Cuadrícula de accesos grandes (panel de administración): los mismos
+   .panel-tile de siempre, en columnas en vez de una lista vertical. */
+.panel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 40px;
+}
+.panel-grid .panel-tile {
+    height: 100%;
+}
+
+/* Tarjetas de estadística clicables del dashboard de administración */
+.stat-card {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--papel-tarjeta);
+    border: 1.5px solid var(--borde);
+    border-radius: 10px;
+    padding: 20px 18px 18px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+/* Filito de acento arriba: firma visual compartida con las panel-tile. */
+.stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--petroleo);
+    opacity: 0.55;
+    transition: opacity 0.15s ease;
+}
+a.stat-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--petroleo);
+    box-shadow: 0 6px 18px rgba(36, 48, 58, 0.12);
+}
+a.stat-card:hover::before {
+    opacity: 1;
+}
+a.stat-card:focus-visible {
+    outline: 2px solid var(--petroleo);
+    outline-offset: 2px;
+}
+/* La tarjeta "Sesiones" no lleva enlace: se ve deliberadamente más
+   apagada para que se lea como dato, no como botón. */
+.stat-card:not(a) {
+    opacity: 0.9;
+}
+.stat-card:not(a)::before {
+    background: var(--borde);
+    opacity: 1;
+}
+.stat-card__numero {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--petroleo);
+    font-variant-numeric: tabular-nums;
+    margin: 4px 0 0;
+}
+.stat-card__etiqueta {
+    font-size: 13px;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stat-card,
+    a.stat-card:hover {
+        transition: none;
+        transform: none;
+    }
+}
+
+.panel-tile__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+.panel-tile__header:hover {
+    background: var(--papel);
+    background: color-mix(in srgb, var(--acento) 7%, var(--papel-tarjeta));
+}
+.panel-tile__header:focus-visible {
+    outline: 2px solid var(--petroleo);
+    outline-offset: -2px;
+}
+
+.panel-tile__icono {
+    font-size: 25px;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    /* Chip de color: fallback petróleo, luego tinte del acento de cada tile. */
+    background: rgba(43, 95, 99, 0.10);
+    background: color-mix(in srgb, var(--acento) 14%, transparent);
+}
+
+.panel-tile__texto {
+    flex: 1;
+    min-width: 0;
+}
+.panel-tile__titulo {
+    display: block;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--tinta);
+}
+.panel-tile__subtitulo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--texto-suave);
+    margin-top: 3px;
+}
+
+.mini-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+.mini-badge--logrado { background: #E7F1EA; color: var(--exito); }
+.mini-badge--proceso { background: #FBF3E1; color: var(--ocre-oscuro); }
+.mini-badge--apoyo { background: #FBEAE6; color: var(--peligro); }
+
+.panel-tile__chevron {
+    font-size: 16px;
+    color: var(--texto-suave);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+.panel-tile[data-abierto="true"] .panel-tile__chevron {
+    transform: rotate(180deg);
+}
+
+.panel-tile__contenido {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+.panel-tile[data-abierto="true"] .panel-tile__contenido {
+    max-height: 2500px;
+}
+.panel-tile__contenido-inner {
+    padding: 4px 20px 20px;
+    border-top: 1px solid var(--borde);
+}
+
+/* Variante que no despliega nada: es un enlace directo a otra página. */
+a.panel-tile--enlace {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+a.panel-tile--enlace:hover .panel-tile__header {
+    background: var(--papel);
+}
+.panel-tile__chevron--enlace {
+    transition: transform 0.15s ease;
+}
+a.panel-tile--enlace:hover .panel-tile__chevron--enlace {
+    transform: translateX(4px);
+}
+
+/* Progreso agrupado por sesión */
+.progreso-sesion {
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--borde);
+}
+.progreso-sesion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 8px;
+    padding-bottom: 0;
+}
+.progreso-sesion__titulo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+}
+.progreso-sesion__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.progreso-sesion__lista li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--tinta);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .panel-tile__contenido,
+    .panel-tile__chevron {
+        transition: none !important;
+    }
+}
+
+/* ---------- Menú de cuenta + accesibilidad ---------- */
+
+.avatar-menu {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    z-index: 1050;
+}
+
+.avatar-menu__boton {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--petroleo);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(36, 48, 58, 0.2);
+}
+.avatar-menu__boton {
+    transition: background-color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
+}
+.avatar-menu__boton:hover {
+    background-color: var(--petroleo-oscuro);
+    transform: scale(1.06);
+    box-shadow: 0 4px 14px rgba(36, 48, 58, 0.28);
+}
+.avatar-menu__boton:active {
+    transform: scale(1.0);
+}
+.avatar-menu__boton:focus-visible {
+    outline: 2px solid var(--tinta);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .avatar-menu__boton {
+        transition: background-color 0.15s ease;
+    }
+    .avatar-menu__boton:hover,
+    .avatar-menu__boton:active {
+        transform: none;
+    }
+}
+
+.avatar-menu__panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 280px;
+    background: var(--papel-tarjeta);
+    border: 1.5px solid var(--borde);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(36, 48, 58, 0.18);
+    padding: 16px;
+
+    /* Cerrado por defecto */
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.avatar-menu.abierto .avatar-menu__panel {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.avatar-menu__nombre {
+    font-weight: 700;
+    color: var(--tinta);
+    font-size: 15px;
+    margin-bottom: 12px;
+    word-break: break-word;
+}
+
+.avatar-menu__titulo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--texto-suave);
+    margin-bottom: 10px;
+}
+
+.avatar-menu__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--tinta);
+    padding: 7px 0;
+}
+
+.tamano-texto-botones {
+    display: flex;
+    gap: 4px;
+}
+.btn-tamano {
+    border: 1.5px solid var(--borde);
+    background: var(--papel);
+    color: var(--tinta);
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-tamano.activo {
+    background: var(--petroleo);
+    border-color: var(--petroleo);
+    color: white;
+}
+
+/* Interruptor (checkbox nativo escondido + visual propio) */
+.avatar-menu__switch {
+    cursor: pointer;
+    position: relative;
+}
+.avatar-menu__switch input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 40px;
+    height: 22px;
+    margin: 0;
+    cursor: pointer;
+}
+.switch-visual {
+    width: 40px;
+    height: 22px;
+    border-radius: 999px;
+    background: var(--borde);
+    position: relative;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+}
+.switch-visual::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+    transition: transform 0.2s ease;
+}
+.avatar-menu__switch input:checked ~ .switch-visual {
+    background: var(--petroleo);
+}
+.avatar-menu__switch input:checked ~ .switch-visual::before {
+    transform: translateX(18px);
+}
+.avatar-menu__switch input:focus-visible ~ .switch-visual {
+    outline: 2px solid var(--tinta);
+    outline-offset: 2px;
+}
+
+.avatar-menu__logout {
+    display: block;
+    text-align: center;
+    margin-top: 6px;
+    padding: 9px;
+    border-radius: 8px;
+    background: #FBEAE6;
+    color: var(--peligro);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+}
+.avatar-menu__logout:hover {
+    background: var(--peligro);
+    color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .avatar-menu__panel,
+    .switch-visual,
+    .switch-visual::before {
+        transition: none !important;
+    }
+}
+
+/* ---------- Preferencias de accesibilidad ---------- */
+
+html.texto-grande { font-size: 112.5%; }
+html.texto-extra { font-size: 125%; }
+
+body.reducir-movimiento *,
+body.reducir-movimiento *::before,
+body.reducir-movimiento *::after {
+    transition: none !important;
+    animation: none !important;
+}
+
+body.alto-contraste {
+    background: #000000 !important;
+    color: #FFFFFF !important;
+}
+body.alto-contraste .panel-tile,
+body.alto-contraste .card,
+body.alto-contraste .avatar-menu__panel {
+    background: #000000 !important;
+    border-color: #FFFFFF !important;
+}
+body.alto-contraste .panel-tile__titulo,
+body.alto-contraste .panel-tile__subtitulo,
+body.alto-contraste .avatar-menu__nombre,
+body.alto-contraste .avatar-menu__item,
+body.alto-contraste h1, body.alto-contraste h2, body.alto-contraste h3,
+body.alto-contraste h4, body.alto-contraste h5, body.alto-contraste p,
+body.alto-contraste td, body.alto-contraste th {
+    color: #FFFFFF !important;
+}
+body.alto-contraste a {
+    color: #FFEB3B !important;
+}
+body.alto-contraste table,
+body.alto-contraste th,
+body.alto-contraste td {
+    border-color: #FFFFFF !important;
+}
+body.alto-contraste .btn-primary,
+body.alto-contraste .btn-success,
+body.alto-contraste .avatar-menu__boton {
+    background-color: #FFEB3B !important;
+    border-color: #FFEB3B !important;
+    color: #000000 !important;
+}

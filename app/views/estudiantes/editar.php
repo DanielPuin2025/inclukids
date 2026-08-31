@@ -9,18 +9,25 @@ if (!isset($_SESSION["id_docente"])) {
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 require_once __DIR__ . "/../../controllers/CursoController.php";
 
+$esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
 $idEstudiante = (int) ($_GET["id_estudiante"] ?? 0);
 
 $estudianteController = new EstudianteController();
 $estudiante = $estudianteController->obtenerPorId($idEstudiante);
 
+$volverEstudiantes = $esAdmin
+    ? (($estudiante && $estudiante['id_curso']) ? "curso.php?id_curso=" . (int) $estudiante['id_curso'] : "index.php")
+    : "../dashboard/visualizador.php";
+
 if (!$estudiante) {
-    header("Location: ../dashboard/home.php?modulo=estudiantes");
+    header("Location: $volverEstudiantes");
     exit();
 }
 
 $cursoController = new CursoController();
-$cursos = $cursoController->listarPorDocente($_SESSION["id_docente"]);
+// El administrador puede mover al estudiante a cualquier curso; el
+// docente solo entre los cursos que tiene a cargo.
+$cursos = $esAdmin ? $cursoController->listar() : $cursoController->listarPorDocente($_SESSION["id_docente"]);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,7 +40,7 @@ $cursos = $cursoController->listarPorDocente($_SESSION["id_docente"]);
 <body>
 <div class="container mt-5" style="max-width: 500px;">
 
-    <a href="../dashboard/home.php?modulo=estudiantes" class="text-decoration-none">&larr; Volver a Estudiantes</a>
+    <a href="<?= htmlspecialchars($volverEstudiantes) ?>" class="text-decoration-none">&larr; Volver a Estudiantes</a>
 
     <h2 class="mt-3 mb-4">Editar estudiante</h2>
 

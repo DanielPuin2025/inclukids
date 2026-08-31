@@ -1,0 +1,402 @@
+/* ==================================================================
+   IncluKids - Sistema de diseño de las PANTALLAS DE JUEGO
+   Compartido por los 4 motores (seleccionar, arrastrar, memoria,
+   ordenar). Diseño base sereno y predecible, pensado para niños con
+   autismo (línea TEACCH / low-arousal):
+
+     - fondo liso, mucho espacio en blanco, un foco a la vez
+     - paleta de marca en baja saturación
+     - el error NUNCA es rojo: estado neutro + "inténtalo otra vez"
+     - transiciones lentas, sin rebote/shake/confeti en modo base
+     - objetivos grandes (>=56px) y foco de teclado muy visible
+
+   La clase body.modo-estimulo (interruptor por niño) sube color,
+   agranda emojis y añade una celebración corta al acertar. Nada de
+   eso aplica sin esa clase.
+   ================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --j-fondo: #F7F1E6;
+    --j-tarjeta: #FFFFFF;
+    --j-tinta: #24303A;
+    --j-texto-suave: #5B6B66;
+    --j-primario: #2F6E73;
+    --j-primario-oscuro: #1D4448;
+    --j-acierto: #3C7A4E;
+    --j-acierto-fondo: #E7F1EA;
+    --j-neutro: #5B6B66;
+    --j-neutro-fondo: #ECEFEC;
+    --j-borde: #D7DED9;
+
+    --j-radio: 20px;
+    --j-radio-grande: 28px;
+    --j-sombra: 0 4px 14px rgba(36, 48, 58, 0.08);
+    --j-sombra-media: 0 8px 22px rgba(36, 48, 58, 0.10);
+
+    --j-trans: 220ms ease;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body.juego {
+    margin: 0;
+    font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    background: var(--j-fondo);
+    color: var(--j-tinta);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 18px 72px;
+    line-height: 1.5;
+    user-select: none;
+}
+
+/* ---------- Encabezado ---------- */
+.juego-encabezado {
+    width: 100%;
+    max-width: 760px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.juego-encabezado h1 {
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--j-primario-oscuro);
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+
+/* ---------- Progreso: "Paso X de Y" + puntos ---------- */
+.juego-paso {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--j-texto-suave);
+    text-align: center;
+    margin: 4px 0 10px;
+}
+.juego-progreso {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.juego-progreso__punto {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #E1D9C7;
+    transition: background-color var(--j-trans);
+}
+.juego-progreso__punto.activo { background: var(--j-primario); }
+.juego-progreso__punto.hecho { background: var(--j-acierto); }
+
+/* ---------- Instrucción / pregunta ---------- */
+.juego-instruccion {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    max-width: 720px;
+    margin: 8px auto 26px;
+    color: var(--j-tinta);
+}
+.juego-instruccion__emoji {
+    display: block;
+    font-size: 56px;
+    margin-bottom: 10px;
+}
+
+/* ---------- Botones ---------- */
+.btn-escuchar,
+.btn-primario,
+.btn-volver {
+    font-family: inherit;
+    font-weight: 700;
+    min-height: 56px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: background-color var(--j-trans), box-shadow var(--j-trans),
+                transform 120ms ease, border-color var(--j-trans);
+}
+.btn-escuchar:focus-visible,
+.btn-primario:focus-visible,
+.btn-volver:focus-visible,
+.opcion:focus-visible {
+    outline: 3px solid var(--j-primario-oscuro);
+    outline-offset: 3px;
+}
+
+.btn-escuchar {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: 2px solid var(--j-borde);
+    background: var(--j-tarjeta);
+    color: var(--j-primario-oscuro);
+    box-shadow: var(--j-sombra);
+}
+.btn-escuchar:hover { border-color: var(--j-primario); }
+.btn-escuchar[aria-pressed="true"] {
+    border-color: var(--j-primario);
+    background: var(--j-acierto-fondo);
+}
+
+.btn-primario {
+    padding: 14px 40px;
+    font-size: 20px;
+    border: none;
+    background: var(--j-primario);
+    color: #fff;
+    box-shadow: var(--j-sombra-media);
+}
+.btn-primario:hover { background: var(--j-primario-oscuro); }
+.btn-primario:active { transform: translateY(1px); }
+
+.btn-volver {
+    padding: 14px 32px;
+    font-size: 17px;
+    border: none;
+    background: var(--j-primario);
+    color: #fff;
+    box-shadow: var(--j-sombra);
+}
+.btn-volver:hover { background: var(--j-primario-oscuro); color: #fff; }
+
+/* ---------- Mensaje (aria-live) ---------- */
+.juego-mensaje {
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    min-height: 34px;
+    margin: 24px 0 8px;
+    color: var(--j-texto-suave);
+}
+.juego-mensaje.acierto { color: var(--j-acierto); }
+.juego-mensaje.neutro { color: var(--j-neutro); }
+
+/* ---------- Opción múltiple ---------- */
+.opciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+@media (max-width: 560px) {
+    .opciones { grid-template-columns: 1fr; }
+}
+.opcion {
+    font-family: inherit;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 30px 20px;
+    min-height: 96px;
+    border-radius: var(--j-radio);
+    border: 3px solid var(--j-borde);
+    background: var(--j-tarjeta);
+    color: var(--j-primario-oscuro);
+    box-shadow: var(--j-sombra);
+    cursor: pointer;
+    transition: background-color var(--j-trans), border-color var(--j-trans),
+                box-shadow var(--j-trans), transform 120ms ease;
+}
+.opcion:hover:not(:disabled):not(.acierto):not(.no-es-esa) {
+    border-color: var(--j-primario);
+}
+.opcion:active:not(:disabled) { transform: translateY(1px); }
+.opcion.acierto {
+    background: var(--j-acierto-fondo);
+    border-color: var(--j-acierto);
+    color: var(--j-acierto);
+}
+/* Error: neutro, sin rojo. La opción sigue habilitada para reintentar. */
+.opcion.no-es-esa {
+    background: var(--j-neutro-fondo);
+    border-color: var(--j-neutro);
+    color: var(--j-neutro);
+}
+.opcion:disabled { cursor: default; }
+
+/* ---------- Pantalla de inicio ---------- */
+.juego-inicio {
+    text-align: center;
+    max-width: 560px;
+    margin-top: 24px;
+}
+.juego-inicio__emoji { font-size: 64px; }
+.juego-inicio h2 {
+    font-size: 26px;
+    color: var(--j-primario-oscuro);
+    margin: 14px 0 6px;
+}
+.juego-inicio p {
+    font-size: 17px;
+    color: var(--j-texto-suave);
+    margin: 0 0 26px;
+}
+
+/* ---------- Pantalla final ---------- */
+.juego-final {
+    text-align: center;
+    margin-top: 20px;
+}
+.juego-final__emoji { font-size: 64px; }
+.juego-final h2 {
+    font-size: 30px;
+    color: var(--j-acierto);
+    margin: 12px 0 4px;
+}
+.juego-final p {
+    font-size: 17px;
+    color: var(--j-texto-suave);
+    margin: 0 0 24px;
+}
+
+/* Elemento oculto pero disponible para lectores de pantalla */
+[hidden] { display: none !important; }
+
+/* ---------- Engranaje de ajustes ---------- */
+.juego-ajustes {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+}
+.juego-ajustes__boton {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--j-borde);
+    background: var(--j-tarjeta);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--j-sombra);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.juego-ajustes__boton:focus-visible {
+    outline: 3px solid var(--j-primario-oscuro);
+    outline-offset: 3px;
+}
+.juego-ajustes__panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 260px;
+    background: var(--j-tarjeta);
+    border: 2px solid var(--j-borde);
+    border-radius: 16px;
+    box-shadow: var(--j-sombra-media);
+    padding: 14px;
+}
+.juego-ajustes__titulo {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--j-texto-suave);
+    margin: 0 0 10px;
+}
+.juego-ajustes__fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 0;
+    font-size: 15px;
+    color: var(--j-tinta);
+    cursor: pointer;
+}
+.juego-ajustes__fila input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 44px;
+    height: 24px;
+    margin: 0;
+    cursor: pointer;
+}
+.juego-switch {
+    position: relative;
+    flex-shrink: 0;
+    width: 44px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--j-borde);
+    transition: background-color var(--j-trans);
+}
+.juego-switch::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    transition: transform var(--j-trans);
+}
+.juego-ajustes__fila input:checked ~ .juego-switch { background: var(--j-primario); }
+.juego-ajustes__fila input:checked ~ .juego-switch::before { transform: translateX(20px); }
+.juego-ajustes__fila input:focus-visible ~ .juego-switch {
+    outline: 3px solid var(--j-primario-oscuro);
+    outline-offset: 2px;
+}
+
+/* ==================================================================
+   MODO "MÁS ESTÍMULO"  (body.modo-estimulo)
+   Más color y una celebración corta al acertar. Sin cambios de lógica.
+   ================================================================== */
+body.modo-estimulo {
+    --j-primario: #2B7F86;
+    --j-acierto: #2F9E5B;
+}
+body.modo-estimulo .juego-instruccion__emoji,
+body.modo-estimulo .juego-inicio__emoji,
+body.modo-estimulo .juego-final__emoji { font-size: 76px; }
+
+body.modo-estimulo .juego-progreso__punto.hecho { animation: j-pop 260ms ease; }
+
+@keyframes j-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.35); }
+    100% { transform: scale(1); }
+}
+@keyframes j-celebra {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.06) rotate(-1.5deg); }
+    60% { transform: scale(1.02) rotate(1.5deg); }
+    100% { transform: scale(1); }
+}
+body.modo-estimulo .opcion.acierto { animation: j-celebra 420ms ease; }
+body.modo-estimulo .juego-final__emoji { animation: j-celebra 600ms ease; }
+
+/* ==================================================================
+   MENOS MOVIMIENTO
+   Toggle propio + preferencia del sistema. Corta toda animación.
+   ================================================================== */
+body.menos-movimiento *,
+body.menos-movimiento *::before,
+body.menos-movimiento *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}

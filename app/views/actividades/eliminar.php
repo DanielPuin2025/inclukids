@@ -2,6 +2,9 @@
 session_start();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
+require_once __DIR__ . "/../../helpers/auth.php";
+requireAdministrador("../dashboard/visualizador.php");
+
 require_once __DIR__ . "/../../controllers/ActividadController.php";
 
 $idActividad = (int) ($_GET["id_actividad"] ?? 0);

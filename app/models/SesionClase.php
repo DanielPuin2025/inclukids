@@ -66,4 +66,35 @@ class SesionClase
 
         return $consulta->fetch(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Elimina una sesión de clase junto con lo que le pertenece
+     * exclusivamente a ella: el progreso registrado en esa sesión y
+     * las actividades que se marcaron para trabajarse en ella. A
+     * diferencia de un DBA (cuyas actividades se pueden reusar en
+     * otras sesiones), el progreso y las actividades de UNA sesión
+     * no tienen ningún significado fuera de ella, así que no hace
+     * falta bloquear el borrado por su causa — siempre se puede
+     * eliminar una sesión.
+     */
+    public function eliminar($idSesion)
+    {
+        $this->conexion->beginTransaction();
+
+        try {
+            $this->conexion->prepare("DELETE FROM progreso WHERE id_sesion = ?")
+                ->execute([$idSesion]);
+            $this->conexion->prepare("DELETE FROM sesionactividad WHERE id_sesion = ?")
+                ->execute([$idSesion]);
+
+            $consulta = $this->conexion->prepare("DELETE FROM SesionesClase WHERE id_sesion = ?");
+            $consulta->execute([$idSesion]);
+
+            $this->conexion->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conexion->rollBack();
+            throw $e;
+        }
+    }
 }

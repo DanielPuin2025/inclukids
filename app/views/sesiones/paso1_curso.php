@@ -22,7 +22,7 @@ $cursos = $cursoController->listarPorDocente($_SESSION["id_docente"]);
 <body>
 <div class="container mt-5" style="max-width: 600px;">
 
-    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Cancelar y volver al dashboard</a>
+    <a href="../dashboard/visualizador.php" class="text-decoration-none">&larr; Cancelar y volver a mi panel</a>
 
     <h4 class="text-muted mt-3">Paso 1 de 5</h4>
     <h2 class="mb-4">¿Con qué curso vas a trabajar?</h2>

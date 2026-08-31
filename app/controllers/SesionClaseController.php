@@ -21,4 +21,10 @@ class SesionClaseController
         $modelo = new SesionClase();
         return $modelo->obtenerPorId($idSesion);
     }
+
+    public function eliminar($idSesion)
+    {
+        $modelo = new SesionClase();
+        return $modelo->eliminar($idSesion);
+    }
 }

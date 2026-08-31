@@ -1,0 +1,373 @@
+/* ==================================================================
+   IncluKids - Pantalla de login
+   Extiende las variables de inclukids.css (paleta "ficha de catálogo").
+   Se carga DESPUÉS de inclukids.css.
+   ================================================================== */
+
+html, body.login-body {
+    height: 100%;
+    margin: 0;
+}
+
+.login-shell {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* ---------- Panel izquierdo: identidad ---------- */
+.login-hero {
+    position: relative;
+    flex: 1 1 58%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--papel);
+}
+
+.login-hero__blob {
+    position: absolute;
+    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+    filter: blur(50px);
+    opacity: 0.16;
+}
+.login-hero__blob--1 {
+    width: 480px;
+    height: 480px;
+    top: -120px;
+    left: -100px;
+    background: var(--petroleo);
+}
+.login-hero__blob--2 {
+    width: 380px;
+    height: 380px;
+    bottom: -100px;
+    right: -60px;
+    background: var(--ocre);
+    border-radius: 60% 40% 33% 67% / 55% 45% 55% 45%;
+}
+.login-hero__blob--3 {
+    width: 260px;
+    height: 260px;
+    bottom: 20%;
+    left: 8%;
+    background: var(--ciencias);
+    border-radius: 50%;
+    opacity: 0.12;
+}
+
+.login-hero__marca-agua {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 640px;
+    max-width: none;
+    height: auto;
+    opacity: 0.07;
+    pointer-events: none;
+    user-select: none;
+}
+
+.login-hero__content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 420px;
+    padding: 2rem;
+}
+
+.login-sello {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(36, 48, 58, 0.18);
+    margin-bottom: 22px;
+    background-color: var(--papel-tarjeta);
+}
+
+.login-hero__institucion {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--tinta);
+    margin-bottom: 10px;
+}
+
+.login-hero__tagline {
+    font-size: 14.5px;
+    color: var(--texto-suave);
+    line-height: 1.6;
+}
+
+/* ---------- Panel derecho: acción ---------- */
+.login-panel {
+    flex: 1 1 42%;
+    background-color: var(--papel-tarjeta);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 380px;
+}
+
+.login-card__brand {
+    display: none; /* visible solo cuando el panel izquierdo se oculta (mobile) */
+    text-align: center;
+    margin-bottom: 18px;
+}
+.login-card__brand-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(36, 48, 58, 0.15);
+}
+
+.login-alert {
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    margin-bottom: 16px;
+}
+.login-alert--exito {
+    background-color: #E7F1EA;
+    color: var(--exito);
+    border: 1px solid var(--exito);
+}
+.login-alert--error {
+    background-color: #FBEAE6;
+    color: var(--peligro);
+    border: 1px solid var(--peligro);
+    animation: login-shake 0.4s ease;
+}
+
+/* ---------- Selector de rol ---------- */
+.role-toggle {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: var(--papel);
+    border: 1.5px solid var(--borde);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 10px;
+}
+
+.role-toggle__pill {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    height: calc(100% - 8px);
+    border-radius: 7px;
+    background-color: var(--petroleo);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
+}
+.role-toggle[data-rol="administrador"] .role-toggle__pill {
+    transform: translateX(100%);
+    background-color: var(--tinta);
+}
+
+.role-toggle__btn {
+    position: relative;
+    z-index: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--texto-suave);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.15s ease;
+}
+.role-toggle__btn.is-active {
+    color: white;
+}
+.role-toggle__btn:hover .role-toggle__icon {
+    transform: scale(1.15) rotate(-4deg);
+}
+.role-toggle__btn:focus-visible {
+    outline: 2px solid var(--petroleo);
+    outline-offset: 2px;
+}
+.role-toggle__icon {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.role-toggle__hint {
+    font-size: 12.5px;
+    color: var(--texto-suave);
+    text-align: center;
+    margin-bottom: 22px;
+    min-height: 16px;
+}
+
+/* ---------- Campos con label flotante ---------- */
+.field {
+    position: relative;
+    margin-bottom: 18px;
+}
+.field__icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    opacity: 0.55;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+.field__input {
+    width: 100%;
+    padding: 20px 40px 8px 40px;
+    border: 1.5px solid var(--borde);
+    border-radius: 6px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    color: var(--tinta);
+    background-color: var(--papel-tarjeta);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.field__input:focus {
+    outline: none;
+    border-color: var(--petroleo);
+    box-shadow: 0 0 0 3px rgba(43, 95, 99, 0.15);
+}
+.field__input:focus ~ .field__icon {
+    opacity: 1;
+}
+.field__label {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: var(--texto-suave);
+    pointer-events: none;
+    transition: top 0.15s ease, font-size 0.15s ease, color 0.15s ease;
+}
+.field__input:focus ~ .field__label,
+.field__input:not(:placeholder-shown) ~ .field__label {
+    top: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--petroleo);
+}
+.field__toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 6px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+}
+.field__toggle:hover {
+    opacity: 1;
+}
+.field__toggle:focus-visible {
+    outline: 2px solid var(--petroleo);
+    outline-offset: 2px;
+}
+.field__toggle.is-blinking {
+    animation: login-blink 0.3s ease;
+}
+
+/* ---------- Botón de envío ---------- */
+.login-submit {
+    background-color: var(--petroleo) !important;
+    border-color: var(--petroleo) !important;
+    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+.login-submit__spinner {
+    display: none;
+}
+.login-submit.is-loading {
+    pointer-events: none;
+}
+.login-submit.is-loading .login-submit__label {
+    opacity: 0.7;
+}
+.login-submit.is-loading .login-submit__spinner {
+    display: inline-block;
+    animation: login-spin 0.9s linear infinite;
+}
+
+.login-card__footer {
+    font-size: 13.5px;
+    color: var(--texto-suave);
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes login-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+@keyframes login-blink {
+    0%, 100% { transform: translateY(-50%) scaleY(1); }
+    50% { transform: translateY(-50%) scaleY(0.1); }
+}
+@keyframes login-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .role-toggle__pill,
+    .role-toggle__btn,
+    .role-toggle__icon,
+    .field__input,
+    .field__label,
+    .field__toggle,
+    .login-submit__spinner {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+    .login-shell {
+        flex-direction: column;
+    }
+    .login-hero {
+        flex: 0 0 auto;
+        min-height: 180px;
+        padding: 1.5rem 0;
+    }
+    .login-hero__tagline {
+        display: none;
+    }
+    .login-hero__blob--3 {
+        display: none;
+    }
+    .login-panel {
+        flex: 1 1 auto;
+    }
+    .login-card__brand {
+        display: block;
+    }
+}

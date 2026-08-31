@@ -16,6 +16,12 @@ class DbaController
         return $modelo->listarPorMateriaGradoPeriodo($idMateria, $grado, $periodo);
     }
 
+    public function listarPorDocente($idDocente)
+    {
+        $modelo = new Dba();
+        return $modelo->listarPorDocente($idDocente);
+    }
+
     public function obtenerPorId($idDba)
     {
         $modelo = new Dba();
@@ -38,5 +44,23 @@ class DbaController
     {
         $modelo = new Dba();
         return $modelo->eliminar($idDba);
+    }
+
+    public function tieneUsoReal($idDba)
+    {
+        $modelo = new Dba();
+        return $modelo->tieneUsoReal($idDba);
+    }
+
+    public function actividadesAsociadas($idDba)
+    {
+        $modelo = new Dba();
+        return $modelo->actividadesAsociadas($idDba);
+    }
+
+    public function eliminarConActividades($idDba)
+    {
+        $modelo = new Dba();
+        return $modelo->eliminarConActividades($idDba);
     }
 }

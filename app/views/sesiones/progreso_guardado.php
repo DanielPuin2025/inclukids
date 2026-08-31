@@ -42,7 +42,7 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
         <?php endforeach; ?>
     </ul>
 
-    <a href="../dashboard/home.php" class="btn btn-secondary w-100">Volver al dashboard</a>
+    <a href="../dashboard/visualizador.php" class="btn btn-secondary w-100">Volver a mi panel</a>
 
 </div>
 </body>
