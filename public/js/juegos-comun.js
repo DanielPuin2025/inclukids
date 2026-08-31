@@ -101,6 +101,122 @@
 
         var boton = contenedor.querySelector(".btn-volver");
         if (boton) foco(boton);
+
+        // El confeti y el sonido de cierre son solo el "premio extra" del
+        // modo estímulo (opt-in por niño) — en el modo base la pantalla
+        // final sigue siendo la misma de siempre, sin sorpresas nuevas.
+        if (prefs.estimulo) {
+            confeti();
+            sonido("final");
+        }
+    }
+
+    /* ---------- Confeti (decorativo, no bloquea nada) ---------- */
+    var COLORES_CONFETI = ["#2F6E73", "#3C7A4E", "#D98A3D", "#B4534A", "#6B5B95"];
+
+    function confeti(cantidad) {
+        cantidad = cantidad || 26;
+        // Si el sistema/niño pide menos movimiento, el CSS global ya
+        // reduce cualquier animación a 0 — igual evitamos crear y
+        // desechar 26 nodos de más quie no se van a ver.
+        if (!prefs.movimiento) return;
+
+        var capa = document.createElement("div");
+        capa.className = "j-confeti";
+        capa.setAttribute("aria-hidden", "true");
+
+        for (var i = 0; i < cantidad; i++) {
+            var pieza = document.createElement("div");
+            pieza.className = "j-confeti__pieza";
+            var izquierda = Math.random() * 100;
+            var tam = 6 + Math.random() * 8;
+            var duracion = 1600 + Math.random() * 1400;
+            var retraso = Math.random() * 400;
+            var deriva = (Math.random() - 0.5) * 160;
+            var giro = 180 + Math.random() * 360;
+            pieza.style.left = izquierda + "vw";
+            pieza.style.setProperty("--tam", tam + "px");
+            pieza.style.setProperty("--duracion", duracion + "ms");
+            pieza.style.setProperty("--retraso", retraso + "ms");
+            pieza.style.setProperty("--deriva", deriva + "px");
+            pieza.style.setProperty("--giro", giro + "deg");
+            pieza.style.setProperty("--color", COLORES_CONFETI[i % COLORES_CONFETI.length]);
+            capa.appendChild(pieza);
+        }
+
+        document.body.appendChild(capa);
+        setTimeout(function () {
+            if (capa.parentNode) capa.parentNode.removeChild(capa);
+        }, 3200);
+    }
+
+    /* ---------- Sonido (tono sintetizado, sin archivos de audio) ----------
+       Solo se usa como refuerzo del modo estímulo (nunca en el modo base).
+       Un acorde corto y suave, no un "beep" agudo. */
+    var contextoAudio = null;
+    function tonoSuave(frecuencias, duracionMs) {
+        try {
+            if (!contextoAudio) {
+                var AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                contextoAudio = new AudioCtx();
+            }
+            if (contextoAudio.state === "suspended") contextoAudio.resume();
+
+            var ahora = contextoAudio.currentTime;
+            frecuencias.forEach(function (frecuencia, i) {
+                var osc = contextoAudio.createOscillator();
+                var ganancia = contextoAudio.createGain();
+                osc.type = "sine";
+                osc.frequency.value = frecuencia;
+                ganancia.gain.setValueAtTime(0, ahora);
+                ganancia.gain.linearRampToValueAtTime(0.06, ahora + 0.02);
+                ganancia.gain.exponentialRampToValueAtTime(0.0001, ahora + duracionMs / 1000);
+                osc.connect(ganancia);
+                ganancia.connect(contextoAudio.destination);
+                osc.start(ahora + i * 0.09);
+                osc.stop(ahora + duracionMs / 1000 + i * 0.09);
+            });
+        } catch (e) {
+            /* Web Audio no disponible: no pasa nada, el juego sigue igual */
+        }
+    }
+    function sonido(tipo) {
+        if (!prefs.estimulo) return;
+        if (tipo === "acierto") tonoSuave([523.25, 659.25], 260); // Do-Mi
+        else if (tipo === "final") tonoSuave([523.25, 659.25, 783.99], 500); // Do-Mi-Sol
+    }
+
+    /* ---------- Racha de aciertos seguidos (solo modo estímulo) ---------- */
+    var rachaActual = 0;
+    var elementoRacha = null;
+    var temporizadorRacha = null;
+    var HITOS_RACHA = [3, 5, 8];
+
+    function marcarAcierto() {
+        rachaActual++;
+        sonido("acierto");
+        if (!prefs.estimulo) return;
+        if (HITOS_RACHA.indexOf(rachaActual) !== -1) {
+            mostrarRacha(rachaActual + " seguidas 🔥");
+        }
+    }
+    function marcarError() {
+        rachaActual = 0;
+    }
+    function mostrarRacha(texto) {
+        if (!elementoRacha) {
+            elementoRacha = document.createElement("div");
+            elementoRacha.className = "j-racha";
+            elementoRacha.setAttribute("aria-hidden", "true");
+            document.body.appendChild(elementoRacha);
+        }
+        elementoRacha.textContent = texto;
+        elementoRacha.classList.add("visible");
+        clearTimeout(temporizadorRacha);
+        temporizadorRacha = setTimeout(function () {
+            elementoRacha.classList.remove("visible");
+        }, 1600);
     }
 
     /* ---------- Foco seguro ---------- */
@@ -204,6 +320,10 @@
         barraProgreso: barraProgreso,
         pantallaFinal: pantallaFinal,
         montarAjustes: montarAjustes,
-        foco: foco
+        foco: foco,
+        confeti: confeti,
+        sonido: sonido,
+        marcarAcierto: marcarAcierto,
+        marcarError: marcarError
     };
 })();
