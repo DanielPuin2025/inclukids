@@ -21,7 +21,7 @@ unset($_SESSION["mensaje_perfil"]);
 <body>
 <div class="container mt-5" style="max-width: 500px;">
 
-    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al dashboard</a>
+    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al inicio</a>
 
     <h2 class="mt-3 mb-4">👤 Mi perfil</h2>
 

@@ -77,7 +77,7 @@ if ($contenido) {
     .punto.hecho { background: var(--color-correcto); }
 
     h1 {
-        font-size: 22px;
+        font-size: 27px;
         font-weight: 600;
         color: var(--color-primario-oscuro);
         margin: 0 0 4px;
@@ -85,11 +85,11 @@ if ($contenido) {
         letter-spacing: -0.01em;
     }
     .instruccion {
-        font-size: 27px;
+        font-size: 34px;
         font-weight: 700;
         line-height: 1.3;
         text-align: center;
-        max-width: 640px;
+        max-width: 860px;
         margin: 14px 0 30px;
     }
     .btn-escuchar {
@@ -97,8 +97,8 @@ if ($contenido) {
         align-items: center;
         gap: 8px;
         margin-top: 8px;
-        min-height: 46px;
-        padding: 10px 22px;
+        min-height: 52px;
+        padding: 12px 26px;
         border-radius: 999px;
         border: 2px solid transparent;
         background: white;
@@ -114,22 +114,22 @@ if ($contenido) {
     .btn-escuchar:active { transform: translateY(0); }
     .btn-escuchar:focus-visible { outline: none; border-color: var(--color-primario); }
 
-    .zonas { display: flex; flex-wrap: wrap; gap: 26px; justify-content: center; margin-bottom: 44px; }
+    .zonas { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-bottom: 48px; }
     .zona {
-        width: 148px;
-        height: 148px;
-        border-radius: 26px;
+        width: 176px;
+        height: 176px;
+        border-radius: 28px;
         border: 4px dashed #CBBE9C;
         background: rgba(255, 255, 255, 0.7);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 48px;
+        font-size: 58px;
         transition: border-color 0.2s ease, background-color 0.2s ease,
                     transform 0.15s ease, box-shadow 0.2s ease;
     }
-    .zona .zona-etiqueta { font-size: 20px; font-weight: 700; margin-top: 4px; color: var(--color-primario-oscuro); }
+    .zona .zona-etiqueta { font-size: 23px; font-weight: 700; margin-top: 4px; color: var(--color-primario-oscuro); }
     .zona.resaltada {
         border-color: var(--color-primario);
         background: rgba(47, 110, 115, 0.12);
@@ -145,21 +145,21 @@ if ($contenido) {
     .piezas {
         display: flex;
         flex-wrap: wrap;
-        gap: 22px;
+        gap: 26px;
         justify-content: center;
-        max-width: 720px;
+        max-width: 900px;
     }
     .pieza {
-        width: 116px;
-        height: 116px;
-        border-radius: 22px;
+        width: 138px;
+        height: 138px;
+        border-radius: 24px;
         background: white;
         box-shadow: var(--sombra-pieza);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 44px;
+        font-size: 52px;
         cursor: grab;
         touch-action: none;
         position: relative;
@@ -167,7 +167,7 @@ if ($contenido) {
     }
     .pieza:hover { transform: translateY(-2px); }
     .pieza:focus-visible { outline: 3px solid var(--color-primario); outline-offset: 3px; }
-    .pieza .pieza-etiqueta { font-size: 13px; font-weight: 600; margin-top: 2px; color: var(--color-texto); }
+    .pieza .pieza-etiqueta { font-size: 15px; font-weight: 600; margin-top: 2px; color: var(--color-texto); }
     .pieza.arrastrando { box-shadow: var(--sombra-pieza-alta); cursor: grabbing; z-index: 50; transform: scale(1.05); }
     .pieza.oculta { visibility: hidden; pointer-events: none; }
 
@@ -178,16 +178,16 @@ if ($contenido) {
     }
     .pieza.rebotando { animation: rebote 0.3s ease; }
 
-    .mensaje { font-size: 24px; font-weight: 700; margin-top: 28px; min-height: 32px; }
+    .mensaje { font-size: 28px; font-weight: 700; margin-top: 28px; min-height: 36px; }
     .mensaje.correcto { color: var(--color-correcto); }
 
     .btn-siguiente {
         margin-top: 18px;
         font-family: inherit;
-        font-size: 21px;
+        font-size: 24px;
         font-weight: 700;
-        min-height: 56px;
-        padding: 14px 44px;
+        min-height: 62px;
+        padding: 16px 50px;
         border-radius: 999px;
         border: none;
         background: var(--color-acento);
@@ -202,14 +202,14 @@ if ($contenido) {
     .btn-siguiente:focus-visible { outline: 3px solid var(--color-primario-oscuro); outline-offset: 3px; }
 
     .pantalla-final { text-align: center; display: none; }
-    .pantalla-final h2 { font-size: 38px; color: var(--color-correcto); }
+    .pantalla-final h2 { font-size: 44px; color: var(--color-correcto); }
     .btn-volver {
         display: inline-block;
         margin-top: 22px;
-        min-height: 52px;
-        font-size: 18px;
+        min-height: 58px;
+        font-size: 20px;
         font-weight: 600;
-        padding: 14px 34px;
+        padding: 16px 38px;
         border-radius: 999px;
         background: var(--color-primario);
         color: white;
@@ -349,6 +349,39 @@ if ($contenido) {
                 });
             } catch (e) { /* Web Audio no disponible: no pasa nada */ }
         }
+
+        // Sonido de toque: un "tick" corto en cuanto se toca cualquier
+        // botón o pieza, desde el momento en que se entra al juego. A
+        // diferencia de celebrarFinal(), esto NO depende de "más color y
+        // premios" — es solo confirmar que el toque se registró.
+        let ctxToque = null;
+        function tonoClic() {
+            try {
+                if (!ctxToque) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (!AudioCtx) return;
+                    ctxToque = new AudioCtx();
+                }
+                if (ctxToque.state === 'suspended') ctxToque.resume();
+                const ahora = ctxToque.currentTime;
+                const osc = ctxToque.createOscillator();
+                const ganancia = ctxToque.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 700;
+                ganancia.gain.setValueAtTime(0, ahora);
+                ganancia.gain.linearRampToValueAtTime(0.045, ahora + 0.008);
+                ganancia.gain.exponentialRampToValueAtTime(0.0001, ahora + 0.09);
+                osc.connect(ganancia);
+                ganancia.connect(ctxToque.destination);
+                osc.start(ahora);
+                osc.stop(ahora + 0.1);
+            } catch (e) { /* Web Audio no disponible: no pasa nada */ }
+        }
+        document.addEventListener('pointerdown', (e) => {
+            if (e.target.closest && e.target.closest('button, .pieza, a.btn-volver, [role="button"]')) {
+                tonoClic();
+            }
+        }, true);
 
         function dibujarBarraProgreso() {
             barraProgreso.innerHTML = '';

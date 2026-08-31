@@ -62,20 +62,20 @@ if ($contenido) {
         user-select: none;
     }
     h1 {
-        font-size: 22px;
+        font-size: 27px;
         font-weight: 600;
         color: var(--color-primario-oscuro);
         margin: 0 0 4px;
         text-align: center;
         letter-spacing: -0.01em;
     }
-    .subtitulo { color: var(--color-primario-oscuro); opacity: 0.7; font-size: 15px; font-weight: 500; margin-bottom: 24px; text-align: center; }
+    .subtitulo { color: var(--color-primario-oscuro); opacity: 0.7; font-size: 17px; font-weight: 500; margin-bottom: 24px; text-align: center; }
 
     .tablero {
         display: grid;
         grid-template-columns: repeat(var(--columnas, 4), 1fr);
-        gap: 16px;
-        max-width: 640px;
+        gap: 18px;
+        max-width: 820px;
         width: 100%;
     }
 
@@ -109,17 +109,17 @@ if ($contenido) {
     .cara-dorso {
         background: linear-gradient(150deg, var(--color-primario), var(--color-primario-oscuro));
         color: rgba(255, 255, 255, 0.85);
-        font-size: 32px;
+        font-size: 38px;
     }
     .cara-frente {
         background: white;
         transform: rotateY(180deg);
         flex-direction: column;
-        font-size: 36px;
+        font-size: 42px;
         padding: 6px;
         text-align: center;
     }
-    .cara-frente .etiqueta { font-size: 12px; font-weight: 600; margin-top: 2px; color: var(--color-texto); }
+    .cara-frente .etiqueta { font-size: 14px; font-weight: 600; margin-top: 2px; color: var(--color-texto); }
 
     .carta.encontrada .cara-frente {
         background: #E7F5EC;
@@ -133,17 +133,17 @@ if ($contenido) {
     }
     .carta.rebotando .carta-interior { animation: rebote 0.3s ease; }
 
-    .mensaje { font-size: 24px; font-weight: 700; margin-top: 28px; min-height: 32px; color: var(--color-correcto); }
+    .mensaje { font-size: 28px; font-weight: 700; margin-top: 28px; min-height: 36px; color: var(--color-correcto); }
 
     .pantalla-final { text-align: center; display: none; }
-    .pantalla-final h2 { font-size: 38px; color: var(--color-correcto); }
+    .pantalla-final h2 { font-size: 44px; color: var(--color-correcto); }
     .btn-volver {
         display: inline-block;
         margin-top: 22px;
-        min-height: 52px;
-        font-size: 18px;
+        min-height: 58px;
+        font-size: 20px;
         font-weight: 600;
-        padding: 14px 34px;
+        padding: 16px 38px;
         border-radius: 999px;
         background: var(--color-primario);
         color: white;
@@ -266,6 +266,39 @@ if ($contenido) {
                 });
             } catch (e) { /* Web Audio no disponible: no pasa nada */ }
         }
+
+        // Sonido de toque: un "tick" corto en cuanto se toca cualquier
+        // botón o carta, desde el momento en que se entra al juego. A
+        // diferencia de celebrarFinal(), esto NO depende de "más color y
+        // premios" — es solo confirmar que el toque se registró.
+        let ctxToque = null;
+        function tonoClic() {
+            try {
+                if (!ctxToque) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (!AudioCtx) return;
+                    ctxToque = new AudioCtx();
+                }
+                if (ctxToque.state === 'suspended') ctxToque.resume();
+                const ahora = ctxToque.currentTime;
+                const osc = ctxToque.createOscillator();
+                const ganancia = ctxToque.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 700;
+                ganancia.gain.setValueAtTime(0, ahora);
+                ganancia.gain.linearRampToValueAtTime(0.045, ahora + 0.008);
+                ganancia.gain.exponentialRampToValueAtTime(0.0001, ahora + 0.09);
+                osc.connect(ganancia);
+                ganancia.connect(ctxToque.destination);
+                osc.start(ahora);
+                osc.stop(ahora + 0.1);
+            } catch (e) { /* Web Audio no disponible: no pasa nada */ }
+        }
+        document.addEventListener('pointerdown', (e) => {
+            if (e.target.closest && e.target.closest('button, .carta, a.btn-volver, [role="button"]')) {
+                tonoClic();
+            }
+        }, true);
 
         function hablar(texto) {
             if (!('speechSynthesis' in window) || !texto) return;
