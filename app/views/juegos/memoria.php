@@ -162,6 +162,23 @@ if ($contenido) {
         }
         .btn-volver:hover { transform: none; }
     }
+
+    /* Confeti al terminar TODA la actividad — solo si el niño activó
+       "más color y premios" en el engranaje de ajustes (Seleccionar).
+       Nunca aparece durante el juego, solo una vez al final. */
+    .confeti-capa { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 200; }
+    .confeti-pieza {
+        position: absolute; top: -24px;
+        width: var(--tam, 10px); height: var(--tam, 10px);
+        background: var(--color, var(--color-primario));
+        border-radius: 3px; opacity: 0.9;
+        animation: confeti-caer var(--duracion, 2200ms) ease-in var(--retraso, 0ms) forwards;
+    }
+    @keyframes confeti-caer {
+        0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.95; }
+        85% { opacity: 0.9; }
+        100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
+    }
 </style>
 </head>
 <body>
@@ -198,6 +215,57 @@ if ($contenido) {
         const mensajeEl = document.getElementById('mensaje');
         const pantallaJuego = document.getElementById('pantallaJuego');
         const pantallaFinal = document.getElementById('pantallaFinal');
+
+        // Confeti + sonido de cierre: solo el "premio extra" de quien
+        // activó "más color y premios" (mismo ajuste que usa el juego de
+        // Seleccionar, guardado en localStorage y compartido entre todos
+        // los juegos aunque este motor no tenga su propio engranaje).
+        function celebrarFinal() {
+            let prefsEstimulo = false;
+            try { prefsEstimulo = !!(JSON.parse(localStorage.getItem('inclukids_juegos') || '{}').estimulo); } catch (e) {}
+            if (!prefsEstimulo) return;
+
+            if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const colores = ['#2F6E73', '#3C9D5C', '#C98A2B', '#B24632', '#6B5B95'];
+                const capa = document.createElement('div');
+                capa.className = 'confeti-capa';
+                capa.setAttribute('aria-hidden', 'true');
+                for (let i = 0; i < 26; i++) {
+                    const pieza = document.createElement('div');
+                    pieza.className = 'confeti-pieza';
+                    pieza.style.left = (Math.random() * 100) + 'vw';
+                    pieza.style.setProperty('--tam', (6 + Math.random() * 8) + 'px');
+                    pieza.style.setProperty('--duracion', (1600 + Math.random() * 1400) + 'ms');
+                    pieza.style.setProperty('--retraso', (Math.random() * 400) + 'ms');
+                    pieza.style.setProperty('--deriva', ((Math.random() - 0.5) * 160) + 'px');
+                    pieza.style.setProperty('--giro', (180 + Math.random() * 360) + 'deg');
+                    pieza.style.setProperty('--color', colores[i % colores.length]);
+                    capa.appendChild(pieza);
+                }
+                document.body.appendChild(capa);
+                setTimeout(() => capa.remove(), 3200);
+            }
+
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const ahora = ctx.currentTime;
+                [523.25, 659.25, 783.99].forEach((frecuencia, i) => {
+                    const osc = ctx.createOscillator();
+                    const ganancia = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = frecuencia;
+                    ganancia.gain.setValueAtTime(0, ahora);
+                    ganancia.gain.linearRampToValueAtTime(0.06, ahora + 0.02);
+                    ganancia.gain.exponentialRampToValueAtTime(0.0001, ahora + 0.5);
+                    osc.connect(ganancia);
+                    ganancia.connect(ctx.destination);
+                    osc.start(ahora + i * 0.09);
+                    osc.stop(ahora + 0.5 + i * 0.09);
+                });
+            } catch (e) { /* Web Audio no disponible: no pasa nada */ }
+        }
 
         function hablar(texto) {
             if (!('speechSynthesis' in window) || !texto) return;
@@ -272,6 +340,7 @@ if ($contenido) {
                         setTimeout(() => {
                             pantallaJuego.style.display = 'none';
                             pantallaFinal.style.display = 'block';
+                            celebrarFinal();
                         }, 900);
                     }
                 }, 500);

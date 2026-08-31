@@ -43,7 +43,13 @@
 body.juego {
     margin: 0;
     font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
-    background: var(--j-fondo);
+    /* Fondo con un leve degradado radial en vez de un color liso: se
+       nota como un lugar más cuidado sin dejar de ser calmado (sigue
+       siendo casi un solo tono, nada de patrones que distraigan). */
+    background:
+        radial-gradient(circle at 18% 8%, rgba(47, 110, 115, 0.06), transparent 42%),
+        radial-gradient(circle at 88% 92%, rgba(60, 122, 78, 0.05), transparent 46%),
+        var(--j-fondo);
     color: var(--j-tinta);
     min-height: 100vh;
     display: flex;
@@ -88,9 +94,13 @@ body.juego {
     height: 16px;
     border-radius: 50%;
     background: #E1D9C7;
-    transition: background-color var(--j-trans);
+    transition: background-color var(--j-trans), box-shadow var(--j-trans), transform var(--j-trans);
 }
-.juego-progreso__punto.activo { background: var(--j-primario); }
+.juego-progreso__punto.activo {
+    background: var(--j-primario);
+    transform: scale(1.25);
+    box-shadow: 0 0 0 4px rgba(47, 110, 115, 0.16);
+}
 .juego-progreso__punto.hecho { background: var(--j-acierto); }
 
 /* ---------- Instrucción / pregunta ---------- */
@@ -104,9 +114,16 @@ body.juego {
     color: var(--j-tinta);
 }
 .juego-instruccion__emoji {
-    display: block;
-    font-size: 56px;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 14px;
+    font-size: 52px;
+    border-radius: 50%;
+    background: var(--j-tarjeta);
+    box-shadow: var(--j-sombra-media);
 }
 
 /* ---------- Botones ---------- */
@@ -156,7 +173,11 @@ body.juego {
     color: #fff;
     box-shadow: var(--j-sombra-media);
 }
-.btn-primario:hover { background: var(--j-primario-oscuro); }
+.btn-primario:hover:not(:disabled) {
+    background: var(--j-primario-oscuro);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(29, 68, 72, 0.20);
+}
 .btn-primario:active { transform: translateY(1px); }
 
 .btn-volver {
@@ -167,7 +188,12 @@ body.juego {
     color: #fff;
     box-shadow: var(--j-sombra);
 }
-.btn-volver:hover { background: var(--j-primario-oscuro); color: #fff; }
+.btn-volver:hover {
+    background: var(--j-primario-oscuro);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(29, 68, 72, 0.18);
+}
 
 /* ---------- Mensaje (aria-live) ---------- */
 .juego-mensaje {
@@ -210,6 +236,8 @@ body.juego {
 }
 .opcion:hover:not(:disabled):not(.acierto):not(.no-es-esa) {
     border-color: var(--j-primario);
+    transform: translateY(-2px);
+    box-shadow: var(--j-sombra-media);
 }
 .opcion:active:not(:disabled) { transform: translateY(1px); }
 .opcion.acierto {
@@ -380,6 +408,49 @@ body.modo-estimulo .juego-progreso__punto.hecho { animation: j-pop 260ms ease; }
 }
 body.modo-estimulo .opcion.acierto { animation: j-celebra 420ms ease; }
 body.modo-estimulo .juego-final__emoji { animation: j-celebra 600ms ease; }
+
+/* ---------- Confeti (solo en modo estímulo, al terminar la actividad) ---------- */
+.j-confeti {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 200;
+}
+.j-confeti__pieza {
+    position: absolute;
+    top: -24px;
+    width: var(--tam, 10px);
+    height: var(--tam, 10px);
+    background: var(--color, var(--j-primario));
+    border-radius: 3px;
+    opacity: 0.9;
+    animation: j-caer var(--duracion, 2200ms) ease-in var(--retraso, 0ms) forwards;
+}
+@keyframes j-caer {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.95; }
+    85% { opacity: 0.9; }
+    100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
+}
+
+/* ---------- Racha (varios aciertos seguidos, solo modo estímulo) ---------- */
+.j-racha {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background: var(--j-primario-oscuro);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    box-shadow: var(--j-sombra-media);
+    opacity: 0;
+    z-index: 150;
+    transition: opacity 260ms ease, transform 260ms ease;
+}
+.j-racha.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ==================================================================
    MENOS MOVIMIENTO

@@ -160,12 +160,14 @@ $totalPreguntas = count($preguntas);
 
             btnContinuar.hidden = false;
             IncluKidsJuegos.foco(btnContinuar);
+            IncluKidsJuegos.marcarAcierto();
         } else {
             // Sin castigo: se marca en neutro (nunca rojo) y se puede
             // volver a intentar cuantas veces haga falta.
             botonElegido.classList.add('no-es-esa');
             mensajeFeedback.textContent = 'Inténtalo otra vez';
             mensajeFeedback.className = 'juego-mensaje neutro';
+            IncluKidsJuegos.marcarError();
         }
     }
 
