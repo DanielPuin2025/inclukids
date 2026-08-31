@@ -126,7 +126,7 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                     <h6 class="mb-1">📅 <?= htmlspecialchars($sesion["fecha"]) ?></h6>
-                    <a href="../sesiones/eliminar.php?id_sesion=<?= (int) $idSesionCard ?>"
+                    <a href="../sesiones/eliminar.php?id_sesion=<?= (int) $idSesionCard ?>&volver=curso:<?= $idCurso ?>"
                        class="btn btn-sm btn-outline-danger"
                        onclick="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">Eliminar sesión</a>
                 </div>

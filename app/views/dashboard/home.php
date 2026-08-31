@@ -104,10 +104,10 @@ $estadisticas = $dashboardController->obtenerEstadisticas();
             </a>
         </div>
         <div class="col-6 col-md-3">
-            <div class="stat-card" style="cursor: default;">
+            <a href="../progreso/global.php" class="stat-card">
                 <div class="stat-card__etiqueta">Sesiones</div>
                 <div class="stat-card__numero"><?= (int) $estadisticas["sesiones"] ?></div>
-            </div>
+            </a>
         </div>
     </div>
 
@@ -154,6 +154,17 @@ $estadisticas = $dashboardController->obtenerEstadisticas();
                 <span class="panel-tile__texto">
                     <span class="panel-tile__titulo">Actividades</span>
                     <span class="panel-tile__subtitulo">Juegos y su contenido</span>
+                </span>
+                <span class="panel-tile__chevron panel-tile__chevron--enlace">→</span>
+            </span>
+        </a>
+
+        <a href="../progreso/global.php" class="panel-tile panel-tile--sesiones panel-tile--enlace">
+            <span class="panel-tile__header">
+                <span class="panel-tile__icono">📊</span>
+                <span class="panel-tile__texto">
+                    <span class="panel-tile__titulo">Sesiones y progreso</span>
+                    <span class="panel-tile__subtitulo">Vista global, de todos los docentes</span>
                 </span>
                 <span class="panel-tile__chevron panel-tile__chevron--enlace">→</span>
             </span>

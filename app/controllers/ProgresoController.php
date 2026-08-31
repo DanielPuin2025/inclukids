@@ -28,6 +28,12 @@ class ProgresoController
         return $modelo->listarPorCurso($idCurso);
     }
 
+    public function listarTodo($idDocente = null)
+    {
+        $modelo = new Progreso();
+        return $modelo->listarTodo($idDocente);
+    }
+
     public function listarPorEstudiante($idEstudiante)
     {
         $modelo = new Progreso();

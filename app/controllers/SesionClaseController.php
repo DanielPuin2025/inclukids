@@ -10,6 +10,12 @@ class SesionClaseController
         return $modelo->listarPorDocente($idDocente);
     }
 
+    public function listarTodo($idDocente = null)
+    {
+        $modelo = new SesionClase();
+        return $modelo->listarTodo($idDocente);
+    }
+
     public function crear($idDocente, $idCurso, $idDba, $fecha, $observaciones)
     {
         $modelo = new SesionClase();

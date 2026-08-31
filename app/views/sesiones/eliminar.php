@@ -11,7 +11,19 @@ require_once __DIR__ . "/../../controllers/SesionClaseController.php";
 $idSesion = (int) ($_GET["id_sesion"] ?? 0);
 $esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
 
-$volver = $esAdmin ? "../dashboard/home.php" : "../dashboard/visualizador.php";
+// A dónde volver después de borrar. Por defecto cada rol va a su
+// panel, pero si se borra desde una vista más específica (el curso o
+// la vista global de sesiones) es mejor volver ahí mismo en vez de
+// mandar siempre al panel principal. Se valida contra una lista fija
+// de destinos conocidos, nunca una URL libre.
+$volverParam = $_GET["volver"] ?? "";
+if ($esAdmin && $volverParam === "global") {
+    $volver = "../progreso/global.php";
+} elseif ($esAdmin && preg_match('/^curso:(\d+)$/', $volverParam, $coincidencia)) {
+    $volver = "../estudiantes/curso.php?id_curso=" . (int) $coincidencia[1];
+} else {
+    $volver = $esAdmin ? "../dashboard/home.php" : "../dashboard/visualizador.php";
+}
 
 $sesionController = new SesionClaseController();
 $sesion = $sesionController->obtenerPorId($idSesion);
