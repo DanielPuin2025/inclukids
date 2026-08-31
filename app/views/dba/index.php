@@ -21,7 +21,7 @@ $dbaLista = $dbaController->listar();
 <body>
 <div class="container mt-5">
 
-    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al dashboard</a>
+    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al inicio</a>
 
     <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
         <h2 class="mb-0">📚 DBA</h2>

@@ -187,6 +187,28 @@
         else if (tipo === "final") tonoSuave([523.25, 659.25, 783.99], 500); // Do-Mi-Sol
     }
 
+    /* ---------- Sonido de toque ----------
+       Un "tick" muy corto y suave en cuanto se toca cualquier botón u
+       opción, desde el momento en que se entra al juego. A diferencia
+       de sonido(), este NO depende de "Más color y premios": es
+       retroalimentación básica de que el toque se registró, no un
+       premio — así que suena siempre. */
+    function tonoClic() {
+        tonoSuave([700], 90);
+    }
+    function activarSonidoDeToque() {
+        // Fase de captura: se dispara ANTES que los manejadores propios
+        // de cada motor de juego (drag, opciones, etc.), así que nunca
+        // se pierde aunque ese manejador detenga la propagación luego.
+        document.addEventListener("pointerdown", function (e) {
+            if (e.target.closest && e.target.closest(
+                "button, .opcion, [role='button'], a.btn-volver"
+            )) {
+                tonoClic();
+            }
+        }, true);
+    }
+
     /* ---------- Racha de aciertos seguidos (solo modo estímulo) ---------- */
     var rachaActual = 0;
     var elementoRacha = null;
@@ -306,6 +328,7 @@
         document.body.classList.add("juego");
         aplicarPrefsAlBody();
         montarAjustes();
+        activarSonidoDeToque();
     }
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", iniciar);
