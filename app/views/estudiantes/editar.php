@@ -25,6 +25,17 @@ if (!$estudiante) {
 }
 
 $cursoController = new CursoController();
+
+// Un docente solo puede editar estudiantes de un curso que tiene a
+// cargo; si no, podría editar (o incluso "robar" a su propio curso)
+// estudiantes de otros docentes con solo cambiar el id en la URL.
+if (!$esAdmin) {
+    $cursoDelEstudiante = $cursoController->obtenerPorId((int) $estudiante["id_curso"]);
+    if (!$cursoDelEstudiante || (int) $cursoDelEstudiante["id_docente"] !== (int) $_SESSION["id_docente"]) {
+        die("No tienes permiso para editar este estudiante. <a href='../dashboard/visualizador.php'>Volver</a>");
+    }
+}
+
 // El administrador puede mover al estudiante a cualquier curso; el
 // docente solo entre los cursos que tiene a cargo.
 $cursos = $esAdmin ? $cursoController->listar() : $cursoController->listarPorDocente($_SESSION["id_docente"]);
