@@ -15,14 +15,17 @@ if (!$actividad) {
 }
 
 // A qué motor de juego (archivo) le corresponde cada id_tipo de
-// tipoactividad. Emparejar y Completar reusan arrastrar.php porque
-// mecánicamente son lo mismo: arrastrar una pieza hasta la zona (o el
-// espacio en blanco) correcta. Rompecabezas reusa ordenar.php porque
-// las 3 actividades de ese tipo son, en el fondo, "acomoda las piezas
-// en el orden correcto" con look de rompecabezas.
+// tipoactividad. Emparejar usa unir.php (tocar una tarjeta y luego su
+// pareja) — mismo contenido (zonas/piezas) que arrastrar.php, pero con
+// una mecánica distinta a propósito, para que no todos los juegos se
+// sientan igual. Completar sí reusa arrastrar.php porque es lo mismo:
+// arrastrar una pieza hasta el espacio en blanco correcto. Rompecabezas
+// reusa ordenar.php porque las 3 actividades de ese tipo son, en el
+// fondo, "acomoda las piezas en el orden correcto" con look de
+// rompecabezas.
 $motorPorTipo = [
     1 => "memoria.php",     // Memoria
-    2 => "arrastrar.php",   // Emparejar
+    2 => "unir.php",        // Emparejar
     3 => "ordenar.php",     // Rompecabezas
     4 => "seleccionar.php", // Seleccionar (opción múltiple)
     5 => "ordenar.php",     // Ordenar
