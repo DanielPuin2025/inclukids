@@ -30,15 +30,23 @@ if ($contenido) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
     :root {
-        --color-fondo: #FFFBF0;
-        --color-primario: #4A90A4;
-        --color-primario-oscuro: #366E7E;
-        --color-texto: #2C3338;
+        /* Paleta derivada de la marca IncluKids (ver public/css/inclukids.css),
+           en clave cálida para las pantallas que usan los niños. */
+        --color-fondo: #FCF4E4;
+        --color-primario: #2F6E73;
+        --color-primario-oscuro: #1D4448;
+        --color-texto: #24303A;
         --color-correcto: #3C9D5C;
-        --color-incorrecto: #C0392B;
-        --color-zona: #E9E4D0;
+        --color-incorrecto: #B24632;
+        --color-zona: #EDE3CC;
+        --color-acento: #C98A2B;
+        --sombra-pieza: 0 6px 16px rgba(36, 48, 58, 0.12);
+        --sombra-pieza-alta: 0 14px 30px rgba(36, 48, 58, 0.24);
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body {
@@ -46,87 +54,121 @@ if ($contenido) {
     }
     body {
         margin: 0;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background: var(--color-fondo);
+        font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+        background:
+            radial-gradient(circle at 12% 0%, rgba(47, 110, 115, 0.07), transparent 45%),
+            radial-gradient(circle at 90% 8%, rgba(201, 138, 43, 0.09), transparent 40%),
+            var(--color-fondo);
         color: var(--color-texto);
         min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 24px 16px 60px;
+        padding: 28px 16px 64px;
         user-select: none;
     }
-    .barra-progreso { display: flex; gap: 8px; margin-bottom: 20px; }
-    .punto { width: 16px; height: 16px; border-radius: 50%; background: #E0DCC8; }
-    .punto.activo { background: var(--color-primario); }
+    .barra-progreso { display: flex; gap: 10px; margin-bottom: 24px; }
+    .punto {
+        width: 18px; height: 18px; border-radius: 50%;
+        background: #E4D9C0;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .punto.activo { background: var(--color-primario); transform: scale(1.15); }
     .punto.hecho { background: var(--color-correcto); }
 
-    h1 { font-size: 20px; color: var(--color-primario-oscuro); margin: 0 0 4px; text-align: center; }
-    .instruccion {
-        font-size: 24px;
-        font-weight: bold;
+    h1 {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--color-primario-oscuro);
+        margin: 0 0 4px;
         text-align: center;
-        max-width: 600px;
-        margin: 12px 0 28px;
+        letter-spacing: -0.01em;
+    }
+    .instruccion {
+        font-size: 27px;
+        font-weight: 700;
+        line-height: 1.3;
+        text-align: center;
+        max-width: 640px;
+        margin: 14px 0 30px;
     }
     .btn-escuchar {
         display: inline-flex;
         align-items: center;
         gap: 8px;
         margin-top: 8px;
-        padding: 8px 18px;
+        min-height: 46px;
+        padding: 10px 22px;
         border-radius: 999px;
-        border: none;
+        border: 2px solid transparent;
         background: white;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-        font-size: 15px;
+        box-shadow: 0 3px 10px rgba(36, 48, 58, 0.1);
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 600;
         color: var(--color-primario-oscuro);
         cursor: pointer;
+        transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     }
+    .btn-escuchar:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(36, 48, 58, 0.16); }
+    .btn-escuchar:active { transform: translateY(0); }
+    .btn-escuchar:focus-visible { outline: none; border-color: var(--color-primario); }
 
-    .zonas { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; margin-bottom: 40px; }
+    .zonas { display: flex; flex-wrap: wrap; gap: 26px; justify-content: center; margin-bottom: 44px; }
     .zona {
-        width: 140px;
-        height: 140px;
-        border-radius: 24px;
-        border: 4px dashed #C9C2A6;
-        background: rgba(255,255,255,0.6);
+        width: 148px;
+        height: 148px;
+        border-radius: 26px;
+        border: 4px dashed #CBBE9C;
+        background: rgba(255, 255, 255, 0.7);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         font-size: 48px;
-        transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+        transition: border-color 0.2s ease, background-color 0.2s ease,
+                    transform 0.15s ease, box-shadow 0.2s ease;
     }
-    .zona .zona-etiqueta { font-size: 20px; font-weight: bold; margin-top: 4px; color: var(--color-primario-oscuro); }
-    .zona.resaltada { border-color: var(--color-primario); background: rgba(74,144,164,0.12); transform: scale(1.04); }
-    .zona.llena { border-style: solid; border-color: var(--color-correcto); background: rgba(60,157,92,0.12); }
+    .zona .zona-etiqueta { font-size: 20px; font-weight: 700; margin-top: 4px; color: var(--color-primario-oscuro); }
+    .zona.resaltada {
+        border-color: var(--color-primario);
+        background: rgba(47, 110, 115, 0.12);
+        transform: scale(1.05);
+        box-shadow: 0 0 0 6px rgba(47, 110, 115, 0.14);
+    }
+    .zona.llena {
+        border-style: solid;
+        border-color: var(--color-correcto);
+        background: rgba(60, 157, 92, 0.14);
+    }
 
     .piezas {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
+        gap: 22px;
         justify-content: center;
-        max-width: 700px;
+        max-width: 720px;
     }
     .pieza {
-        width: 110px;
-        height: 110px;
-        border-radius: 20px;
+        width: 116px;
+        height: 116px;
+        border-radius: 22px;
         background: white;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+        box-shadow: var(--sombra-pieza);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 42px;
+        font-size: 44px;
         cursor: grab;
         touch-action: none;
         position: relative;
-        transition: box-shadow 0.15s ease;
+        transition: box-shadow 0.15s ease, transform 0.12s ease;
     }
-    .pieza .pieza-etiqueta { font-size: 13px; margin-top: 2px; color: var(--color-texto); }
-    .pieza.arrastrando { box-shadow: 0 8px 20px rgba(0,0,0,0.22); cursor: grabbing; z-index: 50; }
+    .pieza:hover { transform: translateY(-2px); }
+    .pieza:focus-visible { outline: 3px solid var(--color-primario); outline-offset: 3px; }
+    .pieza .pieza-etiqueta { font-size: 13px; font-weight: 600; margin-top: 2px; color: var(--color-texto); }
+    .pieza.arrastrando { box-shadow: var(--sombra-pieza-alta); cursor: grabbing; z-index: 50; transform: scale(1.05); }
     .pieza.oculta { visibility: hidden; pointer-events: none; }
 
     @keyframes rebote {
@@ -136,32 +178,58 @@ if ($contenido) {
     }
     .pieza.rebotando { animation: rebote 0.3s ease; }
 
-    .mensaje { font-size: 22px; font-weight: bold; margin-top: 26px; min-height: 30px; }
+    .mensaje { font-size: 24px; font-weight: 700; margin-top: 28px; min-height: 32px; }
     .mensaje.correcto { color: var(--color-correcto); }
 
     .btn-siguiente {
-        margin-top: 16px;
-        font-size: 20px;
-        font-weight: bold;
-        padding: 14px 40px;
-        border-radius: 14px;
+        margin-top: 18px;
+        font-family: inherit;
+        font-size: 21px;
+        font-weight: 700;
+        min-height: 56px;
+        padding: 14px 44px;
+        border-radius: 999px;
         border: none;
-        background: var(--color-primario);
+        background: var(--color-acento);
         color: white;
         cursor: pointer;
         display: none;
+        box-shadow: 0 6px 18px rgba(201, 138, 43, 0.35);
+        transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease;
     }
+    .btn-siguiente:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(201, 138, 43, 0.42); }
+    .btn-siguiente:active { transform: translateY(0); }
+    .btn-siguiente:focus-visible { outline: 3px solid var(--color-primario-oscuro); outline-offset: 3px; }
+
     .pantalla-final { text-align: center; display: none; }
-    .pantalla-final h2 { font-size: 36px; color: var(--color-correcto); }
+    .pantalla-final h2 { font-size: 38px; color: var(--color-correcto); }
     .btn-volver {
         display: inline-block;
-        margin-top: 20px;
+        margin-top: 22px;
+        min-height: 52px;
         font-size: 18px;
-        padding: 12px 30px;
-        border-radius: 12px;
+        font-weight: 600;
+        padding: 14px 34px;
+        border-radius: 999px;
         background: var(--color-primario);
         color: white;
         text-decoration: none;
+        box-shadow: 0 5px 14px rgba(47, 110, 115, 0.3);
+        transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    }
+    .btn-volver:hover { transform: translateY(-1px); background: var(--color-primario-oscuro); color: white; box-shadow: 0 8px 20px rgba(47, 110, 115, 0.38); }
+    .btn-volver:focus-visible { outline: 3px solid var(--color-primario-oscuro); outline-offset: 3px; }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+        }
+        .punto.activo { transform: none; }
+        .zona.resaltada { transform: none; }
+        .pieza:hover, .pieza.arrastrando { transform: none; }
+        .btn-escuchar:hover, .btn-siguiente:hover, .btn-volver:hover { transform: none; }
     }
 </style>
 </head>

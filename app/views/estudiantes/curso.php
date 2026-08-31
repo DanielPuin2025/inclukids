@@ -121,10 +121,15 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
     <?php if (empty($progresoPorSesion)): ?>
         <p class="text-muted">Todavía no se ha registrado progreso en ninguna sesión de este curso.</p>
     <?php else: ?>
-        <?php foreach ($progresoPorSesion as $sesion): ?>
+        <?php foreach ($progresoPorSesion as $idSesionCard => $sesion): ?>
         <div class="card mb-3">
             <div class="card-body">
-                <h6 class="mb-1">📅 <?= htmlspecialchars($sesion["fecha"]) ?></h6>
+                <div class="d-flex justify-content-between align-items-start">
+                    <h6 class="mb-1">📅 <?= htmlspecialchars($sesion["fecha"]) ?></h6>
+                    <a href="../sesiones/eliminar.php?id_sesion=<?= (int) $idSesionCard ?>"
+                       class="btn btn-sm btn-outline-danger"
+                       onclick="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">Eliminar sesión</a>
+                </div>
                 <?php if ($sesion["dba_codigo"]): ?>
                 <p class="text-muted small mb-3">
                     <strong><?= htmlspecialchars($sesion["dba_codigo"]) ?></strong>

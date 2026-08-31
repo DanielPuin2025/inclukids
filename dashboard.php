@@ -30,7 +30,7 @@ if (!isset($_SESSION["id_docente"])) {
 
 <div class="container mt-5">
 
-    <h1>Bienvenido, <?php echo $_SESSION["nombre"]; ?> 👋</h1>
+    <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION["nombre"]); ?> 👋</h1>
 
     <hr>
 

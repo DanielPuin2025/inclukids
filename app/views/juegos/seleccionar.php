@@ -21,129 +21,25 @@ if (!$actividad) {
 
 $contenidoController = new ContenidoActividadController();
 $preguntas = $contenidoController->listarPorActividad($idActividad);
+$totalPreguntas = count($preguntas);
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
-<style>
-    :root {
-        --color-fondo: #FFFBF0;
-        --color-primario: #4A90A4;
-        --color-primario-oscuro: #366E7E;
-        --color-texto: #2C3338;
-        --color-correcto: #3C9D5C;
-        --color-incorrecto: #C0392B;
-    }
-    * { box-sizing: border-box; }
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background: var(--color-fondo);
-        color: var(--color-texto);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 30px 16px;
-    }
-    .barra-progreso {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 24px;
-    }
-    .punto {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: #E0DCC8;
-    }
-    .punto.activo { background: var(--color-primario); }
-    .punto.hecho { background: var(--color-correcto); }
-    h1 {
-        font-size: 20px;
-        color: var(--color-primario-oscuro);
-        margin: 0 0 8px 0;
-        text-align: center;
-    }
-    .pregunta {
-        font-size: 32px;
-        font-weight: bold;
-        text-align: center;
-        max-width: 700px;
-        margin: 20px 0 40px 0;
-    }
-    .opciones {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        width: 100%;
-        max-width: 700px;
-    }
-    .opcion {
-        font-size: 26px;
-        font-weight: bold;
-        padding: 30px 20px;
-        border-radius: 20px;
-        border: none;
-        background: white;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        cursor: pointer;
-        color: var(--color-primario-oscuro);
-        transition: transform 0.1s ease;
-    }
-    .opcion:active { transform: scale(0.97); }
-    .opcion.correcta { background: var(--color-correcto); color: white; }
-    .opcion.incorrecta { background: var(--color-incorrecto); color: white; }
-    .opcion:disabled { cursor: default; }
-    .mensaje {
-        font-size: 24px;
-        font-weight: bold;
-        margin-top: 30px;
-        min-height: 36px;
-    }
-    .mensaje.correcto { color: var(--color-correcto); }
-    .mensaje.incorrecto { color: var(--color-incorrecto); }
-    .btn-siguiente {
-        margin-top: 20px;
-        font-size: 20px;
-        font-weight: bold;
-        padding: 14px 40px;
-        border-radius: 14px;
-        border: none;
-        background: var(--color-primario);
-        color: white;
-        cursor: pointer;
-        display: none;
-    }
-    .pantalla-final {
-        text-align: center;
-        display: none;
-    }
-    .pantalla-final h2 {
-        font-size: 36px;
-        color: var(--color-correcto);
-    }
-    .btn-volver {
-        display: inline-block;
-        margin-top: 20px;
-        font-size: 18px;
-        padding: 12px 30px;
-        border-radius: 12px;
-        background: var(--color-primario);
-        color: white;
-        text-decoration: none;
-    }
-</style>
+<link href="/IncluKids/public/css/juegos.css" rel="stylesheet">
 </head>
-<body>
+<body class="juego">
 
-<h1><?= htmlspecialchars($actividad['nombre']) ?></h1>
+<div class="juego-encabezado">
+    <h1><?= htmlspecialchars($actividad['nombre']) ?></h1>
+</div>
 
 <?php if (empty($preguntas)): ?>
 
-    <p style="text-align:center; max-width: 500px;">
+    <p style="text-align:center; max-width: 520px; color:#5B6B66;">
         Esta actividad todavía no tiene preguntas cargadas.
         Agrega contenido desde "Actividades" &rarr; "Preguntas" para
         esta actividad (id_actividad = <?= $idActividad ?>).
@@ -152,111 +48,152 @@ $preguntas = $contenidoController->listarPorActividad($idActividad);
 
 <?php else: ?>
 
-    <div class="barra-progreso" id="barraProgreso"></div>
+    <!-- Pantalla de inicio: el juego no arranca hasta pulsar "Empezar" -->
+    <div class="juego-inicio" id="pantallaInicio">
+        <div class="juego-inicio__emoji" aria-hidden="true">🧩</div>
+        <h2>¿List@ para empezar?</h2>
+        <p>
+            Vas a responder <?= $totalPreguntas ?>
+            <?= $totalPreguntas === 1 ? "pregunta" : "preguntas" ?>.
+            Tómate tu tiempo.
+        </p>
+        <button type="button" class="btn-primario" id="btnEmpezar">Empezar</button>
+    </div>
 
-    <div id="pantallaJuego">
-        <div class="pregunta" id="textoPregunta"></div>
+    <!-- Juego -->
+    <div id="pantallaJuego" hidden>
+        <div class="juego-paso" data-juego-paso>Paso 1 de <?= $totalPreguntas ?></div>
+        <div class="juego-progreso" id="barraProgreso"></div>
+
+        <p class="juego-instruccion" id="textoPregunta"></p>
+
+        <div style="text-align:center; margin-bottom: 26px;">
+            <button type="button" class="btn-escuchar" id="btnEscuchar" aria-pressed="false">
+                🔊 Escuchar la pregunta
+            </button>
+        </div>
+
         <div class="opciones" id="contenedorOpciones"></div>
-        <div class="mensaje" id="mensajeFeedback"></div>
+
+        <div class="juego-mensaje" id="mensajeFeedback" role="status" aria-live="polite"></div>
+
         <div style="text-align:center;">
-            <button class="btn-siguiente" id="btnSiguiente">Siguiente ➡️</button>
+            <button type="button" class="btn-primario" id="btnContinuar" hidden>Continuar ▶</button>
         </div>
     </div>
 
-    <div class="pantalla-final" id="pantallaFinal">
-        <h2>🎉 ¡Actividad completada!</h2>
-        <a href="../sesiones/confirmacion.php?id_sesion=<?= $idSesion ?>" class="btn-volver">&larr; Volver a la sesión</a>
-    </div>
+    <!-- Pantalla final: la rellena IncluKidsJuegos.pantallaFinal() -->
+    <div class="juego-final" id="pantallaFinal" hidden></div>
 
-    <script>
-        const preguntas = <?= json_encode($preguntas, JSON_UNESCAPED_UNICODE) ?>;
-        let indiceActual = 0;
+<?php endif; ?>
 
-        const barraProgreso = document.getElementById('barraProgreso');
-        const textoPregunta = document.getElementById('textoPregunta');
-        const contenedorOpciones = document.getElementById('contenedorOpciones');
-        const mensajeFeedback = document.getElementById('mensajeFeedback');
-        const btnSiguiente = document.getElementById('btnSiguiente');
-        const pantallaJuego = document.getElementById('pantallaJuego');
-        const pantallaFinal = document.getElementById('pantallaFinal');
+<script src="/IncluKids/public/js/juegos-comun.js"></script>
 
-        function dibujarBarraProgreso() {
-            barraProgreso.innerHTML = '';
-            preguntas.forEach((_, i) => {
-                const punto = document.createElement('div');
-                punto.className = 'punto' + (i < indiceActual ? ' hecho' : (i === indiceActual ? ' activo' : ''));
-                barraProgreso.appendChild(punto);
+<?php if (!empty($preguntas)): ?>
+<script>
+    const preguntas = <?= json_encode($preguntas, JSON_UNESCAPED_UNICODE) ?>;
+    const URL_VOLVER = "../sesiones/confirmacion.php?id_sesion=<?= (int) $idSesion ?>";
+
+    let indiceActual = 0;
+    let resuelta = false; // true cuando ya se acertó la pregunta actual
+
+    const pantallaInicio = document.getElementById('pantallaInicio');
+    const pantallaJuego = document.getElementById('pantallaJuego');
+    const pantallaFinal = document.getElementById('pantallaFinal');
+    const barraProgreso = document.getElementById('barraProgreso');
+    const textoPregunta = document.getElementById('textoPregunta');
+    const contenedorOpciones = document.getElementById('contenedorOpciones');
+    const mensajeFeedback = document.getElementById('mensajeFeedback');
+    const btnContinuar = document.getElementById('btnContinuar');
+    const btnEscuchar = document.getElementById('btnEscuchar');
+    const btnEmpezar = document.getElementById('btnEmpezar');
+
+    function preguntaActual() {
+        return preguntas[indiceActual];
+    }
+
+    function opcionesDe(p) {
+        return [
+            { letra: 'A', texto: p.opcion_a },
+            { letra: 'B', texto: p.opcion_b },
+            { letra: 'C', texto: p.opcion_c },
+            { letra: 'D', texto: p.opcion_d },
+        ].filter(op => op.texto !== null && op.texto !== '');
+    }
+
+    function mostrarPregunta() {
+        const p = preguntaActual();
+        resuelta = false;
+
+        textoPregunta.textContent = p.pregunta;
+        mensajeFeedback.textContent = '';
+        mensajeFeedback.className = 'juego-mensaje';
+        btnContinuar.hidden = true;
+        btnEscuchar.setAttribute('aria-pressed', 'false');
+        contenedorOpciones.innerHTML = '';
+
+        opcionesDe(p).forEach(op => {
+            const boton = document.createElement('button');
+            boton.type = 'button';
+            boton.className = 'opcion';
+            boton.textContent = op.texto;
+            boton.addEventListener('click', () => responder(op.letra, boton));
+            contenedorOpciones.appendChild(boton);
+        });
+
+        IncluKidsJuegos.barraProgreso(barraProgreso, preguntas.length, indiceActual);
+        IncluKidsJuegos.foco(contenedorOpciones.firstElementChild);
+    }
+
+    function responder(letraElegida, botonElegido) {
+        if (resuelta || botonElegido.disabled) return;
+        const p = preguntaActual();
+
+        if (letraElegida === p.respuesta_correcta) {
+            resuelta = true;
+            botonElegido.classList.remove('no-es-esa');
+            botonElegido.classList.add('acierto');
+            Array.from(contenedorOpciones.children).forEach(b => { b.disabled = true; });
+
+            mensajeFeedback.textContent = '¡Muy bien!';
+            mensajeFeedback.className = 'juego-mensaje acierto';
+
+            btnContinuar.hidden = false;
+            IncluKidsJuegos.foco(btnContinuar);
+        } else {
+            // Sin castigo: se marca en neutro (nunca rojo) y se puede
+            // volver a intentar cuantas veces haga falta.
+            botonElegido.classList.add('no-es-esa');
+            mensajeFeedback.textContent = 'Inténtalo otra vez';
+            mensajeFeedback.className = 'juego-mensaje neutro';
+        }
+    }
+
+    btnEscuchar.addEventListener('click', () => {
+        btnEscuchar.setAttribute('aria-pressed', 'true');
+        IncluKidsJuegos.hablar(preguntaActual().pregunta);
+    });
+
+    btnContinuar.addEventListener('click', () => {
+        indiceActual++;
+        if (indiceActual < preguntas.length) {
+            mostrarPregunta();
+        } else {
+            pantallaJuego.hidden = true;
+            IncluKidsJuegos.pantallaFinal(pantallaFinal, {
+                titulo: '¡Terminaste todas las preguntas!',
+                urlVolver: URL_VOLVER,
+                textoVolver: '← Volver a la sesión'
             });
         }
+    });
 
-        function mostrarPregunta() {
-            const p = preguntas[indiceActual];
-            textoPregunta.textContent = p.pregunta;
-            mensajeFeedback.textContent = '';
-            mensajeFeedback.className = 'mensaje';
-            btnSiguiente.style.display = 'none';
-            contenedorOpciones.innerHTML = '';
-
-            const opciones = [
-                { letra: 'A', texto: p.opcion_a },
-                { letra: 'B', texto: p.opcion_b },
-                { letra: 'C', texto: p.opcion_c },
-                { letra: 'D', texto: p.opcion_d },
-            ].filter(op => op.texto !== null && op.texto !== '');
-
-            opciones.forEach(op => {
-                const boton = document.createElement('button');
-                boton.className = 'opcion';
-                boton.textContent = op.texto;
-                boton.onclick = () => responder(op.letra, boton);
-                contenedorOpciones.appendChild(boton);
-            });
-
-            dibujarBarraProgreso();
-        }
-
-        function responder(letraElegida, botonElegido) {
-            const p = preguntas[indiceActual];
-            const esCorrecta = letraElegida === p.respuesta_correcta;
-
-            Array.from(contenedorOpciones.children).forEach(boton => {
-                boton.disabled = true;
-            });
-
-            const opciones = [
-                { letra: 'A', texto: p.opcion_a },
-                { letra: 'B', texto: p.opcion_b },
-                { letra: 'C', texto: p.opcion_c },
-                { letra: 'D', texto: p.opcion_d },
-            ].filter(op => op.texto !== null && op.texto !== '');
-
-            const indiceCorrecta = opciones.findIndex(op => op.letra === p.respuesta_correcta);
-            contenedorOpciones.children[indiceCorrecta].classList.add('correcta');
-
-            if (!esCorrecta) {
-                botonElegido.classList.add('incorrecta');
-            }
-
-            mensajeFeedback.textContent = esCorrecta ? '¡Muy bien! 🎉' : 'Casi... ¡vamos con la siguiente! 💪';
-            mensajeFeedback.classList.add(esCorrecta ? 'correcto' : 'incorrecto');
-
-            btnSiguiente.style.display = 'inline-block';
-        }
-
-        btnSiguiente.onclick = () => {
-            indiceActual++;
-            if (indiceActual < preguntas.length) {
-                mostrarPregunta();
-            } else {
-                pantallaJuego.style.display = 'none';
-                document.getElementById('barraProgreso').style.display = 'none';
-                pantallaFinal.style.display = 'block';
-            }
-        };
-
+    btnEmpezar.addEventListener('click', () => {
+        pantallaInicio.hidden = true;
+        pantallaJuego.hidden = false;
         mostrarPregunta();
-    </script>
-
+    });
+</script>
 <?php endif; ?>
 
 </body>

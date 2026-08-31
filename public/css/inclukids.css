@@ -44,9 +44,11 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
     color: var(--petroleo);
+    text-decoration: none;
 }
 a:hover {
     color: var(--petroleo-oscuro);
+    text-decoration: underline;
 }
 
 /* ---------- Botones ---------- */
@@ -58,6 +60,11 @@ a:hover {
     text-transform: uppercase;
     padding: 0.55rem 1.1rem;
     border-width: 1.5px !important;
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+                box-shadow 0.15s ease, transform 0.08s ease;
+}
+.btn:active {
+    transform: translateY(1px);
 }
 
 .btn-primary, .btn-success {
@@ -68,6 +75,7 @@ a:hover {
 .btn-primary:hover, .btn-success:hover {
     background-color: var(--petroleo-oscuro) !important;
     border-color: var(--petroleo-oscuro) !important;
+    box-shadow: 0 4px 12px rgba(43, 95, 99, 0.25);
 }
 
 .btn-outline-primary, .btn-outline-secondary {
@@ -98,7 +106,9 @@ a:hover {
     border: 1.5px solid var(--borde) !important;
     border-left: 5px solid var(--petroleo) !important;
     border-radius: 8px !important;
-    box-shadow: 0 1px 3px rgba(36, 48, 58, 0.06) !important;
+    box-shadow: 0 1px 3px rgba(36, 48, 58, 0.07),
+                0 8px 24px rgba(36, 48, 58, 0.05) !important;
+    transition: box-shadow 0.18s ease;
 }
 
 .ficha-lenguaje { border-left-color: var(--lenguaje) !important; }
@@ -140,6 +150,37 @@ a:hover {
 .table td {
     vertical-align: middle;
     border-color: var(--borde) !important;
+}
+.table tbody tr {
+    transition: background-color 0.12s ease;
+}
+.table tbody tr:hover {
+    background-color: var(--papel);
+}
+
+/* El contenedor scrollable de Bootstrap hace de marco redondeado
+   para que la tabla no quede "pegada" al fondo de la página.
+   No se toca el overflow: Bootstrap ya deja overflow-x:auto para que
+   la tabla siga desplazándose de lado en móvil. */
+.table-responsive {
+    border: 1.5px solid var(--borde);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(36, 48, 58, 0.05);
+}
+.table-responsive > .table {
+    margin-bottom: 0;
+}
+.table-responsive > .table-bordered {
+    border: 0;
+}
+.table-responsive > .table-bordered > :not(caption) > * > *:first-child {
+    border-left: 0;
+}
+.table-responsive > .table-bordered > :not(caption) > * > *:last-child {
+    border-right: 0;
+}
+.table-responsive > .table-bordered > thead > tr:first-child > * {
+    border-top: 0;
 }
 
 /* ---------- Alertas ---------- */

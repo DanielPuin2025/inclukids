@@ -114,9 +114,9 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
 
 <div class="container mt-5">
 
-    <div class="d-flex align-items-center gap-3 mb-1">
-        <img src="/IncluKids/public/img/logo-inclukids.jpg" alt="IncluKids" style="width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 2px 6px rgba(36,48,58,0.15);">
-        <h2 class="mb-0">👁️ Mi panel</h2>
+    <div class="panel-encabezado">
+        <img src="/IncluKids/public/img/logo-inclukids.jpg" alt="IncluKids" class="panel-encabezado__logo">
+        <h2>👁️ Mi panel</h2>
     </div>
     <p class="text-muted mb-0">Estudiantes, DBA, sesiones y progreso de los cursos a tu cargo.</p>
 
@@ -159,12 +159,13 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                                     <th>Curso</th>
                                     <th>DBA trabajado</th>
                                     <th>Progreso</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if (empty($sesiones)): ?>
                                 <tr>
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="5" class="text-center">
                                         No hay sesiones registradas todavía. Usa
                                         "▶️ Iniciar sesión de clase" arriba.
                                     </td>
@@ -177,6 +178,11 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                                     <td>
                                         <a href="../sesiones/registrar_progreso.php?id_sesion=<?= (int) $sesion['id_sesion'] ?>"
                                            class="btn btn-sm btn-primary">Registrar progreso</a>
+                                    </td>
+                                    <td>
+                                        <a href="../sesiones/eliminar.php?id_sesion=<?= (int) $sesion['id_sesion'] ?>"
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">Eliminar</a>
                                     </td>
                                 </tr>
                                 <?php endforeach; endif; ?>

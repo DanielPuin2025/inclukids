@@ -30,35 +30,52 @@ if ($contenido) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
     :root {
-        --color-fondo: #FFFBF0;
-        --color-primario: #4A90A4;
-        --color-primario-oscuro: #366E7E;
-        --color-texto: #2C3338;
+        /* Paleta derivada de la marca IncluKids (ver public/css/inclukids.css),
+           en clave cálida para las pantallas que usan los niños. */
+        --color-fondo: #FCF4E4;
+        --color-primario: #2F6E73;
+        --color-primario-oscuro: #1D4448;
+        --color-texto: #24303A;
         --color-correcto: #3C9D5C;
+        --color-incorrecto: #B24632;
+        --color-acento: #C98A2B;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
         margin: 0;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background: var(--color-fondo);
+        font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+        background:
+            radial-gradient(circle at 12% 0%, rgba(47, 110, 115, 0.07), transparent 45%),
+            radial-gradient(circle at 90% 8%, rgba(201, 138, 43, 0.09), transparent 40%),
+            var(--color-fondo);
         color: var(--color-texto);
         min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 24px 16px 60px;
+        padding: 28px 16px 64px;
         user-select: none;
     }
-    h1 { font-size: 20px; color: var(--color-primario-oscuro); margin: 0 0 4px; text-align: center; }
-    .subtitulo { color: #6B7280; font-size: 14px; margin-bottom: 20px; text-align: center; }
+    h1 {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--color-primario-oscuro);
+        margin: 0 0 4px;
+        text-align: center;
+        letter-spacing: -0.01em;
+    }
+    .subtitulo { color: var(--color-primario-oscuro); opacity: 0.7; font-size: 15px; font-weight: 500; margin-bottom: 24px; text-align: center; }
 
     .tablero {
         display: grid;
         grid-template-columns: repeat(var(--columnas, 4), 1fr);
-        gap: 14px;
-        max-width: 620px;
+        gap: 16px;
+        max-width: 640px;
         width: 100%;
     }
 
@@ -78,30 +95,31 @@ if ($contenido) {
     .carta.encontrada .carta-interior {
         transform: rotateY(180deg);
     }
+    .carta:focus-visible { outline: 3px solid var(--color-primario); outline-offset: 3px; border-radius: 20px; }
     .cara {
         position: absolute;
         inset: 0;
-        border-radius: 16px;
+        border-radius: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
         backface-visibility: hidden;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+        box-shadow: 0 6px 16px rgba(36, 48, 58, 0.12);
     }
     .cara-dorso {
-        background: var(--color-primario);
-        color: white;
-        font-size: 30px;
+        background: linear-gradient(150deg, var(--color-primario), var(--color-primario-oscuro));
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 32px;
     }
     .cara-frente {
         background: white;
         transform: rotateY(180deg);
         flex-direction: column;
-        font-size: 34px;
+        font-size: 36px;
         padding: 6px;
         text-align: center;
     }
-    .cara-frente .etiqueta { font-size: 12px; margin-top: 2px; color: var(--color-texto); }
+    .cara-frente .etiqueta { font-size: 12px; font-weight: 600; margin-top: 2px; color: var(--color-texto); }
 
     .carta.encontrada .cara-frente {
         background: #E7F5EC;
@@ -115,19 +133,34 @@ if ($contenido) {
     }
     .carta.rebotando .carta-interior { animation: rebote 0.3s ease; }
 
-    .mensaje { font-size: 22px; font-weight: bold; margin-top: 26px; min-height: 30px; color: var(--color-correcto); }
+    .mensaje { font-size: 24px; font-weight: 700; margin-top: 28px; min-height: 32px; color: var(--color-correcto); }
 
     .pantalla-final { text-align: center; display: none; }
-    .pantalla-final h2 { font-size: 36px; color: var(--color-correcto); }
+    .pantalla-final h2 { font-size: 38px; color: var(--color-correcto); }
     .btn-volver {
         display: inline-block;
-        margin-top: 20px;
+        margin-top: 22px;
+        min-height: 52px;
         font-size: 18px;
-        padding: 12px 30px;
-        border-radius: 12px;
+        font-weight: 600;
+        padding: 14px 34px;
+        border-radius: 999px;
         background: var(--color-primario);
         color: white;
         text-decoration: none;
+        box-shadow: 0 5px 14px rgba(47, 110, 115, 0.3);
+        transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    }
+    .btn-volver:hover { transform: translateY(-1px); background: var(--color-primario-oscuro); color: white; box-shadow: 0 8px 20px rgba(47, 110, 115, 0.38); }
+    .btn-volver:focus-visible { outline: 3px solid var(--color-primario-oscuro); outline-offset: 3px; }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+        }
+        .btn-volver:hover { transform: none; }
     }
 </style>
 </head>

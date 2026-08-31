@@ -12,6 +12,24 @@
     margin: 18px 0 28px;
 }
 
+/* ---------- Encabezado de página (logo + título) ---------- */
+.panel-encabezado {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 4px;
+}
+.panel-encabezado__logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(36, 48, 58, 0.15);
+    flex-shrink: 0;
+}
+.panel-encabezado h2 {
+    margin: 0;
+}
+
 .panel-tiles {
     display: flex;
     flex-direction: column;
@@ -27,6 +45,12 @@
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(36, 48, 58, 0.06);
+    transition: box-shadow 0.16s ease, transform 0.12s ease, border-color 0.16s ease;
+}
+.panel-grid .panel-tile:hover,
+a.panel-tile--enlace:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(36, 48, 58, 0.1);
 }
 .panel-tile--sesiones { --acento: var(--ocre); }
 .panel-tile--progreso { --acento: var(--exito); }
@@ -49,24 +73,56 @@
 
 /* Tarjetas de estadística clicables del dashboard de administración */
 .stat-card {
+    position: relative;
     display: block;
     text-decoration: none;
     color: inherit;
     background: var(--papel-tarjeta);
     border: 1.5px solid var(--borde);
     border-radius: 10px;
-    padding: 18px;
+    padding: 20px 18px 18px;
     text-align: center;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+/* Filito de acento arriba: firma visual compartida con las panel-tile. */
+.stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--petroleo);
+    opacity: 0.55;
+    transition: opacity 0.15s ease;
 }
 a.stat-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(36, 48, 58, 0.1);
+    border-color: var(--petroleo);
+    box-shadow: 0 6px 18px rgba(36, 48, 58, 0.12);
+}
+a.stat-card:hover::before {
+    opacity: 1;
+}
+a.stat-card:focus-visible {
+    outline: 2px solid var(--petroleo);
+    outline-offset: 2px;
+}
+/* La tarjeta "Sesiones" no lleva enlace: se ve deliberadamente más
+   apagada para que se lea como dato, no como botón. */
+.stat-card:not(a) {
+    opacity: 0.9;
+}
+.stat-card:not(a)::before {
+    background: var(--borde);
+    opacity: 1;
 }
 .stat-card__numero {
     font-size: 30px;
     font-weight: 700;
     color: var(--petroleo);
+    font-variant-numeric: tabular-nums;
     margin: 4px 0 0;
 }
 .stat-card__etiqueta {
@@ -75,6 +131,14 @@ a.stat-card:hover {
     text-transform: uppercase;
     letter-spacing: 0.03em;
     font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stat-card,
+    a.stat-card:hover {
+        transition: none;
+        transform: none;
+    }
 }
 
 .panel-tile__header {
@@ -92,6 +156,7 @@ a.stat-card:hover {
 }
 .panel-tile__header:hover {
     background: var(--papel);
+    background: color-mix(in srgb, var(--acento) 7%, var(--papel-tarjeta));
 }
 .panel-tile__header:focus-visible {
     outline: 2px solid var(--petroleo);
@@ -99,10 +164,17 @@ a.stat-card:hover {
 }
 
 .panel-tile__icono {
-    font-size: 30px;
+    font-size: 25px;
     flex-shrink: 0;
-    width: 44px;
-    text-align: center;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    /* Chip de color: fallback petróleo, luego tinte del acento de cada tile. */
+    background: rgba(43, 95, 99, 0.10);
+    background: color-mix(in srgb, var(--acento) 14%, transparent);
 }
 
 .panel-tile__texto {
@@ -246,12 +318,30 @@ a.panel-tile--enlace:hover .panel-tile__chevron--enlace {
     cursor: pointer;
     box-shadow: 0 2px 6px rgba(36, 48, 58, 0.2);
 }
+.avatar-menu__boton {
+    transition: background-color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
+}
 .avatar-menu__boton:hover {
     background-color: var(--petroleo-oscuro);
+    transform: scale(1.06);
+    box-shadow: 0 4px 14px rgba(36, 48, 58, 0.28);
+}
+.avatar-menu__boton:active {
+    transform: scale(1.0);
 }
 .avatar-menu__boton:focus-visible {
     outline: 2px solid var(--tinta);
     outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .avatar-menu__boton {
+        transition: background-color 0.15s ease;
+    }
+    .avatar-menu__boton:hover,
+    .avatar-menu__boton:active {
+        transform: none;
+    }
 }
 
 .avatar-menu__panel {
