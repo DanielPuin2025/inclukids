@@ -55,6 +55,38 @@ class SesionClase
         return $this->conexion->lastInsertId();
     }
 
+    /**
+     * Todas las sesiones de clase de TODOS los docentes, con el
+     * nombre del docente, el curso y el DBA trabajado. Es la fuente
+     * de la vista global de sesiones/progreso del administrador.
+     * Si se pasa $idDocente, filtra solo las de ese docente (para el
+     * selector de la misma vista).
+     */
+    public function listarTodo($idDocente = null)
+    {
+        $sql = "SELECT s.id_sesion, s.fecha, s.observaciones,
+                       c.id_curso, c.grado, c.grupo,
+                       d.codigo AS dba_codigo, d.descripcion AS dba_descripcion,
+                       doc.id_docente, doc.nombres AS docente_nombres, doc.apellidos AS docente_apellidos
+                FROM SesionesClase s
+                LEFT JOIN Cursos c ON s.id_curso = c.id_curso
+                LEFT JOIN DBA d ON s.id_dba = d.id_dba
+                LEFT JOIN docentes doc ON s.id_docente = doc.id_docente";
+
+        $parametros = [];
+        if ($idDocente !== null) {
+            $sql .= " WHERE s.id_docente = ?";
+            $parametros[] = $idDocente;
+        }
+
+        $sql .= " ORDER BY s.fecha DESC, s.id_sesion DESC";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute($parametros);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function obtenerPorId($idSesion)
     {
         $sql = "SELECT id_sesion, id_docente, id_curso, id_dba, fecha, observaciones
