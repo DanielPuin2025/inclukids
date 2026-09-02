@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ballena">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<path d="M30 90 Q28 66 60 62 Q90 58 112 74 Q124 80 122 92 Q120 104 100 106 L48 106 Q30 104 30 90 Z" fill="#6FA3CC"/>
+<path d="M100 106 Q106 96 96 92 Q108 100 100 106 Z" fill="#6FA3CC"/>
+<polygon points="112,96 132,88 132,112 112,106" fill="#6FA3CC"/>
+<path d="M62 58 Q64 46 60 38" stroke="#9FC2E0" stroke-width="4" fill="none" stroke-linecap="round"/>
+<circle cx="66" cy="80" r="3" fill="#2E3A42"/>
+<path d="M30 94 Q40 100 30 90 Z" fill="#9FC2E0"/>
+</svg>

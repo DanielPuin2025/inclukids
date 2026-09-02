@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pulpo">
+<rect width="160" height="160" rx="32" fill="#EDE3F0"/>
+<ellipse cx="70" cy="90" rx="36" ry="26" fill="#8E6BB0"/>
+<circle cx="70" cy="90" r="10" fill="#6B4F87"/>
+<g stroke="#8E6BB0" stroke-width="8" stroke-linecap="round">
+<path d="M50 112 Q40 128 30 122"/><path d="M62 116 Q56 134 44 132"/><path d="M78 116 Q80 136 68 140"/>
+<path d="M94 112 Q100 130 88 136"/><path d="M104 104 Q116 116 108 128"/><path d="M108 92 Q124 92 122 106"/>
+<path d="M108 78 Q122 70 126 82"/><path d="M100 66 Q110 52 122 58"/>
+</g>
+<circle cx="60" cy="82" r="3" fill="#fff"/>
+</svg>

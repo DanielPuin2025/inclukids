@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="delfín">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<ellipse cx="76" cy="90" rx="30" ry="22" fill="#8FA9BC"/>
+<circle cx="112" cy="76" r="16" fill="#8FA9BC"/>
+<path d="M76 68 Q80 40 92 30 Q86 54 84 72 Z" fill="#8FA9BC"/>
+<circle cx="118" cy="70" r="2.4" fill="#2E3A42"/>
+<polygon points="126,76 138,72 138,82" fill="#7495A8"/>
+</svg>

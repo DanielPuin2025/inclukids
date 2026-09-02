@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="águila">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<path d="M80 40 Q40 60 30 90 Q50 80 70 82 Q60 100 50 120 Q70 108 80 92 Q90 108 110 120 Q100 100 90 82 Q110 80 130 90 Q120 60 80 40 Z" fill="#8A5A32"/>
+<circle cx="80" cy="60" r="6" fill="#5A3A20"/>
+</svg>
