@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="crisalida">
+<rect width="160" height="160" rx="32" fill="#EDE7D9"/>
+<path d="M80 40 L80 52" stroke="#8A5A32" stroke-width="4" stroke-linecap="round"/>
+<path d="M80 52 Q106 58 106 92 Q106 128 80 128 Q54 128 54 92 Q54 58 80 52 Z" fill="#B69A6B"/>
+<path d="M62 74 Q80 78 98 74 M60 92 Q80 96 100 92 M62 110 Q80 114 98 110" stroke="#8A7550" stroke-width="3" fill="none" opacity="0.6"/>
+</svg>

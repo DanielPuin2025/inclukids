@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pollito">
+<rect width="160" height="160" rx="32" fill="#FDF3D8"/>
+<circle cx="80" cy="98" r="34" fill="#F5C63D"/>
+<circle cx="80" cy="60" r="22" fill="#F7D25C"/>
+<path d="M100 58 L114 62 L100 66 Z" fill="#E38A2E"/>
+<circle cx="88" cy="56" r="3.5" fill="#2F2214"/>
+<path d="M60 96 Q46 90 44 100" stroke="#E38A2E" stroke-width="4" fill="none" stroke-linecap="round"/>
+<path d="M70 130 L70 138 M90 130 L90 138" stroke="#E38A2E" stroke-width="4" stroke-linecap="round"/>
+</svg>

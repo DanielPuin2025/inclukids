@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="gallina">
+<rect width="160" height="160" rx="32" fill="#FDF3D8"/>
+<path d="M50 118 Q40 100 56 84 Q52 66 74 60 Q100 54 116 76 Q128 92 116 108 Q120 122 100 128 Q72 134 50 118 Z" fill="#F5EDE0"/>
+<circle cx="70" cy="72" r="18" fill="#FBF8F0"/>
+<path d="M60 58 Q64 46 72 56 Q78 46 82 58" fill="#D8302B"/>
+<path d="M52 72 L38 76 L52 80 Z" fill="#E38A2E"/>
+<circle cx="62" cy="68" r="3" fill="#2F2214"/>
+<path d="M108 116 L120 130 M96 122 L104 136 M84 126 L88 138" stroke="#E38A2E" stroke-width="4" stroke-linecap="round" fill="none"/>
+</svg>

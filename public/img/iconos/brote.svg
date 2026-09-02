@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="brote">
+<rect width="160" height="160" rx="32" fill="#E4F0DD"/>
+<ellipse cx="80" cy="128" rx="34" ry="10" fill="#8A5A32"/>
+<path d="M80 128 L80 84" stroke="#4E9A4E" stroke-width="6" stroke-linecap="round"/>
+<path d="M80 96 Q56 90 54 68 Q78 70 80 96 Z" fill="#6BBF59"/>
+<path d="M80 90 Q104 84 106 62 Q82 64 80 90 Z" fill="#8CD46F"/>
+</svg>
