@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="maíz">
+<rect width="160" height="160" rx="32" fill="#FFF4D6"/>
+<rect x="62" y="52" width="36" height="72" rx="18" fill="#F0B429"/>
+<circle cx="72" cy="66" r="3" fill="#D98A2B"/><circle cx="88" cy="66" r="3" fill="#D98A2B"/>
+<circle cx="80" cy="76" r="3" fill="#D98A2B"/><circle cx="72" cy="86" r="3" fill="#D98A2B"/>
+<circle cx="88" cy="86" r="3" fill="#D98A2B"/><circle cx="80" cy="96" r="3" fill="#D98A2B"/>
+<circle cx="72" cy="106" r="3" fill="#D98A2B"/><circle cx="88" cy="106" r="3" fill="#D98A2B"/>
+<path d="M70 52 Q60 30 74 22 Q72 40 78 50 Z" fill="#5CAE6B"/>
+<path d="M80 52 Q80 26 92 18 Q86 38 88 50 Z" fill="#5CAE6B"/>
+<path d="M90 52 Q100 32 90 24 Q90 40 84 50 Z" fill="#3A8A48"/>
+</svg>

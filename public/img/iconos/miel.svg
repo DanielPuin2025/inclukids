@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="miel">
+<rect width="160" height="160" rx="32" fill="#FFF4D6"/>
+<path d="M60 128 Q56 90 66 60 Q80 50 94 60 Q104 90 100 128 Z" fill="#F0B429"/>
+<rect x="62" y="56" width="36" height="14" rx="4" fill="#8A5A32"/>
+<ellipse cx="80" cy="100" rx="10" ry="14" fill="#D98A2B" opacity="0.6"/>
+</svg>

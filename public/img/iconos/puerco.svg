@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="puerco">
+<rect width="160" height="160" rx="32" fill="#FBE4E4"/>
+<ellipse cx="80" cy="94" rx="36" ry="28" fill="#E9A2A6"/>
+<ellipse cx="80" cy="98" rx="16" ry="11" fill="#D98088"/>
+<circle cx="74" cy="98" r="2.4" fill="#8A4A50"/>
+<circle cx="86" cy="98" r="2.4" fill="#8A4A50"/>
+<circle cx="60" cy="76" r="3" fill="#3A2A20"/>
+<circle cx="100" cy="76" r="3" fill="#3A2A20"/>
+<polygon points="52,66 60,50 66,68" fill="#E9A2A6"/>
+<polygon points="108,66 100,50 94,68" fill="#E9A2A6"/>
+</svg>

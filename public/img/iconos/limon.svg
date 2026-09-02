@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="limón">
+<rect width="160" height="160" rx="32" fill="#F2F8DE"/>
+<ellipse cx="80" cy="86" rx="34" ry="26" fill="#D9E05B"/>
+<ellipse cx="52" cy="80" rx="8" ry="6" fill="#5CAE6B" transform="rotate(-30 52 80)"/>
+<ellipse cx="108" cy="80" rx="8" ry="6" fill="#5CAE6B" transform="rotate(30 108 80)"/>
+</svg>

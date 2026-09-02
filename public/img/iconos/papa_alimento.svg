@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="papa">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<path d="M52 92 Q46 66 68 58 Q96 48 108 70 Q118 90 100 108 Q78 126 58 114 Q46 106 52 92 Z" fill="#C99A5B"/>
+<circle cx="72" cy="82" r="3" fill="#8A5A32"/>
+<circle cx="92" cy="76" r="3" fill="#8A5A32"/>
+<circle cx="82" cy="98" r="3" fill="#8A5A32"/>
+<circle cx="66" cy="98" r="3" fill="#8A5A32"/>
+</svg>

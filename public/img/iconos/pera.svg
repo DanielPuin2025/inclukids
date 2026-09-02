@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pera">
+<rect width="160" height="160" rx="32" fill="#F2F8DE"/>
+<path d="M80 130 Q54 108 56 80 Q58 54 80 46 Q102 54 104 80 Q106 108 80 130 Z" fill="#B8D147"/>
+<path d="M80 46 Q84 34 96 30" stroke="#5CAE6B" stroke-width="5" fill="none" stroke-linecap="round"/>
+</svg>
