@@ -120,6 +120,7 @@ if ($contenido) {
         text-align: center;
     }
     .cara-frente .etiqueta { font-size: 14px; font-weight: 600; margin-top: 2px; color: var(--color-texto); }
+    .carta-imagen { width: 60%; max-width: 84px; aspect-ratio: 1 / 1; border-radius: 14px; }
 
     .carta.encontrada .cara-frente {
         background: #E7F5EC;
@@ -310,10 +311,19 @@ if ($contenido) {
         }
 
         // Construye 2 cartas por pareja: una con la "letra", otra con la "imagen".
+        // Si el par trae una ilustración real (par.imagen), se usa esa en vez
+        // del emoji — el emoji queda solo como respaldo si algún par todavía
+        // no tiene ilustración propia.
         let cartas = [];
         pares.forEach((par, i) => {
             cartas.push({ parejaId: i, tipo: 'letra', contenido: par.letra, etiqueta: par.letra });
-            cartas.push({ parejaId: i, tipo: 'imagen', contenido: par.imagen_emoji, etiqueta: par.imagen_texto || '' });
+            cartas.push({
+                parejaId: i,
+                tipo: 'imagen',
+                contenido: par.imagen_emoji,
+                etiqueta: par.imagen_texto || '',
+                imagenUrl: par.imagen || null
+            });
         });
         cartas = cartas.sort(() => Math.random() - 0.5);
 
@@ -329,11 +339,14 @@ if ($contenido) {
             const div = document.createElement('div');
             div.className = 'carta';
             div.dataset.indice = indice;
+            const contenidoFrente = carta.imagenUrl
+                ? `<img class="carta-imagen" src="${carta.imagenUrl}" alt="${carta.etiqueta || ''}">`
+                : `<span>${carta.contenido}</span>`;
             div.innerHTML = `
                 <div class="carta-interior">
                     <div class="cara cara-dorso">❓</div>
                     <div class="cara cara-frente">
-                        <span>${carta.contenido}</span>
+                        ${contenidoFrente}
                         ${carta.etiqueta ? `<span class="etiqueta">${carta.etiqueta}</span>` : ''}
                     </div>
                 </div>

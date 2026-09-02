@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="unicornio">
+<rect width="160" height="160" rx="32" fill="#FCE8F3"/>
+<path d="M55 130 Q40 110 46 82 Q50 58 76 48 Q100 40 112 56 Q118 64 108 68 Q118 72 112 82 Q120 88 108 92 Q112 108 96 118 Q100 126 90 130 Z" fill="#fff" stroke="#E7B9D6" stroke-width="3"/>
+<polygon points="88,46 96,16 100,48" fill="#F0B429"/>
+<path d="M60 60 Q50 50 56 38 Q62 48 66 56 Q68 44 76 36 Q76 50 78 58" fill="#C990C4"/>
+<circle cx="94" cy="66" r="3.4" fill="#5A3550"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="araña">
+<rect width="160" height="160" rx="32" fill="#EFE6F5"/>
+<ellipse cx="80" cy="98" rx="24" ry="28" fill="#3A3448"/>
+<circle cx="80" cy="60" r="15" fill="#3A3448"/>
+<circle cx="74" cy="57" r="3" fill="#fff"/>
+<circle cx="86" cy="57" r="3" fill="#fff"/>
+<circle cx="74" cy="57" r="1.4" fill="#3A3448"/>
+<circle cx="86" cy="57" r="1.4" fill="#3A3448"/>
+<g stroke="#3A3448" stroke-width="4" stroke-linecap="round" fill="none">
+<path d="M60 85 Q30 80 20 65"/>
+<path d="M58 98 Q26 98 14 90"/>
+<path d="M60 112 Q30 118 20 132"/>
+<path d="M100 85 Q130 80 140 65"/>
+<path d="M102 98 Q134 98 146 90"/>
+<path d="M100 112 Q130 118 140 132"/>
+</g>
+</svg>

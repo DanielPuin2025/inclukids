@@ -1,0 +1,18 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="oveja">
+<rect width="160" height="160" rx="32" fill="#FBF3E7"/>
+<circle cx="55" cy="90" r="22" fill="#fff" stroke="#E4D6BE" stroke-width="3"/>
+<circle cx="80" cy="78" r="24" fill="#fff" stroke="#E4D6BE" stroke-width="3"/>
+<circle cx="106" cy="92" r="22" fill="#fff" stroke="#E4D6BE" stroke-width="3"/>
+<circle cx="75" cy="104" r="24" fill="#fff" stroke="#E4D6BE" stroke-width="3"/>
+<ellipse cx="42" cy="70" rx="16" ry="14" fill="#4A4038"/>
+<polygon points="30,58 34,44 42,60" fill="#4A4038"/>
+<polygon points="54,58 50,44 42,60" fill="#4A4038"/>
+<circle cx="36" cy="68" r="2.4" fill="#fff"/>
+<circle cx="46" cy="68" r="2.4" fill="#fff"/>
+<g stroke="#4A4038" stroke-width="4" stroke-linecap="round">
+<path d="M58 130 L58 144"/>
+<path d="M74 132 L74 146"/>
+<path d="M92 130 L92 144"/>
+<path d="M108 126 L108 140"/>
+</g>
+</svg>
