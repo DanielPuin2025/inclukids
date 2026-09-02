@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="plato">
+<rect width="160" height="160" rx="32" fill="#EAEAF2"/>
+<ellipse cx="80" cy="90" rx="42" ry="24" fill="#fff" stroke="#B9B9C9" stroke-width="4"/>
+<ellipse cx="80" cy="90" rx="26" ry="14" fill="#EAEAF2" stroke="#B9B9C9" stroke-width="3"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="esponja">
+<rect width="160" height="160" rx="32" fill="#FFF4D6"/>
+<path d="M46 60 Q40 90 56 100 Q50 110 60 120 Q90 130 110 116 Q124 108 116 96 Q126 84 112 72 Q118 58 100 54 Q84 44 46 60 Z" fill="#F0D060"/>
+<circle cx="66" cy="76" r="5" fill="#D9B94A"/><circle cx="90" cy="70" r="4" fill="#D9B94A"/>
+<circle cx="98" cy="94" r="5" fill="#D9B94A"/><circle cx="70" cy="100" r="4" fill="#D9B94A"/>
+</svg>

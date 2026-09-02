@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="globo">
+<rect width="160" height="160" rx="32" fill="#FCE4E4"/>
+<path d="M80 40 Q112 50 112 84 Q112 116 80 122 Q48 116 48 84 Q48 50 80 40 Z" fill="#E36B7A"/>
+<polygon points="74,122 86,122 80,136" fill="#E36B7A"/>
+<path d="M64 60 Q60 52 68 48" stroke="#F4A6B1" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pitillo">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<rect x="70" y="30" width="20" height="100" rx="8" fill="#6FA3CC" transform="rotate(15 80 80)"/>
+<rect x="70" y="30" width="20" height="18" fill="#B24632" transform="rotate(15 80 39)"/>
+</svg>
