@@ -155,6 +155,7 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
     .ficha:focus-visible { outline: 3px solid var(--color-primario); outline-offset: 3px; }
     .ficha .ficha-etiqueta { font-size: 14px; font-weight: 600; margin-top: 2px; }
     .ficha.arrastrando { box-shadow: var(--sombra-pieza-alta); cursor: grabbing; z-index: 50; transform: scale(1.05); }
+    .ficha-imagen { width: 58%; max-width: 74px; aspect-ratio: 1 / 1; border-radius: 14px; pointer-events: none; }
 
     /* Estilo "rompecabezas": muescas simples a los lados con pseudo-elementos */
     body.rompecabezas .ficha {
@@ -415,7 +416,10 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
             const div = document.createElement('div');
             div.className = 'ficha';
             div.dataset.piezaId = pieza.id;
-            div.innerHTML = (pieza.emoji ? `<span>${pieza.emoji}</span>` : '') +
+            const contenidoPieza = pieza.imagen
+                ? `<img class="ficha-imagen" src="${pieza.imagen}" alt="">`
+                : (pieza.emoji ? `<span>${pieza.emoji}</span>` : '');
+            div.innerHTML = contenidoPieza +
                 `<span class="ficha-etiqueta">${pieza.etiqueta ?? ''}</span>`;
             activarArrastre(div);
             return div;

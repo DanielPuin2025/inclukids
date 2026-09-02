@@ -180,6 +180,7 @@ if ($contenido) {
     .ficha:focus-visible { outline: 3px solid var(--color-primario); outline-offset: 3px; }
     .ficha .ficha-etiqueta { font-size: 14px; font-weight: 600; margin-top: 2px; }
     .ficha:disabled { opacity: 0; pointer-events: none; }
+    .ficha-imagen { width: 58%; max-width: 74px; aspect-ratio: 1 / 1; border-radius: 14px; pointer-events: none; }
 
     @keyframes rebote {
         0%, 100% { transform: translate(0,0); }
@@ -406,6 +407,11 @@ if ($contenido) {
             window.speechSynthesis.speak(u);
         }
 
+        function contenidoFicha(pieza) {
+            if (pieza.imagen) return `<img class="ficha-imagen" src="${pieza.imagen}" alt="">`;
+            return pieza.emoji ? `<span>${pieza.emoji}</span>` : '';
+        }
+
         let ordenCorrecto = [];
         let indiceEsperado = 0;
 
@@ -437,7 +443,7 @@ if ($contenido) {
                 btn.type = 'button';
                 btn.className = 'ficha';
                 btn.dataset.id = pieza.id;
-                btn.innerHTML = (pieza.emoji ? `<span>${pieza.emoji}</span>` : '') +
+                btn.innerHTML = contenidoFicha(pieza) +
                     (pieza.etiqueta ? `<span class="ficha-etiqueta">${pieza.etiqueta}</span>` : '');
                 btn.addEventListener('click', () => intentarColocar(pieza, btn));
                 bandeja.appendChild(btn);
@@ -453,7 +459,7 @@ if ($contenido) {
             if (pieza.id === ordenCorrecto[indiceEsperado]) {
                 const slotEl = filaSlots.children[indiceEsperado];
                 slotEl.classList.add('lleno');
-                slotEl.innerHTML = (pieza.emoji ? `<span>${pieza.emoji}</span>` : '') +
+                slotEl.innerHTML = contenidoFicha(pieza) +
                     (pieza.etiqueta ? `<span class="ficha-etiqueta">${pieza.etiqueta}</span>` : '');
                 btnEl.disabled = true;
                 hablar('¡Correcto!');
