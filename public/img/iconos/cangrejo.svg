@@ -1,0 +1,10 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="cangrejo">
+<rect width="160" height="160" rx="32" fill="#FBE4E4"/>
+<ellipse cx="80" cy="90" rx="34" ry="24" fill="#E8825A"/>
+<circle cx="66" cy="82" r="4" fill="#2E2A38"/>
+<circle cx="94" cy="82" r="4" fill="#2E2A38"/>
+<path d="M50 74 Q38 60 44 48 M110 74 Q122 60 116 48" stroke="#C4602E" stroke-width="6" fill="none" stroke-linecap="round"/>
+<g stroke="#C4602E" stroke-width="5" stroke-linecap="round">
+<path d="M56 108 L46 122"/><path d="M70 114 L64 128"/><path d="M90 114 L96 128"/><path d="M104 108 L114 122"/>
+</g>
+</svg>

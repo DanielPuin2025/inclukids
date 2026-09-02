@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="escorpión">
+<rect width="160" height="160" rx="32" fill="#FBE4E4"/>
+<ellipse cx="80" cy="98" rx="28" ry="18" fill="#C4602E"/>
+<circle cx="60" cy="90" r="10" fill="#C4602E"/>
+<path d="M100 92 Q120 84 116 70 Q126 76 122 60" stroke="#C4602E" stroke-width="8" fill="none" stroke-linecap="round"/>
+<path d="M116 60 L108 54 L122 50 Z" fill="#C4602E"/>
+<path d="M46 84 L32 78 M46 90 L30 90" stroke="#8A3A1A" stroke-width="4" stroke-linecap="round"/>
+<path d="M50 96 L36 100 M50 102 L38 110" stroke="#8A3A1A" stroke-width="4" stroke-linecap="round"/>
+</svg>

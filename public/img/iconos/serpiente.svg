@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="serpiente">
+<rect width="160" height="160" rx="32" fill="#E7F5EA"/>
+<path d="M40 50 Q30 70 50 82 Q80 100 60 118 Q46 130 56 128" stroke="#5CAE6B" stroke-width="22" fill="none" stroke-linecap="round"/>
+<circle cx="40" cy="50" r="14" fill="#3A8A48"/>
+<circle cx="35" cy="46" r="2.4" fill="#fff"/>
+<circle cx="35" cy="46" r="1.1" fill="#2A4A30"/>
+<path d="M28 38 L18 28 M28 42 L16 38" stroke="#2A4A30" stroke-width="2" stroke-linecap="round"/>
+</svg>

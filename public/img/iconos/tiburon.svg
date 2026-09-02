@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="tiburón">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<path d="M30 96 Q60 70 130 90 Q100 96 100 96 Q110 106 96 108 Q60 122 30 96 Z" fill="#8FA9BC"/>
+<polygon points="70,70 84,70 78,92" fill="#8FA9BC"/>
+<circle cx="46" cy="92" r="2.6" fill="#2E3A42"/>
+<polygon points="34,96 44,100 34,104" fill="#fff"/>
+</svg>

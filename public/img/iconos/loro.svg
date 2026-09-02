@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="loro">
+<rect width="160" height="160" rx="32" fill="#E7F5EA"/>
+<ellipse cx="80" cy="90" rx="26" ry="34" fill="#5CAE6B"/>
+<path d="M62 62 Q80 46 100 60 Q90 66 84 72 Z" fill="#3A8A48"/>
+<circle cx="66" cy="76" r="3" fill="#2E2A38"/>
+<path d="M56 88 Q40 84 44 96 Q54 98 60 92 Z" fill="#F0B429"/>
+<path d="M78 122 Q76 138 68 144 M84 122 Q88 138 96 144" stroke="#D98A2B" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>
