@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="oruga">
+<rect width="160" height="160" rx="32" fill="#E4F0DD"/>
+<circle cx="46" cy="104" r="14" fill="#6BBF59"/>
+<circle cx="70" cy="100" r="15" fill="#7DCB68"/>
+<circle cx="95" cy="100" r="15" fill="#6BBF59"/>
+<circle cx="118" cy="104" r="14" fill="#7DCB68"/>
+<circle cx="40" cy="98" r="4" fill="#2F3B2A"/>
+<path d="M40 90 L32 80 M46 88 L44 76" stroke="#4E9A4E" stroke-width="3" stroke-linecap="round"/>
+</svg>

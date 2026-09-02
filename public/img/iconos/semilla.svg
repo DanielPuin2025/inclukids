@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="semilla">
+<rect width="160" height="160" rx="32" fill="#F0E6D6"/>
+<ellipse cx="80" cy="86" rx="26" ry="36" fill="#8A5A32" transform="rotate(-15 80 86)"/>
+<ellipse cx="72" cy="72" rx="8" ry="14" fill="#B98A55" opacity="0.7" transform="rotate(-15 72 72)"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="tomate">
+<rect width="160" height="160" rx="32" fill="#FBE6E2"/>
+<circle cx="80" cy="92" r="38" fill="#E2452F"/>
+<circle cx="66" cy="78" r="10" fill="#fff" opacity="0.25"/>
+<path d="M80 54 L70 42 L80 48 L90 38 L84 52 L96 46 L86 58 Z" fill="#4E9A4E"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="manzana">
+<rect width="160" height="160" rx="32" fill="#FBE6E2"/>
+<path d="M80 66 Q108 60 112 92 Q112 128 80 128 Q48 128 48 92 Q52 60 80 66 Z" fill="#E2452F"/>
+<circle cx="66" cy="86" r="9" fill="#fff" opacity="0.25"/>
+<path d="M80 66 L80 50" stroke="#8A5A32" stroke-width="4" stroke-linecap="round"/>
+<path d="M80 54 Q96 48 100 60 Q86 64 80 54 Z" fill="#4E9A4E"/>
+</svg>

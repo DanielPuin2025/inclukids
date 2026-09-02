@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="planta">
+<rect width="160" height="160" rx="32" fill="#E4F0DD"/>
+<ellipse cx="80" cy="130" rx="30" ry="8" fill="#8A5A32"/>
+<path d="M80 130 L80 54" stroke="#4E9A4E" stroke-width="6" stroke-linecap="round"/>
+<path d="M80 100 Q50 96 46 68 Q76 70 80 100 Z" fill="#5FAE52"/>
+<path d="M80 84 Q110 78 114 52 Q82 56 80 84 Z" fill="#79C463"/>
+<path d="M80 66 Q58 58 58 38 Q78 42 80 66 Z" fill="#8CD46F"/>
+</svg>
