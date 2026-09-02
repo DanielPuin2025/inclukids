@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="puerta">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<rect x="46" y="34" width="68" height="98" rx="4" fill="#C99A5B"/>
+<circle cx="102" cy="84" r="5" fill="#8A5A32"/>
+<rect x="52" y="40" width="56" height="86" rx="2" fill="#E8C078"/>
+</svg>

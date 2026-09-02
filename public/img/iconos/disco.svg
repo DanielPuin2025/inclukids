@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="disco">
+<rect width="160" height="160" rx="32" fill="#EAEAF2"/>
+<circle cx="80" cy="80" r="42" fill="#B9B9C9"/>
+<circle cx="80" cy="80" r="14" fill="#EAEAF2"/>
+<path d="M50 56 A42 42 0 0 1 110 56" stroke="#fff" stroke-width="6" fill="none" opacity="0.7"/>
+</svg>

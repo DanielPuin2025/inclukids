@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="papel">
+<rect width="160" height="160" rx="32" fill="#EAEAF2"/>
+<path d="M52 40 L96 40 L110 54 L110 120 L52 120 Z" fill="#fff" stroke="#B9B9C9" stroke-width="4"/>
+<path d="M96 40 L96 54 L110 54 Z" fill="#D8D8E0"/>
+<line x1="62" y1="70" x2="100" y2="70" stroke="#B9B9C9" stroke-width="3"/>
+<line x1="62" y1="84" x2="100" y2="84" stroke="#B9B9C9" stroke-width="3"/>
+<line x1="62" y1="98" x2="90" y2="98" stroke="#B9B9C9" stroke-width="3"/>
+</svg>

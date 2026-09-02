@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="hielo">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<rect x="50" y="50" width="60" height="60" rx="6" fill="#BEDDF0" stroke="#6FA3CC" stroke-width="4"/>
+<line x1="58" y1="60" x2="76" y2="78" stroke="#fff" stroke-width="4"/>
+</svg>
