@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="vapor">
+<rect width="160" height="160" rx="32" fill="#EAEAF2"/>
+<path d="M56 110 Q48 90 60 76 Q56 62 68 52" stroke="#B9B9C9" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.7"/>
+<path d="M80 116 Q72 92 84 78 Q80 60 92 46" stroke="#B9B9C9" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.85"/>
+<path d="M104 110 Q96 90 108 76 Q104 62 116 52" stroke="#B9B9C9" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.7"/>
+</svg>

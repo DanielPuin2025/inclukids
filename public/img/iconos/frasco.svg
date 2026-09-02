@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="frasco">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<path d="M62 50 L98 50 L98 60 Q112 66 112 84 L112 116 Q112 128 96 128 L64 128 Q48 128 48 116 L48 84 Q48 66 62 60 Z" fill="#BEDDF0" stroke="#6FA3CC" stroke-width="4"/>
+<rect x="62" y="42" width="36" height="10" rx="3" fill="#6FA3CC"/>
+</svg>
