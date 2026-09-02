@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="vela">
+<rect width="160" height="160" rx="32" fill="#FBE9E4"/>
+<rect x="66" y="70" width="28" height="58" rx="6" fill="#F6EBC9"/>
+<rect x="66" y="70" width="28" height="10" fill="#E8825A"/>
+<path d="M80 62 Q88 52 80 40 Q76 50 80 62 Z" fill="#F0B429"/>
+</svg>

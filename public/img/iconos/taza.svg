@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="taza">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<path d="M50 62 L106 62 L102 118 Q100 130 84 130 L72 130 Q56 130 54 118 Z" fill="#C99A5B"/>
+<path d="M106 72 Q126 72 126 92 Q126 108 106 106" stroke="#C99A5B" stroke-width="8" fill="none"/>
+<rect x="46" y="54" width="64" height="10" rx="4" fill="#8A5A32"/>
+</svg>

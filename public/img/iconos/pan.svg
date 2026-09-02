@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pan">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<path d="M56 100 Q52 76 80 70 Q108 76 104 100 Q108 116 80 122 Q52 116 56 100 Z" fill="#E8C078"/>
+<path d="M60 96 Q80 88 100 96" stroke="#C99A5B" stroke-width="3" fill="none"/>
+</svg>

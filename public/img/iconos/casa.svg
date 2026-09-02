@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="casa">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<polygon points="80,40 130,84 118,84 118,128 42,128 42,84 30,84" fill="#C99A5B"/>
+<rect x="66" y="100" width="28" height="28" fill="#8A5A32"/>
+<rect x="54" y="92" width="16" height="16" fill="#E3F0FA"/>
+</svg>

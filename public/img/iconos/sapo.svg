@@ -1,0 +1,12 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="sapo">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<ellipse cx="80" cy="100" rx="38" ry="26" fill="#B5794A"/>
+<circle cx="58" cy="66" r="16" fill="#B5794A"/>
+<circle cx="102" cy="66" r="16" fill="#B5794A"/>
+<circle cx="58" cy="66" r="7" fill="#3A2A20"/>
+<circle cx="102" cy="66" r="7" fill="#3A2A20"/>
+<circle cx="66" cy="96" r="4" fill="#8A5A32"/>
+<circle cx="94" cy="90" r="4" fill="#8A5A32"/>
+<circle cx="80" cy="108" r="4" fill="#8A5A32"/>
+<path d="M60 108 Q80 120 100 108" stroke="#3A2A20" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>
