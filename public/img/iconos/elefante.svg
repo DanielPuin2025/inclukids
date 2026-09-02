@@ -1,0 +1,12 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="elefante">
+<rect width="160" height="160" rx="32" fill="#E8EEF2"/>
+<ellipse cx="30" cy="76" rx="22" ry="28" fill="#8AA0AF"/>
+<ellipse cx="90" cy="100" rx="42" ry="32" fill="#9FB0BD"/>
+<circle cx="46" cy="78" r="26" fill="#9FB0BD"/>
+<path d="M30 82 Q16 100 26 128 Q34 132 36 122 Q28 104 38 88 Z" fill="#9FB0BD"/>
+<circle cx="54" cy="70" r="3.4" fill="#2E3A42"/>
+<path d="M62 92 L70 100 L60 102 Z" fill="#fff"/>
+<rect x="66" y="122" width="12" height="20" rx="5" fill="#8AA0AF"/>
+<rect x="96" y="126" width="12" height="20" rx="5" fill="#8AA0AF"/>
+<rect x="118" y="122" width="12" height="20" rx="5" fill="#8AA0AF"/>
+</svg>

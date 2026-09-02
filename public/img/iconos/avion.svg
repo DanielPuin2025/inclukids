@@ -1,0 +1,10 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="avión">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<ellipse cx="80" cy="82" rx="46" ry="16" fill="#fff" stroke="#8FB8DB" stroke-width="3"/>
+<path d="M60 74 L38 56 L52 56 L70 70 Z" fill="#6FA3CC"/>
+<path d="M60 90 L38 108 L52 108 L70 94 Z" fill="#6FA3CC"/>
+<path d="M118 82 L136 72 L136 92 Z" fill="#6FA3CC"/>
+<circle cx="70" cy="78" r="4" fill="#8FB8DB"/>
+<circle cx="86" cy="78" r="4" fill="#8FB8DB"/>
+<circle cx="102" cy="78" r="4" fill="#8FB8DB"/>
+</svg>
