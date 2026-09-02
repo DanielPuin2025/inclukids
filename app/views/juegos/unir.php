@@ -172,6 +172,7 @@ if ($contenido) {
     }
     .unir-columna--zonas .unir-item { justify-content: center; text-align: center; }
     .unir-item__emoji { font-size: 34px; line-height: 1; flex-shrink: 0; }
+    .unir-item__imagen { width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0; pointer-events: none; }
     .unir-item__etiqueta { font-size: 19px; font-weight: 700; color: var(--color-primario-oscuro); }
 
     .unir-item:hover:not(.conectada) { transform: translateY(-2px); border-color: var(--color-primario); }
@@ -460,7 +461,10 @@ if ($contenido) {
                 btn.className = 'unir-item';
                 btn.dataset.id = pieza.id;
                 btn.dataset.zonaCorrecta = pieza.zona ?? '';
-                btn.innerHTML = (pieza.emoji ? `<span class="unir-item__emoji">${pieza.emoji}</span>` : '') +
+                const contenidoPieza = pieza.imagen
+                    ? `<img class="unir-item__imagen" src="${pieza.imagen}" alt="">`
+                    : (pieza.emoji ? `<span class="unir-item__emoji">${pieza.emoji}</span>` : '');
+                btn.innerHTML = contenidoPieza +
                     (pieza.etiqueta ? `<span class="unir-item__etiqueta">${pieza.etiqueta}</span>` : '');
                 btn.addEventListener('click', () => manejarClic(btn, 'pieza'));
                 columnaPiezas.appendChild(btn);
@@ -473,7 +477,10 @@ if ($contenido) {
                 btn.type = 'button';
                 btn.className = 'unir-item';
                 btn.dataset.id = zona.id;
-                btn.innerHTML = (zona.emoji ? `<span class="unir-item__emoji">${zona.emoji}</span>` : '') +
+                const contenidoZona = zona.imagen
+                    ? `<img class="unir-item__imagen" src="${zona.imagen}" alt="">`
+                    : (zona.emoji ? `<span class="unir-item__emoji">${zona.emoji}</span>` : '');
+                btn.innerHTML = contenidoZona +
                     `<span class="unir-item__etiqueta">${zona.etiqueta ?? ''}</span>`;
                 btn.addEventListener('click', () => manejarClic(btn, 'zona'));
                 columnaZonas.appendChild(btn);
