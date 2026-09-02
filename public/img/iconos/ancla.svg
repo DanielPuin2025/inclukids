@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ancla">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<circle cx="80" cy="46" r="12" fill="none" stroke="#6FA3CC" stroke-width="7"/>
+<line x1="80" y1="58" x2="80" y2="118" stroke="#6FA3CC" stroke-width="7"/>
+<line x1="56" y1="70" x2="104" y2="70" stroke="#6FA3CC" stroke-width="7" stroke-linecap="round"/>
+<path d="M50 96 Q50 122 80 126 Q110 122 110 96" stroke="#6FA3CC" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M42 92 Q50 100 58 92" stroke="#6FA3CC" stroke-width="6" fill="none" stroke-linecap="round"/>
+<path d="M102 92 Q110 100 118 92" stroke="#6FA3CC" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="oreja">
+<rect width="160" height="160" rx="32" fill="#FBE4E4"/>
+<path d="M62 118 Q40 100 42 72 Q44 40 78 36 Q112 34 118 66 Q122 88 104 100 Q92 108 92 92 Q92 78 78 78 Q66 78 64 92 Q62 106 76 112 Q70 122 62 118 Z" fill="#E29387"/>
+<path d="M78 60 Q94 60 94 78 Q94 92 82 94" stroke="#C4715F" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>

@@ -168,6 +168,7 @@ if ($contenido) {
     .pieza:hover { transform: translateY(-2px); }
     .pieza:focus-visible { outline: 3px solid var(--color-primario); outline-offset: 3px; }
     .pieza .pieza-etiqueta { font-size: 15px; font-weight: 600; margin-top: 2px; color: var(--color-texto); }
+    .pieza-imagen { width: 60%; max-width: 76px; aspect-ratio: 1 / 1; border-radius: 14px; pointer-events: none; }
     .pieza.arrastrando { box-shadow: var(--sombra-pieza-alta); cursor: grabbing; z-index: 50; transform: scale(1.05); }
     .pieza.oculta { visibility: hidden; pointer-events: none; }
 
@@ -430,7 +431,10 @@ if ($contenido) {
                 const div = document.createElement('div');
                 div.className = 'pieza';
                 div.dataset.piezaZona = pieza.zona ?? '';
-                div.innerHTML = (pieza.emoji ? `<span>${pieza.emoji}</span>` : '') +
+                const contenidoPieza = pieza.imagen
+                    ? `<img class="pieza-imagen" src="${pieza.imagen}" alt="">`
+                    : (pieza.emoji ? `<span>${pieza.emoji}</span>` : '');
+                div.innerHTML = contenidoPieza +
                     (pieza.etiqueta ? `<span class="pieza-etiqueta">${pieza.etiqueta}</span>` : '');
                 contenedorPiezas.appendChild(div);
                 activarArrastre(div);
