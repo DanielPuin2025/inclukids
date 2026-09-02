@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="mariposa">
+<rect width="160" height="160" rx="32" fill="#EDE3F0"/>
+<path d="M40 90 Q80 40 120 90 Q80 76 40 90 Z" fill="#F6F0FA" stroke="#8E6BB0" stroke-width="3"/>
+<path d="M40 90 Q80 140 120 90 Q80 104 40 90 Z" fill="#C7A9DE" stroke="#8E6BB0" stroke-width="3"/>
+<line x1="80" y1="70" x2="80" y2="110" stroke="#3A3448" stroke-width="4"/>
+<circle cx="80" cy="66" r="6" fill="#3A3448"/>
+</svg>

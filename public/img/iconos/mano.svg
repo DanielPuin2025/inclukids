@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="mano">
+<rect width="160" height="160" rx="32" fill="#FCE8E4"/>
+<path d="M60 130 L60 78 Q60 62 76 62 Q92 62 92 78 L92 130 Z" fill="#E29387"/>
+<circle cx="66" cy="66" r="9" fill="#E29387"/>
+<circle cx="80" cy="58" r="9" fill="#E29387"/>
+<circle cx="94" cy="62" r="9" fill="#E29387"/>
+<circle cx="104" cy="74" r="9" fill="#E29387"/>
+</svg>

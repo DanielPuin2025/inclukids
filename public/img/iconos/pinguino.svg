@@ -1,0 +1,12 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pingüino">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<ellipse cx="80" cy="102" rx="34" ry="26" fill="#2E2A38"/>
+<ellipse cx="80" cy="106" rx="18" ry="20" fill="#fff"/>
+<circle cx="80" cy="66" r="22" fill="#2E2A38"/>
+<ellipse cx="80" cy="70" rx="12" ry="13" fill="#fff"/>
+<circle cx="74" cy="64" r="2.6" fill="#2E2A38"/>
+<circle cx="86" cy="64" r="2.6" fill="#2E2A38"/>
+<polygon points="76,72 84,72 80,78" fill="#F0B429"/>
+<polygon points="60,120 54,138 68,124" fill="#F0B429"/>
+<polygon points="100,120 106,138 92,124" fill="#F0B429"/>
+</svg>

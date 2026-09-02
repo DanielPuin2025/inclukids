@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="piña">
+<rect width="160" height="160" rx="32" fill="#F2F8DE"/>
+<ellipse cx="80" cy="98" rx="26" ry="36" fill="#C99A5B"/>
+<path d="M62 76 L98 120 M98 76 L62 120 M56 98 L104 98" stroke="#A87B44" stroke-width="3"/>
+<path d="M80 62 Q64 42 70 24 Q80 38 82 56 Z" fill="#5CAE6B"/>
+<path d="M80 62 Q80 34 92 18 Q88 40 88 58 Z" fill="#3A8A48"/>
+<path d="M80 62 Q96 42 90 24 Q80 38 78 56 Z" fill="#5CAE6B"/>
+</svg>
