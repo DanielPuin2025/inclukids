@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="batería">
+<rect width="160" height="160" rx="32" fill="#EDE3F0"/>
+<rect x="56" y="86" width="48" height="34" fill="#8E6BB0"/>
+<ellipse cx="80" cy="86" rx="24" ry="9" fill="#C7A9DE"/>
+<circle cx="118" cy="52" r="20" fill="none" stroke="#B9AFC0" stroke-width="4"/>
+<line x1="100" y1="70" x2="80" y2="90" stroke="#B9AFC0" stroke-width="4"/>
+<g stroke="#6B4F87" stroke-width="4" stroke-linecap="round"><line x1="40" y1="130" x2="56" y2="112"/><line x1="120" y1="130" x2="104" y2="112"/></g>
+</svg>

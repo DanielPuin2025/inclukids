@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="banjo">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<circle cx="66" cy="100" r="26" fill="#F6EBC9" stroke="#C99A5B" stroke-width="6"/>
+<rect x="88" y="40" width="10" height="56" rx="2" fill="#8A5A32" transform="rotate(25 93 68)"/>
+<g stroke="#5A3A20" stroke-width="1.6"><line x1="50" y1="86" x2="82" y2="114"/><line x1="56" y1="80" x2="88" y2="108"/></g>
+</svg>

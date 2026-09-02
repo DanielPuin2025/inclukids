@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="violín">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<path d="M76 118 Q60 118 62 100 Q56 98 58 90 Q64 92 68 88 Q64 76 76 68 Q88 76 84 88 Q88 92 94 90 Q96 98 90 100 Q92 118 76 118 Z" fill="#C99A5B"/>
+<path d="M68 92 Q72 96 68 102 M84 92 Q80 96 84 102" stroke="#3A2A20" stroke-width="2" fill="none"/>
+<rect x="72" y="40" width="8" height="30" fill="#8A5A32"/>
+<rect x="66" y="34" width="20" height="10" rx="2" fill="#3A2A20"/>
+<line x1="40" y1="52" x2="100" y2="118" stroke="#8A5A32" stroke-width="4" stroke-linecap="round"/>
+</svg>

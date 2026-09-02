@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="tambor">
+<rect width="160" height="160" rx="32" fill="#FCE8DE"/>
+<rect x="48" y="56" width="64" height="52" fill="#E8825A"/>
+<ellipse cx="80" cy="56" rx="32" ry="12" fill="#F6EBC9"/>
+<ellipse cx="80" cy="108" rx="32" ry="12" fill="#C4602E"/>
+<g stroke="#3A2A20" stroke-width="5" stroke-linecap="round"><line x1="56" y1="38" x2="74" y2="54"/><line x1="104" y1="38" x2="86" y2="54"/></g>
+</svg>
