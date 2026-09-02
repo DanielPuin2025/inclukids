@@ -130,6 +130,7 @@ if ($contenido) {
                     transform 0.15s ease, box-shadow 0.2s ease;
     }
     .zona .zona-etiqueta { font-size: 23px; font-weight: 700; margin-top: 4px; color: var(--color-primario-oscuro); }
+    .zona-imagen { width: 44%; max-width: 68px; aspect-ratio: 1 / 1; border-radius: 14px; pointer-events: none; }
     .zona.resaltada {
         border-color: var(--color-primario);
         background: rgba(47, 110, 115, 0.12);
@@ -419,7 +420,10 @@ if ($contenido) {
                 const div = document.createElement('div');
                 div.className = 'zona';
                 div.dataset.zonaId = zona.id;
-                div.innerHTML = (zona.emoji ? `<span>${zona.emoji}</span>` : '') +
+                const contenidoZona = zona.imagen
+                    ? `<img class="zona-imagen" src="${zona.imagen}" alt="">`
+                    : (zona.emoji ? `<span>${zona.emoji}</span>` : '');
+                div.innerHTML = contenidoZona +
                     `<span class="zona-etiqueta">${zona.etiqueta ?? ''}</span>`;
                 contenedorZonas.appendChild(div);
             });
