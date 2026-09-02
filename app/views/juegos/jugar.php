@@ -19,16 +19,17 @@ if (!$actividad) {
 // pareja) — mismo contenido (zonas/piezas) que arrastrar.php, pero con
 // una mecánica distinta a propósito, para que no todos los juegos se
 // sientan igual. Completar sí reusa arrastrar.php porque es lo mismo:
-// arrastrar una pieza hasta el espacio en blanco correcto. Rompecabezas
-// reusa ordenar.php porque las 3 actividades de ese tipo son, en el
-// fondo, "acomoda las piezas en el orden correcto" con look de
-// rompecabezas.
+// arrastrar una pieza hasta el espacio en blanco correcto. Ordenar usa
+// secuencia.php (tocar las piezas en el orden correcto, sin arrastrar)
+// — mismo contenido (orden_correcto + piezas) que ordenar.php.
+// Rompecabezas SÍ se queda en ordenar.php a propósito: ahí arrastrar
+// tiene sentido, se siente como encajar las piezas de un rompecabezas.
 $motorPorTipo = [
     1 => "memoria.php",     // Memoria
     2 => "unir.php",        // Emparejar
     3 => "ordenar.php",     // Rompecabezas
     4 => "seleccionar.php", // Seleccionar (opción múltiple)
-    5 => "ordenar.php",     // Ordenar
+    5 => "secuencia.php",   // Ordenar
     6 => "arrastrar.php",   // Completar (dictado con banco de palabras)
     7 => "arrastrar.php",   // Arrastrar y soltar
 ];
