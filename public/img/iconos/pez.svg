@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pez">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<ellipse cx="86" cy="88" rx="34" ry="24" fill="#6FA3CC"/>
+<polygon points="112,68 138,54 138,122 112,108" fill="#6FA3CC"/>
+<circle cx="66" cy="82" r="3" fill="#fff"/>
+<path d="M52 80 Q42 88 52 96" stroke="#5C87AC" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>

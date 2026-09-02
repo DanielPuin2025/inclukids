@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pelota">
+<rect width="160" height="160" rx="32" fill="#FBE9E4"/>
+<circle cx="80" cy="80" r="44" fill="#fff" stroke="#2E2A38" stroke-width="4"/>
+<path d="M80 36 Q100 50 96 80 Q100 110 80 124 Q60 110 64 80 Q60 50 80 36 Z" fill="#E8825A"/>
+<path d="M36 80 Q50 60 80 64 Q110 60 124 80 Q110 100 80 96 Q50 100 36 80 Z" fill="#2E2A38" opacity="0.85"/>
+</svg>

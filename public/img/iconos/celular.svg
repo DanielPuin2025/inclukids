@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="celular">
+<rect width="160" height="160" rx="32" fill="#EAEAF2"/>
+<rect x="56" y="34" width="48" height="92" rx="14" fill="#4A4A5A"/>
+<rect x="62" y="48" width="36" height="64" rx="4" fill="#AEE3F0"/>
+<circle cx="80" cy="118" r="4" fill="#8A8AA0"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="perro">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<ellipse cx="82" cy="104" rx="32" ry="24" fill="#C99A5B"/>
+<circle cx="82" cy="66" r="24" fill="#C99A5B"/>
+<ellipse cx="60" cy="54" rx="10" ry="20" fill="#A87B44" transform="rotate(-20 60 54)"/>
+<ellipse cx="104" cy="54" rx="10" ry="20" fill="#A87B44" transform="rotate(20 104 54)"/>
+<circle cx="74" cy="64" r="3" fill="#4A3420"/>
+<circle cx="90" cy="64" r="3" fill="#4A3420"/>
+<ellipse cx="82" cy="74" rx="6" ry="4" fill="#4A3420"/>
+<path d="M78 80 Q82 86 86 80" stroke="#4A3420" stroke-width="3" fill="none"/>
+<path d="M78 84 Q76 96 80 100" stroke="#E29387" stroke-width="6" fill="none" stroke-linecap="round"/>
+<g stroke="#C99A5B" stroke-width="7" stroke-linecap="round"><path d="M60 122 L58 136"/><path d="M104 122 L106 136"/></g>
+</svg>
