@@ -1,0 +1,10 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="flauta">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<rect x="34" y="72" width="92" height="16" rx="8" fill="#9FB8D6"/>
+<circle cx="52" cy="80" r="3.4" fill="#3A5A7A"/>
+<circle cx="66" cy="80" r="3.4" fill="#3A5A7A"/>
+<circle cx="80" cy="80" r="3.4" fill="#3A5A7A"/>
+<circle cx="94" cy="80" r="3.4" fill="#3A5A7A"/>
+<circle cx="108" cy="80" r="3.4" fill="#3A5A7A"/>
+<circle cx="34" cy="80" r="10" fill="#6FA3CC"/>
+</svg>

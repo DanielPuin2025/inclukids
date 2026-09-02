@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="guitarra">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<circle cx="66" cy="110" r="22" fill="#C99A5B"/>
+<circle cx="70" cy="80" r="15" fill="#C99A5B"/>
+<circle cx="66" cy="110" r="10" fill="#8A5A32"/>
+<rect x="70" y="34" width="10" height="60" rx="2" fill="#8A5A32" transform="rotate(20 75 64)"/>
+<rect x="86" y="30" width="16" height="14" rx="2" fill="#3A2A20" transform="rotate(20 94 37)"/>
+<g stroke="#5A3A20" stroke-width="1.6"><line x1="52" y1="96" x2="82" y2="126"/><line x1="58" y1="90" x2="88" y2="120"/></g>
+</svg>

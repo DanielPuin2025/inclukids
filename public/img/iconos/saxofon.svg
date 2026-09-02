@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="saxofón">
+<rect width="160" height="160" rx="32" fill="#FFF4D6"/>
+<path d="M70 40 Q54 40 54 58 Q54 72 70 76 L90 82 Q104 86 104 100 Q104 116 88 116" stroke="#F0B429" stroke-width="12" fill="none" stroke-linecap="round"/>
+<circle cx="88" cy="116" r="14" fill="#F0B429"/>
+<circle cx="70" cy="40" r="6" fill="#D98A2B"/>
+<circle cx="78" cy="60" r="3" fill="#D98A2B"/>
+<circle cx="86" cy="66" r="3" fill="#D98A2B"/>
+<circle cx="94" cy="72" r="3" fill="#D98A2B"/>
+</svg>
