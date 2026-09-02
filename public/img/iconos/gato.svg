@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="gato">
+<rect width="160" height="160" rx="32" fill="#EDE3F0"/>
+<ellipse cx="82" cy="106" rx="30" ry="22" fill="#B9AFC0"/>
+<circle cx="82" cy="68" r="22" fill="#B9AFC0"/>
+<polygon points="62,54 68,32 76,52" fill="#B9AFC0"/>
+<polygon points="102,54 96,32 88,52" fill="#B9AFC0"/>
+<circle cx="74" cy="66" r="3" fill="#3A3448"/>
+<circle cx="90" cy="66" r="3" fill="#3A3448"/>
+<polygon points="79,72 85,72 82,76" fill="#E29387"/>
+<path d="M60 76 L44 72 M60 80 L44 82 M104 76 L120 72 M104 80 L120 82" stroke="#3A3448" stroke-width="2"/>
+</svg>

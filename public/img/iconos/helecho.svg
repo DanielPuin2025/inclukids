@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="helecho">
+<rect width="160" height="160" rx="32" fill="#E7F5EA"/>
+<path d="M80 132 L80 50" stroke="#3A8A48" stroke-width="6" stroke-linecap="round"/>
+<g stroke="#5CAE6B" stroke-width="10" stroke-linecap="round">
+<path d="M80 116 Q52 110 44 92"/><path d="M80 116 Q108 110 116 92"/>
+<path d="M80 96 Q54 90 48 74"/><path d="M80 96 Q106 90 112 74"/>
+<path d="M80 76 Q58 70 54 58"/><path d="M80 76 Q102 70 106 58"/>
+</g>
+</svg>

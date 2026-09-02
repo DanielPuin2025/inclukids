@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="reloj">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<circle cx="80" cy="80" r="46" fill="#fff" stroke="#6FA3CC" stroke-width="6"/>
+<line x1="80" y1="80" x2="80" y2="52" stroke="#3A5A7A" stroke-width="6" stroke-linecap="round"/>
+<line x1="80" y1="80" x2="100" y2="90" stroke="#3A5A7A" stroke-width="6" stroke-linecap="round"/>
+<circle cx="80" cy="80" r="5" fill="#3A5A7A"/>
+</svg>

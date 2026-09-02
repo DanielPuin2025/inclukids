@@ -1,0 +1,12 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="libro">
+<rect width="160" height="160" rx="32" fill="#EFE6F5"/>
+<rect x="46" y="42" width="68" height="80" rx="6" fill="#8E6BB0"/>
+<rect x="76" y="42" width="4" height="80" fill="#6B4F87"/>
+<line x1="54" y1="58" x2="72" y2="58" stroke="#EFE6F5" stroke-width="3"/>
+<line x1="54" y1="70" x2="72" y2="70" stroke="#EFE6F5" stroke-width="3"/>
+<line x1="54" y1="82" x2="72" y2="82" stroke="#EFE6F5" stroke-width="3"/>
+<line x1="88" y1="58" x2="106" y2="58" stroke="#EFE6F5" stroke-width="3"/>
+<line x1="88" y1="70" x2="106" y2="70" stroke="#EFE6F5" stroke-width="3"/>
+<line x1="88" y1="82" x2="106" y2="82" stroke="#EFE6F5" stroke-width="3"/>
+<polygon points="94,42 108,42 108,66 101,58 94,66" fill="#F0B429"/>
+</svg>
