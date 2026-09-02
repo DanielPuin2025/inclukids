@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="camiseta">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<path d="M64 44 L60 36 L44 44 L34 62 L48 72 L52 64 L52 122 L108 122 L108 64 L112 72 L126 62 L116 44 L100 36 L96 44 Q80 54 64 44 Z" fill="#6FA3CC"/>
+<path d="M64 44 Q80 54 96 44" stroke="#4C7EA0" stroke-width="3" fill="none"/>
+</svg>

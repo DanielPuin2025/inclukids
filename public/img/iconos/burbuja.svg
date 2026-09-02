@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="burbuja">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<path d="M60 100 Q60 74 80 74 Q100 74 100 100 Q100 118 80 122 Q60 118 60 100 Z" fill="#6FA3CC" opacity="0.5"/>
+<circle cx="80" cy="98" r="30" fill="none" stroke="#6FA3CC" stroke-width="4"/>
+<circle cx="68" cy="86" r="6" fill="#fff" opacity="0.8"/>
+</svg>

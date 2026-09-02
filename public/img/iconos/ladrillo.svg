@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ladrillo">
+<rect width="160" height="160" rx="32" fill="#FBE4E4"/>
+<g fill="#C4602E">
+<rect x="34" y="50" width="38" height="20"/><rect x="78" y="50" width="38" height="20"/>
+<rect x="52" y="74" width="38" height="20"/><rect x="96" y="74" width="20" height="20"/><rect x="34" y="74" width="12" height="20"/>
+<rect x="34" y="98" width="38" height="20"/><rect x="78" y="98" width="38" height="20"/>
+</g>
+<g stroke="#8A3A1A" stroke-width="1.5"><line x1="34" y1="70" x2="116" y2="70"/><line x1="34" y1="94" x2="116" y2="94"/><line x1="34" y1="118" x2="116" y2="118"/></g>
+</svg>

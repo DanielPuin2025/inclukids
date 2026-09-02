@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="agua">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<path d="M80 36 Q108 78 108 100 Q108 128 80 128 Q52 128 52 100 Q52 78 80 36 Z" fill="#6FA3CC"/>
+<ellipse cx="70" cy="96" rx="8" ry="12" fill="#9FC2E0"/>
+</svg>

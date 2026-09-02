@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="madera">
+<rect width="160" height="160" rx="32" fill="#F6EBDD"/>
+<rect x="36" y="60" width="88" height="40" rx="4" fill="#C99A5B"/>
+<path d="M36 68 Q80 76 124 68 M36 84 Q80 92 124 84" stroke="#A87B44" stroke-width="3" fill="none"/>
+</svg>
