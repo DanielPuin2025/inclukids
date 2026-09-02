@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="comida">
+<rect width="160" height="160" rx="32" fill="#FBE6E2"/>
+<circle cx="80" cy="90" r="42" fill="#fff" stroke="#DDBFB8" stroke-width="4"/>
+<circle cx="70" cy="82" r="10" fill="#8A5A32"/>
+<circle cx="92" cy="78" r="8" fill="#6BBF59"/>
+<circle cx="88" cy="98" r="9" fill="#E2452F"/>
+<circle cx="66" cy="100" r="7" fill="#F5C63D"/>
+</svg>
