@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="flor">
+<rect width="160" height="160" rx="32" fill="#FCE4E4"/>
+<circle cx="80" cy="80" r="15" fill="#F0B429"/>
+<g fill="#E36B7A">
+<ellipse cx="80" cy="50" rx="14" ry="18"/><ellipse cx="80" cy="110" rx="14" ry="18"/>
+<ellipse cx="50" cy="80" rx="18" ry="14"/><ellipse cx="110" cy="80" rx="18" ry="14"/>
+</g>
+</svg>

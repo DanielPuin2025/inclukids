@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pie">
+<rect width="160" height="160" rx="32" fill="#FCE8E4"/>
+<path d="M70 128 Q46 122 46 96 Q46 70 62 58 Q78 48 90 62 Q100 74 96 96 Q102 116 86 128 Q78 132 70 128 Z" fill="#E29387"/>
+<circle cx="58" cy="52" r="7" fill="#E29387"/>
+<circle cx="72" cy="42" r="7" fill="#E29387"/>
+<circle cx="86" cy="40" r="6.5" fill="#E29387"/>
+<circle cx="98" cy="44" r="6" fill="#E29387"/>
+<circle cx="108" cy="52" r="5.5" fill="#E29387"/>
+</svg>
