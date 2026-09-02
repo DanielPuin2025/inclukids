@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pare">
+<rect width="160" height="160" rx="32" fill="#FBE4E4"/>
+<polygon points="62,40 98,40 120,62 120,98 98,120 62,120 40,98 40,62" fill="#B24632"/>
+<polygon points="66,48 94,48 112,66 112,94 94,112 66,112 48,94 48,66" fill="none" stroke="#fff" stroke-width="4"/>
+<text x="80" y="88" font-size="22" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="700">STOP</text>
+</svg>

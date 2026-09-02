@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="cruz roja">
+<rect width="160" height="160" rx="32" fill="#FBE4E4"/>
+<rect x="44" y="44" width="72" height="72" rx="8" fill="#fff" stroke="#B24632" stroke-width="4"/>
+<rect x="68" y="56" width="24" height="48" fill="#B24632"/>
+<rect x="56" y="68" width="48" height="24" fill="#B24632"/>
+</svg>
