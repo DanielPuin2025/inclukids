@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="farmacia">
+<rect width="160" height="160" rx="32" fill="#E7F5EA"/>
+<rect x="56" y="34" width="48" height="48" rx="8" fill="#fff" stroke="#3C9D5C" stroke-width="4"/>
+<rect x="70" y="44" width="20" height="28" fill="#3C9D5C"/>
+<rect x="62" y="52" width="36" height="12" fill="#3C9D5C"/>
+</svg>

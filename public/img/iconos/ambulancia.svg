@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ambulancia">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<rect x="34" y="78" width="70" height="30" rx="6" fill="#fff" stroke="#6FA3CC" stroke-width="4"/>
+<rect x="90" y="66" width="30" height="42" rx="4" fill="#fff" stroke="#6FA3CC" stroke-width="4"/>
+<rect x="46" y="66" width="4" height="12" fill="#B24632"/><rect x="52" y="66" width="4" height="12" fill="#B24632"/>
+<circle cx="52" cy="112" r="9" fill="#3A3A3A"/><circle cx="96" cy="112" r="9" fill="#3A3A3A"/>
+<rect x="98" y="72" width="16" height="12" fill="#BEDDF0"/>
+</svg>
