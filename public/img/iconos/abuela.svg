@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="abuela">
+<rect width="160" height="160" rx="32" fill="#FBE6E2"/>
+<circle cx="80" cy="52" r="20" fill="#E8A98C"/>
+<circle cx="80" cy="36" r="16" fill="#D9D9D9"/>
+<circle cx="73" cy="54" r="2.8" fill="#5A3A20"/>
+<circle cx="87" cy="54" r="2.8" fill="#5A3A20"/>
+<circle cx="73" cy="54" r="6" fill="none" stroke="#5A3A20" stroke-width="1.5"/>
+<circle cx="87" cy="54" r="6" fill="none" stroke="#5A3A20" stroke-width="1.5"/>
+<path d="M74 66 Q80 70 86 66" stroke="#5A3A20" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<path d="M52 130 Q52 82 80 82 Q108 82 108 130 Z" fill="#8B4B6B"/>
+</svg>

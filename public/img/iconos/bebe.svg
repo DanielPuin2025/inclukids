@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="bebe">
+<rect width="160" height="160" rx="32" fill="#FBE6E2"/>
+<path d="M56 132 Q50 90 80 90 Q110 90 104 132 Z" fill="#F5C63D"/>
+<circle cx="80" cy="70" r="30" fill="#F3CDA0"/>
+<path d="M58 56 Q80 38 102 56 Q96 46 80 46 Q64 46 58 56 Z" fill="#5A3A20"/>
+<circle cx="70" cy="72" r="3.5" fill="#5A3A20"/>
+<circle cx="90" cy="72" r="3.5" fill="#5A3A20"/>
+<path d="M72 82 Q80 88 88 82" stroke="#5A3A20" stroke-width="3" fill="none" stroke-linecap="round"/>
+<circle cx="60" cy="80" r="6" fill="#E8A98C" opacity="0.5"/>
+<circle cx="100" cy="80" r="6" fill="#E8A98C" opacity="0.5"/>
+</svg>

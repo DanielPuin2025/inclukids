@@ -1,0 +1,10 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="adulto">
+<rect width="160" height="160" rx="32" fill="#F3E8D6"/>
+<circle cx="80" cy="50" r="20" fill="#E8A98C"/>
+<path d="M60 42 Q80 26 100 42 Q98 32 80 32 Q62 32 60 42 Z" fill="#3A2A18"/>
+<circle cx="73" cy="52" r="2.8" fill="#5A3A20"/>
+<circle cx="87" cy="52" r="2.8" fill="#5A3A20"/>
+<path d="M74 60 Q80 63 86 60" stroke="#5A3A20" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<path d="M50 130 L54 92 Q56 78 80 78 Q104 78 106 92 L110 130 Z" fill="#2B5F63"/>
+<path d="M74 78 L80 92 L86 78" fill="#1D4448"/>
+</svg>

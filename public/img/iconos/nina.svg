@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="nina">
+<rect width="160" height="160" rx="32" fill="#EDE3F0"/>
+<circle cx="80" cy="56" r="22" fill="#F3CDA0"/>
+<path d="M56 50 Q56 30 80 32 Q104 30 104 50 Q104 66 96 70 L94 54 Q80 62 66 54 L64 70 Q56 66 56 50 Z" fill="#5A3A20"/>
+<circle cx="70" cy="42" r="7" fill="#5A3A20"/>
+<circle cx="90" cy="42" r="7" fill="#5A3A20"/>
+<circle cx="72" cy="58" r="3" fill="#5A3A20"/>
+<circle cx="88" cy="58" r="3" fill="#5A3A20"/>
+<path d="M74 66 Q80 70 86 66" stroke="#5A3A20" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<path d="M56 128 Q56 84 80 84 Q104 84 104 128 Z" fill="#C6708F"/>
+</svg>
