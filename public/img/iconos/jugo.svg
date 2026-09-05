@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="jugo">
+<rect width="160" height="160" rx="32" fill="#FDF0DE"/>
+<path d="M56 54 L104 54 L98 128 Q98 132 94 132 L66 132 Q62 132 62 128 Z" fill="#F5A93B"/>
+<path d="M56 54 L104 54 L102 68 L58 68 Z" fill="#F7C878"/>
+<path d="M92 44 L100 30" stroke="#5C97CC" stroke-width="7" stroke-linecap="round"/>
+</svg>
