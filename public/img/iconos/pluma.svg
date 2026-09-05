@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pluma">
+<rect width="160" height="160" rx="32" fill="#EAF3FB"/>
+<path d="M80 30 Q118 46 112 88 Q108 120 80 134 Q84 100 80 30 Z" fill="#FFFFFF" stroke="#7FB2DC" stroke-width="3"/>
+<path d="M80 30 Q48 46 54 88 Q58 120 80 134 Q76 100 80 30 Z" fill="#EAF3FB" stroke="#7FB2DC" stroke-width="3"/>
+<path d="M80 34 L80 130" stroke="#5C97CC" stroke-width="3"/>
+<path d="M80 48 L60 58 M80 62 L58 74 M80 76 L58 90 M80 90 L60 104 M80 104 L64 116" stroke="#BEDDF0" stroke-width="2"/>
+<path d="M80 48 L100 58 M80 62 L102 74 M80 76 L102 90 M80 90 L100 104 M80 104 L96 116" stroke="#BEDDF0" stroke-width="2"/>
+</svg>

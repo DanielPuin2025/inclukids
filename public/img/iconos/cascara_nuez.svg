@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="cascara de nuez">
+<rect width="160" height="160" rx="32" fill="#F0E6D6"/>
+<ellipse cx="80" cy="86" rx="38" ry="32" fill="#B98A55"/>
+<path d="M80 54 Q86 70 80 86 Q74 102 80 118" stroke="#8A5A32" stroke-width="3" fill="none"/>
+<path d="M56 70 Q66 86 56 102 M104 70 Q94 86 104 102" stroke="#8A5A32" stroke-width="3" fill="none"/>
+</svg>

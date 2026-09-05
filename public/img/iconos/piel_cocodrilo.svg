@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="piel de cocodrilo">
+<rect width="160" height="160" rx="32" fill="#E4F0DD"/>
+<path d="M40 50 L60 50 L70 62 L50 62 Z M70 50 L90 50 L100 62 L80 62 Z M100 50 L120 50 L130 62 L110 62 Z" fill="#5FAE52" stroke="#4A9040" stroke-width="2"/>
+<path d="M50 70 L70 70 L80 82 L60 82 Z M80 70 L100 70 L110 82 L90 82 Z M40 70 L50 70 L60 82 L40 82 Z" fill="#4A9040" stroke="#3A7A32" stroke-width="2"/>
+<path d="M40 90 L60 90 L70 102 L50 102 Z M70 90 L90 90 L100 102 L80 102 Z M100 90 L120 90 L130 102 L110 102 Z" fill="#5FAE52" stroke="#4A9040" stroke-width="2"/>
+</svg>
