@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="abrigo">
+<rect width="160" height="160" rx="32" fill="#EDE3F0"/>
+<path d="M80 42 L64 56 L44 50 L36 78 L48 84 L48 128 Q48 132 52 132 L108 132 Q112 132 112 128 L112 84 L124 78 L116 50 L96 56 Z" fill="#8B4B6B"/>
+<path d="M80 42 L70 60 L80 72 L90 60 Z" fill="#6E3B54"/>
+<circle cx="80" cy="90" r="3.5" fill="#5A2F42"/>
+<circle cx="80" cy="106" r="3.5" fill="#5A2F42"/>
+</svg>

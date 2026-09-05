@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="paraguas">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<path d="M40 84 Q40 46 80 46 Q120 46 120 84 Q108 76 96 84 Q84 76 72 84 Q60 76 48 84 Q44 86 40 84 Z" fill="#5C97CC"/>
+<path d="M80 84 L80 122 Q80 132 70 132" stroke="#8A5A32" stroke-width="5" fill="none" stroke-linecap="round"/>
+</svg>

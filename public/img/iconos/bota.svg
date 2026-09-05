@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="bota">
+<rect width="160" height="160" rx="32" fill="#FBE6E2"/>
+<path d="M62 36 L98 36 L98 90 L120 100 Q128 104 128 114 L128 122 Q128 128 122 128 L52 128 Q46 128 46 122 L46 48 Q46 36 62 36 Z" fill="#E2452F"/>
+<rect x="62" y="36" width="36" height="12" fill="#B23A26"/>
+</svg>
