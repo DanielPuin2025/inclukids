@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="leche">
+<rect width="160" height="160" rx="32" fill="#EAF3FB"/>
+<path d="M60 40 L100 40 L100 56 L112 72 L112 122 Q112 128 106 128 L54 128 Q48 128 48 122 L48 72 L60 56 Z" fill="#FFFFFF" stroke="#C7DCEA" stroke-width="3"/>
+<path d="M60 40 L100 40 L100 56 L60 56 Z" fill="#5C97CC"/>
+<rect x="48" y="94" width="64" height="34" fill="#EAF3FB" stroke="#C7DCEA" stroke-width="3"/>
+</svg>
