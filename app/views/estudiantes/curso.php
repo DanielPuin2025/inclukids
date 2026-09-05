@@ -106,6 +106,7 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                             <td><?= htmlspecialchars($estudiante["apellidos"]) ?></td>
                             <td>
                                 <a href="editar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
+                                <a href="../progreso/reporte_estudiante.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-secondary">📄 Reporte</a>
                                 <a href="eliminar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar este estudiante? También se eliminará el progreso que tenga registrado.');">Eliminar</a>
                             </td>
                         </tr>

@@ -136,18 +136,27 @@ class Progreso
     }
 
     /**
-     * Historial de progreso de un estudiante específico a través
-     * de todas sus sesiones, con fecha y actividad.
+     * Historial de progreso de un estudiante específico a través de
+     * todas sus sesiones, con fecha, materia, DBA y las actividades
+     * trabajadas en cada sesión (una sesión puede tener varias, de
+     * ahí el GROUP_CONCAT en vez de un JOIN directo a Actividades).
      */
     public function listarPorEstudiante($idEstudiante)
     {
         $sql = "SELECT p.estado, p.observaciones,
-                       s.fecha, a.nombre AS actividad
+                       s.id_sesion, s.fecha,
+                       m.nombre AS materia,
+                       d.codigo AS dba_codigo, d.descripcion AS dba_descripcion,
+                       GROUP_CONCAT(DISTINCT a.nombre ORDER BY a.nombre SEPARATOR ', ') AS actividades
                 FROM Progreso p
-                LEFT JOIN SesionesClase s ON p.id_sesion = s.id_sesion
-                LEFT JOIN Actividades a ON s.id_actividad = a.id_actividad
+                INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
+                LEFT JOIN DBA d ON s.id_dba = d.id_dba
+                LEFT JOIN Materias m ON d.id_materia = m.id_materia
+                LEFT JOIN SesionActividad sa ON sa.id_sesion = s.id_sesion
+                LEFT JOIN Actividades a ON sa.id_actividad = a.id_actividad
                 WHERE p.id_estudiante = ?
-                ORDER BY s.fecha DESC";
+                GROUP BY p.id_progreso
+                ORDER BY s.fecha DESC, s.id_sesion DESC";
 
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute([$idEstudiante]);
