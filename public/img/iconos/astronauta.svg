@@ -1,0 +1,14 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="astronauta">
+<rect width="160" height="160" rx="32" fill="#EAEAEA"/>
+<path d="M48 132 Q44 90 80 90 Q116 90 112 132 Z" fill="#F4F6F7" stroke="#AAB4BC" stroke-width="3"/>
+<circle cx="58" cy="104" r="8" fill="#C9A227"/>
+<circle cx="102" cy="104" r="8" fill="#C9A227"/>
+<rect x="68" y="106" width="24" height="18" rx="4" fill="#8C97A0"/>
+<circle cx="80" cy="56" r="30" fill="#F4F6F7" stroke="#AAB4BC" stroke-width="3"/>
+<circle cx="80" cy="58" r="21" fill="#5C97CC"/>
+<circle cx="80" cy="58" r="21" fill="#3A5A78" opacity="0.3"/>
+<circle cx="72" cy="52" r="16" fill="#F3CDA0" opacity="0.9"/>
+<circle cx="67" cy="49" r="2.2" fill="#3A2A18"/>
+<circle cx="77" cy="49" r="2.2" fill="#3A2A18"/>
+<circle cx="70" cy="40" r="6" fill="#EAF3FB" opacity="0.6"/>
+</svg>

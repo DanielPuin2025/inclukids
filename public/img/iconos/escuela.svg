@@ -1,0 +1,10 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="escuela">
+<rect width="160" height="160" rx="32" fill="#FDF3D8"/>
+<path d="M40 84 L80 52 L120 84 Z" fill="#B23A26"/>
+<rect x="48" y="84" width="64" height="44" fill="#F5C63D"/>
+<rect x="70" y="100" width="20" height="28" fill="#8A5A32"/>
+<rect x="54" y="92" width="14" height="12" fill="#EAF3FB"/>
+<rect x="92" y="92" width="14" height="12" fill="#EAF3FB"/>
+<rect x="78" y="44" width="4" height="14" fill="#8A5A32"/>
+<path d="M82 44 L98 50 L82 54 Z" fill="#2B5F63"/>
+</svg>

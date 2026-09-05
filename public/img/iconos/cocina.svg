@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="cocina">
+<rect width="160" height="160" rx="32" fill="#FBE6E2"/>
+<path d="M52 90 L108 90 L102 122 Q101 128 94 128 L66 128 Q59 128 58 122 Z" fill="#8C97A0"/>
+<rect x="48" y="82" width="64" height="12" rx="6" fill="#AAB4BC"/>
+<path d="M48 88 Q38 88 38 98" stroke="#8C97A0" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M112 88 Q122 88 122 98" stroke="#8C97A0" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M66 78 Q64 68 70 62 M80 78 Q78 66 84 58 M94 78 Q92 68 98 62" stroke="#C9C9C9" stroke-width="4" fill="none" stroke-linecap="round"/>
+<path d="M60 136 Q80 128 100 136" stroke="#E8622C" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>

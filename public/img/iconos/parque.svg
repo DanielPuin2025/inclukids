@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="parque">
+<rect width="160" height="160" rx="32" fill="#E4F0DD"/>
+<circle cx="60" cy="66" r="26" fill="#5FAE52"/>
+<rect x="54" y="86" width="12" height="24" fill="#8A5A32"/>
+<rect x="94" y="90" width="46" height="8" fill="#8A5A32"/>
+<rect x="98" y="98" width="6" height="20" fill="#5A3A20"/>
+<rect x="130" y="98" width="6" height="20" fill="#5A3A20"/>
+<rect x="94" y="76" width="46" height="8" fill="#B98A55"/>
+<rect x="98" y="84" width="6" height="14" fill="#5A3A20"/>
+<rect x="130" y="84" width="6" height="14" fill="#5A3A20"/>
+</svg>
