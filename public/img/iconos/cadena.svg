@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="cadena">
+<rect width="160" height="160" rx="32" fill="#EAEAEA"/>
+<g stroke-width="11" fill="none" stroke-linecap="round">
+  <ellipse cx="56" cy="46" rx="16" ry="24" stroke="#8C97A0" transform="rotate(35 56 46)"/>
+  <ellipse cx="80" cy="80" rx="16" ry="24" stroke="#AAB4BC" transform="rotate(-35 80 80)"/>
+  <ellipse cx="104" cy="114" rx="16" ry="24" stroke="#8C97A0" transform="rotate(35 104 114)"/>
+</g>
+</svg>
