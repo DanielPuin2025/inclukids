@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="clavo">
+<rect width="160" height="160" rx="32" fill="#EAEAEA"/>
+<rect x="64" y="40" width="32" height="12" rx="2" fill="#8C97A0"/>
+<rect x="74" y="50" width="12" height="60" fill="#AAB4BC"/>
+<path d="M74 110 L86 110 L80 128 Z" fill="#AAB4BC"/>
+</svg>

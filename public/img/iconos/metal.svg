@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="metal">
+<rect width="160" height="160" rx="32" fill="#EAEAEA"/>
+<rect x="40" y="66" width="80" height="40" rx="4" fill="#AAB4BC"/>
+<rect x="40" y="66" width="80" height="14" fill="#D3D9DE"/>
+<rect x="40" y="66" width="80" height="40" rx="4" fill="none" stroke="#8C97A0" stroke-width="3"/>
+</svg>
