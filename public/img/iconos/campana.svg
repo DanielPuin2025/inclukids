@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="campana">
+<rect width="160" height="160" rx="32" fill="#FDF3D8"/>
+<path d="M80 40 L80 48" stroke="#C9A227" stroke-width="4"/>
+<path d="M50 104 Q50 60 80 58 Q110 60 110 104 Z" fill="#E0A94A"/>
+<rect x="44" y="104" width="72" height="12" rx="4" fill="#C9A227"/>
+<circle cx="80" cy="126" r="8" fill="#C9A227"/>
+</svg>
