@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="cordon">
+<rect width="160" height="160" rx="32" fill="#F0E6D6"/>
+<path d="M30 60 Q50 40 70 60 T110 60 T130 60" stroke="#C98A2B" stroke-width="10" fill="none" stroke-linecap="round"/>
+<path d="M30 100 Q50 80 70 100 T110 100 T130 100" stroke="#A66F1E" stroke-width="10" fill="none" stroke-linecap="round"/>
+</svg>
