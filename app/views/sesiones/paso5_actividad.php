@@ -8,14 +8,18 @@ if (!isset($_SESSION["id_docente"])) {
 
 require_once __DIR__ . "/../../controllers/DbaController.php";
 require_once __DIR__ . "/../../controllers/ActividadController.php";
+require_once __DIR__ . "/../../controllers/CursoController.php";
 
 $idCurso = (int) ($_GET["id_curso"] ?? 0);
 $idDba = (int) ($_GET["id_dba"] ?? 0);
 
+$cursoController = new CursoController();
+$curso = $cursoController->obtenerPorId($idCurso);
+
 $dbaController = new DbaController();
 $dba = $dbaController->obtenerPorId($idDba);
 
-if (!$dba) {
+if (!$curso || !$dba || (int) $curso["id_docente"] !== (int) $_SESSION["id_docente"]) {
     header("Location: paso1_curso.php");
     exit();
 }

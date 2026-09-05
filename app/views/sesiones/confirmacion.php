@@ -19,6 +19,12 @@ if (!$sesion) {
     exit();
 }
 
+// Un docente solo puede ver la confirmación de sus propias sesiones.
+$esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
+if (!$esAdmin && (int) $sesion["id_docente"] !== (int) $_SESSION["id_docente"]) {
+    die("No tienes permiso para ver esta sesión. <a href='../dashboard/visualizador.php'>Volver</a>");
+}
+
 $sesionActividadController = new SesionActividadController();
 $actividades = $sesionActividadController->listarPorSesion($idSesion);
 ?>

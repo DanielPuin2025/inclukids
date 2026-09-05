@@ -7,8 +7,24 @@ if (!isset($_SESSION["id_docente"])) {
 }
 
 require_once __DIR__ . "/../../controllers/ProgresoController.php";
+require_once __DIR__ . "/../../controllers/SesionClaseController.php";
 
 $idSesion = (int) ($_GET["id_sesion"] ?? 0);
+
+$sesionController = new SesionClaseController();
+$sesion = $sesionController->obtenerPorId($idSesion);
+
+if (!$sesion) {
+    header("Location: ../dashboard/visualizador.php");
+    exit();
+}
+
+// Un docente solo puede ver el progreso guardado de sus propias
+// sesiones.
+$esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
+if (!$esAdmin && (int) $sesion["id_docente"] !== (int) $_SESSION["id_docente"]) {
+    die("No tienes permiso para ver esta sesión. <a href='../dashboard/visualizador.php'>Volver</a>");
+}
 
 $progresoController = new ProgresoController();
 $registros = $progresoController->listarPorSesion($idSesion);

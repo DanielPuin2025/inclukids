@@ -19,6 +19,14 @@ if (!$sesion) {
     exit();
 }
 
+// Un docente solo puede registrar progreso en sus propias sesiones;
+// si no, podría ver y calificar estudiantes de otro docente con solo
+// cambiar el id_sesion en la URL.
+$esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
+if (!$esAdmin && (int) $sesion["id_docente"] !== (int) $_SESSION["id_docente"]) {
+    die("No tienes permiso para registrar progreso en esta sesión. <a href='../dashboard/visualizador.php'>Volver</a>");
+}
+
 $estudianteController = new EstudianteController();
 $estudiantes = $estudianteController->listarPorCurso($sesion["id_curso"]);
 ?>

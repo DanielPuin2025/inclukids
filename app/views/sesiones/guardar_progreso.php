@@ -24,6 +24,14 @@ if (!$sesion) {
     die("Sesión no encontrada.");
 }
 
+// Un docente solo puede guardar progreso en sus propias sesiones; sin
+// esto, cualquier docente autenticado podría enviar este POST con el
+// id_sesion de otro y sobrescribir el progreso de estudiantes ajenos.
+$esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
+if (!$esAdmin && (int) $sesion["id_docente"] !== (int) $_SESSION["id_docente"]) {
+    die("No tienes permiso para registrar progreso en esta sesión.");
+}
+
 $estadosValidos = ["Logrado", "En proceso", "Requiere apoyo"];
 
 $estudianteController = new EstudianteController();
