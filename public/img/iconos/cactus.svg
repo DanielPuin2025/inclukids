@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="cactus">
+<rect width="160" height="160" rx="32" fill="#E4F0DD"/>
+<rect x="54" y="112" width="52" height="20" rx="4" fill="#B98A55"/>
+<path d="M70 118 Q66 118 66 60 Q66 44 80 44 Q94 44 94 60 L94 118 Z" fill="#5FAE52"/>
+<path d="M94 90 Q112 90 112 74 Q112 66 104 66 L94 66 Z" fill="#5FAE52"/>
+<path d="M66 100 Q50 100 50 84 Q50 76 58 76 L66 76 Z" fill="#5FAE52"/>
+<path d="M70 60 L70 112 M76 60 L76 112 M84 60 L84 112 M90 60 L90 112" stroke="#4A9040" stroke-width="1.5"/>
+</svg>

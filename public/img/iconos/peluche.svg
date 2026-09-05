@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="peluche">
+<rect width="160" height="160" rx="32" fill="#F0E6D6"/>
+<circle cx="56" cy="52" r="14" fill="#B98A55"/>
+<circle cx="104" cy="52" r="14" fill="#B98A55"/>
+<circle cx="80" cy="82" r="34" fill="#C99A62"/>
+<circle cx="80" cy="82" r="34" fill="none" stroke="#B98A55" stroke-width="3"/>
+<ellipse cx="80" cy="90" rx="14" ry="11" fill="#F0E6D6"/>
+<circle cx="68" cy="74" r="3.5" fill="#5A3A20"/>
+<circle cx="92" cy="74" r="3.5" fill="#5A3A20"/>
+<path d="M74 96 Q80 100 86 96" stroke="#5A3A20" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>

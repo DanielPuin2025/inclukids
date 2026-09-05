@@ -1,0 +1,5 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="almohada">
+<rect width="160" height="160" rx="32" fill="#EAF3FB"/>
+<rect x="36" y="52" width="88" height="56" rx="24" fill="#FFFFFF" stroke="#C7DCEA" stroke-width="3"/>
+<path d="M62 60 Q80 76 98 60" stroke="#C7DCEA" stroke-width="3" fill="none"/>
+</svg>

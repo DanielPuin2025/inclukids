@@ -1,0 +1,9 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="pelo de conejo">
+<rect width="160" height="160" rx="32" fill="#EDE3D0"/>
+<ellipse cx="80" cy="104" rx="30" ry="24" fill="#FFFFFF" stroke="#DCC9A0" stroke-width="2"/>
+<ellipse cx="62" cy="52" rx="9" ry="26" fill="#FFFFFF" stroke="#DCC9A0" stroke-width="2"/>
+<ellipse cx="98" cy="52" rx="9" ry="26" fill="#FFFFFF" stroke="#DCC9A0" stroke-width="2"/>
+<circle cx="70" cy="98" r="3" fill="#5A3A20"/>
+<circle cx="90" cy="98" r="3" fill="#5A3A20"/>
+<circle cx="80" cy="108" r="3" fill="#E8A98C"/>
+</svg>
