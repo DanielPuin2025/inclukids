@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="barco">
+<rect width="160" height="160" rx="32" fill="#E3F0FA"/>
+<path d="M40 96 L120 96 L108 122 L52 122 Z" fill="#8A5A32"/>
+<rect x="76" y="48" width="6" height="48" fill="#8A5A32"/>
+<path d="M82 52 L110 68 L82 76 Z" fill="#5C97CC"/>
+<path d="M76 60 L60 74 L76 78 Z" fill="#EAF3FB" stroke="#C7DCEA" stroke-width="2"/>
+</svg>

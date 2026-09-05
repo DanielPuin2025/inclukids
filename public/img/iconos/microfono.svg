@@ -1,0 +1,7 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="microfono">
+<rect width="160" height="160" rx="32" fill="#EAEAEA"/>
+<rect x="66" y="34" width="28" height="52" rx="14" fill="#3A3A3A"/>
+<path d="M50 74 Q50 100 80 100 Q110 100 110 74" stroke="#8C97A0" stroke-width="6" fill="none"/>
+<path d="M80 100 L80 122" stroke="#8C97A0" stroke-width="6"/>
+<path d="M60 128 L100 128" stroke="#8C97A0" stroke-width="6" stroke-linecap="round"/>
+</svg>
