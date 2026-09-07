@@ -30,6 +30,8 @@ $totalPreguntas = count($preguntas);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
 <link href="/IncluKids/public/css/juegos.css" rel="stylesheet">
+<link href="/IncluKids/public/css/a11y.css" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js" defer></script>
 </head>
 <body class="juego">
 

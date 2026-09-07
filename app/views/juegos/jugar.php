@@ -48,6 +48,8 @@ if ($archivo !== null && file_exists(__DIR__ . "/$archivo")) {
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
+<link href="/IncluKids/public/css/a11y.css" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js" defer></script>
 </head>
 <body>
 <div class="container mt-5" style="max-width: 500px;">

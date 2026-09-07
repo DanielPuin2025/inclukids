@@ -251,6 +251,8 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
+<link href="/IncluKids/public/css/a11y.css" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js" defer></script>
 </head>
 <body class="<?= $esRompecabezas ? 'rompecabezas' : '' ?>">
 

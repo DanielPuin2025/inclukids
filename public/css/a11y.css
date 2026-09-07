@@ -1,0 +1,293 @@
+/* ==================================================================
+   IncluKids · Accesibilidad compartida
+   ------------------------------------------------------------------
+   Estilos del botón/panel flotante (public/js/a11y.js) y de las tres
+   preferencias que se guardan en localStorage bajo "inclukids_a11y":
+
+     html.texto-grande / html.texto-extra   -> tamaño de texto
+     body.alto-contraste                    -> alto contraste
+     body.reducir-movimiento                -> corta animaciones
+
+   Las mismas clases que ya usaban los paneles (public/css/panel.css);
+   aquí se definen también para las PANTALLAS DE JUEGO y el LOGIN, que
+   no cargan panel.css.
+   ================================================================== */
+
+/* ---------- Tamaño de texto ---------- */
+html.texto-grande  { font-size: 112.5%; }
+html.texto-extra   { font-size: 125%; }
+
+/* Los juegos escriben sus tamaños en px, así que el font-size raíz no
+   los escala solo. Se suben los textos que más importan para el niño. */
+html.texto-grande body.a11y-juego h1,
+html.texto-grande body.a11y-juego .juego-encabezado h1 { font-size: 32px; }
+html.texto-extra  body.a11y-juego h1,
+html.texto-extra  body.a11y-juego .juego-encabezado h1 { font-size: 38px; }
+
+html.texto-grande body.a11y-juego .instruccion,
+html.texto-grande body.a11y-juego .juego-instruccion { font-size: 40px; }
+html.texto-extra  body.a11y-juego .instruccion,
+html.texto-extra  body.a11y-juego .juego-instruccion { font-size: 46px; }
+
+html.texto-grande body.a11y-juego .opcion { font-size: 32px; }
+html.texto-extra  body.a11y-juego .opcion { font-size: 36px; }
+
+html.texto-grande body.a11y-juego .mensaje,
+html.texto-grande body.a11y-juego .juego-mensaje { font-size: 30px; }
+html.texto-extra  body.a11y-juego .mensaje,
+html.texto-extra  body.a11y-juego .juego-mensaje { font-size: 34px; }
+
+html.texto-grande body.a11y-juego .zona-etiqueta { font-size: 26px; }
+html.texto-extra  body.a11y-juego .zona-etiqueta { font-size: 29px; }
+
+html.texto-grande body.a11y-juego .pieza-etiqueta,
+html.texto-grande body.a11y-juego .carta-etiqueta { font-size: 18px; }
+html.texto-extra  body.a11y-juego .pieza-etiqueta,
+html.texto-extra  body.a11y-juego .carta-etiqueta { font-size: 20px; }
+
+html.texto-grande body.a11y-juego .btn-escuchar,
+html.texto-grande body.a11y-juego .btn-siguiente,
+html.texto-grande body.a11y-juego .btn-primario,
+html.texto-grande body.a11y-juego .btn-volver { font-size: 21px; }
+html.texto-extra  body.a11y-juego .btn-escuchar,
+html.texto-extra  body.a11y-juego .btn-siguiente,
+html.texto-extra  body.a11y-juego .btn-primario,
+html.texto-extra  body.a11y-juego .btn-volver { font-size: 24px; }
+
+/* ---------- Reducir movimiento ---------- */
+body.reducir-movimiento *,
+body.reducir-movimiento *::before,
+body.reducir-movimiento *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+}
+
+/* ---------- Alto contraste ---------- */
+body.alto-contraste {
+    background: #000 !important;
+    color: #fff !important;
+}
+/* Anula los degradados radiales de fondo de las pantallas de juego */
+body.alto-contraste.a11y-juego { background-image: none !important; }
+
+body.alto-contraste h1, body.alto-contraste h2, body.alto-contraste h3,
+body.alto-contraste h4, body.alto-contraste h5, body.alto-contraste h6,
+body.alto-contraste p,  body.alto-contraste span, body.alto-contraste li,
+body.alto-contraste td, body.alto-contraste th, body.alto-contraste label,
+body.alto-contraste .instruccion, body.alto-contraste .juego-instruccion,
+body.alto-contraste .mensaje, body.alto-contraste .juego-mensaje,
+body.alto-contraste .zona-etiqueta, body.alto-contraste .pieza-etiqueta,
+body.alto-contraste .juego-paso {
+    color: #fff !important;
+}
+
+body.alto-contraste a { color: #FFEB3B !important; }
+
+/* Tarjetas / piezas / zonas / opciones: fondo negro, borde blanco grueso */
+body.alto-contraste .card,
+body.alto-contraste .panel-tile,
+body.alto-contraste .avatar-menu__panel,
+body.alto-contraste .opcion,
+body.alto-contraste .pieza,
+body.alto-contraste .zona,
+body.alto-contraste .carta,
+body.alto-contraste .tarjeta,
+body.alto-contraste .btn-escuchar,
+body.alto-contraste .juego-ajustes__boton,
+body.alto-contraste .juego-ajustes__panel,
+body.alto-contraste .a11y-fab,
+body.alto-contraste .a11y-panel {
+    background: #000 !important;
+    border-color: #fff !important;
+    color: #fff !important;
+}
+body.alto-contraste .opcion { border-width: 3px !important; }
+
+/* Estados de acierto: verde saturado sobre negro (nunca rojo el error) */
+body.alto-contraste .opcion.acierto,
+body.alto-contraste .zona.llena,
+body.alto-contraste .mensaje.correcto,
+body.alto-contraste .juego-mensaje.acierto {
+    background: #003a1e !important;
+    border-color: #46e08a !important;
+    color: #46e08a !important;
+}
+
+/* Botones de acción: amarillo sobre negro */
+body.alto-contraste .btn,
+body.alto-contraste .btn-primary,
+body.alto-contraste .btn-success,
+body.alto-contraste .btn-siguiente,
+body.alto-contraste .btn-primario,
+body.alto-contraste .btn-volver,
+body.alto-contraste .login-submit,
+body.alto-contraste .login-submit__label,
+body.alto-contraste .avatar-menu__boton {
+    background: #FFEB3B !important;
+    border-color: #FFEB3B !important;
+    color: #000 !important;
+    text-shadow: none !important;
+}
+body.alto-contraste .login-submit__label { background: transparent !important; }
+
+body.alto-contraste :focus-visible {
+    outline: 3px solid #FFEB3B !important;
+    outline-offset: 3px !important;
+}
+
+/* ---- Login: la pantalla tiene su propia estructura de paneles ---- */
+body.alto-contraste.login-body,
+body.alto-contraste .login-shell,
+body.alto-contraste .login-hero,
+body.alto-contraste .login-panel,
+body.alto-contraste .login-card,
+body.alto-contraste .role-toggle,
+body.alto-contraste .field,
+body.alto-contraste .field__input {
+    background: #000 !important;
+    background-image: none !important;
+    border-color: #fff !important;
+    color: #fff !important;
+}
+body.alto-contraste .login-hero__marca-agua,
+body.alto-contraste .login-hero__blob { opacity: 0 !important; }
+body.alto-contraste .login-hero__institucion,
+body.alto-contraste .login-hero__tagline,
+body.alto-contraste .field__label,
+body.alto-contraste .role-toggle__hint,
+body.alto-contraste .role-toggle__btn { color: #fff !important; }
+body.alto-contraste .role-toggle__btn.is-active {
+    background: #FFEB3B !important;
+    color: #000 !important;
+}
+body.alto-contraste .field__input::placeholder { color: #bbb !important; }
+
+/* ==================================================================
+   Botón + panel flotante  (inyectados por public/js/a11y.js)
+   ================================================================== */
+.a11y-fab {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    z-index: 2147483000;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid #1D4448;
+    background: #fff;
+    color: #1D4448;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(36, 48, 58, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.a11y-fab:focus-visible {
+    outline: 3px solid #1D4448;
+    outline-offset: 3px;
+}
+
+.a11y-panel {
+    position: fixed;
+    left: 16px;
+    bottom: 82px;
+    z-index: 2147483000;
+    width: 280px;
+    max-width: calc(100vw - 32px);
+    background: #fff;
+    color: #24303A;
+    border: 2px solid #D7DED9;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(36, 48, 58, 0.22);
+    padding: 16px;
+    font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+}
+.a11y-panel[hidden] { display: none !important; }
+
+.a11y-panel__titulo {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #5B6B66;
+    margin: 0 0 12px;
+}
+
+.a11y-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    font-size: 15px;
+}
+.a11y-fila + .a11y-fila { border-top: 1px solid #EEF1EF; }
+
+.a11y-tamanos { display: flex; gap: 6px; }
+.a11y-tamanos button {
+    font-family: inherit;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    border: 2px solid #D7DED9;
+    background: #fff;
+    color: #1D4448;
+    font-weight: 700;
+    cursor: pointer;
+}
+.a11y-tamanos button[aria-pressed="true"] {
+    border-color: #2F6E73;
+    background: #E7F1EA;
+}
+.a11y-tamanos button:focus-visible {
+    outline: 3px solid #1D4448;
+    outline-offset: 2px;
+}
+
+/* Interruptor (mismo patrón visual que el resto del proyecto) */
+.a11y-switch { position: relative; flex-shrink: 0; width: 46px; height: 26px; }
+.a11y-switch input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.a11y-switch__visual {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: #CBD3CE;
+    transition: background-color 180ms ease;
+    pointer-events: none;
+}
+.a11y-switch__visual::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: transform 180ms ease;
+}
+.a11y-switch input:checked ~ .a11y-switch__visual { background: #2F6E73; }
+.a11y-switch input:checked ~ .a11y-switch__visual::before { transform: translateX(20px); }
+.a11y-switch input:focus-visible ~ .a11y-switch__visual {
+    outline: 3px solid #1D4448;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .a11y-switch__visual,
+    .a11y-switch__visual::before { transition: none; }
+}
