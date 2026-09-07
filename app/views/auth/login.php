@@ -1,5 +1,6 @@
 <?php
 $registrado = isset($_GET["registrado"]);
+$expirado = isset($_GET["expirado"]);
 
 $error = $_SESSION["error_login"] ?? null;
 unset($_SESSION["error_login"]);
@@ -57,6 +58,12 @@ unset($_SESSION["error_login"]);
             <?php if ($registrado): ?>
                 <div class="login-alert login-alert--exito" role="status">
                     ¡Cuenta creada! Ya puedes iniciar sesión.
+                </div>
+            <?php endif; ?>
+
+            <?php if ($expirado): ?>
+                <div class="login-alert login-alert--error" role="status">
+                    Tu sesión se cerró por inactividad. Vuelve a iniciar sesión.
                 </div>
             <?php endif; ?>
 

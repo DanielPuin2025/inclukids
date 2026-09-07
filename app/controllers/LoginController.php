@@ -62,6 +62,8 @@ class LoginController
             $_SESSION["id_docente"] = $docente["id_docente"];
             $_SESSION["nombre"] = $docente["nombres"];
             $_SESSION["rol"] = $docente["rol"];
+            $_SESSION["ultima_actividad"] = time();
+            $_SESSION["sesion_regenerada"] = time();
 
             $destino = ($docente["rol"] === "administrador" && $rolSeleccionado === "administrador")
                 ? "app/views/dashboard/home.php"

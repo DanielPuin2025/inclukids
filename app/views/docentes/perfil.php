@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+require_once __DIR__ . "/../../helpers/sesion.php";
+sesion_verificar_timeout();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
 require_once __DIR__ . "/../../helpers/csrf.php";
