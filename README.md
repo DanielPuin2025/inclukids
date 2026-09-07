@@ -110,8 +110,6 @@ database/
 public/
   css/ js/ img/ (incluye img/iconos/*.svg, ilustraciones de los juegos)
 index.php       Login
-dashboard.php   (obsoleto: stub antiguo; el panel real es
-                 app/views/dashboard/home.php)
 logout.php
 ```
 
