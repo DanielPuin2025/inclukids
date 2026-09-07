@@ -522,6 +522,14 @@ body.alto-contraste table,
 body.alto-contraste th,
 body.alto-contraste td {
     border-color: #FFFFFF !important;
+    background: #000000 !important;
+    color: #FFFFFF !important;
+    /* Las variables --bs-table-* de Bootstrap pintan la celda de blanco;
+       sin esto el texto blanco quedaba invisible. */
+    --bs-table-bg: #000000 !important;
+    --bs-table-color: #FFFFFF !important;
+    --bs-table-striped-bg: #000000 !important;
+    --bs-table-striped-color: #FFFFFF !important;
 }
 body.alto-contraste .btn-primary,
 body.alto-contraste .btn-success,

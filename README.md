@@ -126,11 +126,21 @@ logout.php
 
 ## Accesibilidad
 
-Menú de la cuenta → **Accesibilidad**: tamaño de texto (A / A+ / A++),
-alto contraste y reducir movimiento. Las preferencias se guardan en
-`localStorage` (clave `inclukids_a11y`). *Pendiente:* el panel solo está
-en los paneles de administrador y docente; falta llevarlo a las
-pantallas de juego y al login.
+Ajustes: **tamaño de texto** (A / A+ / A++), **alto contraste**,
+**reducir movimiento** y, en las pantallas de juego, **leer en voz
+alta**. Se guardan en `localStorage` (`inclukids_a11y`; la voz y el
+movimiento también en `inclukids_juegos`, que es lo que leen los
+motores de juego).
+
+Dos formas de acceder a los mismos ajustes, sincronizadas por esa
+clave:
+
+- **Paneles de administrador y docente**: menú de la cuenta →
+  *Accesibilidad* (ya existía).
+- **Resto de vistas de gestión, juegos y login**: botón flotante ♿
+  abajo a la izquierda, inyectado por `public/js/a11y.js`
+  (+ `public/css/a11y.css`). Los `<link>`/`<script>` llevan `?v=N`;
+  súbelo al cambiar esos archivos para saltarse la caché del navegador.
 
 ## Notas de desarrollo
 

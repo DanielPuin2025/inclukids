@@ -55,6 +55,8 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
 <title>Progreso de mis estudiantes - IncluKids</title>
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
+<link href="/IncluKids/public/css/a11y.css?v=2" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=2" defer></script>
 </head>
 <body>
 <div class="container mt-5" style="max-width: 900px;">

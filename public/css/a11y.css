@@ -105,6 +105,40 @@ body.alto-contraste .a11y-panel {
 }
 body.alto-contraste .opcion { border-width: 3px !important; }
 
+/* Tablas de Bootstrap: sus variables --bs-table-* pintan la celda de
+   blanco, así que el texto blanco quedaba invisible. */
+body.alto-contraste table,
+body.alto-contraste thead,
+body.alto-contraste tbody,
+body.alto-contraste tr,
+body.alto-contraste td,
+body.alto-contraste th {
+    background: #000 !important;
+    border-color: #fff !important;
+    color: #fff !important;
+    --bs-table-bg: #000 !important;
+    --bs-table-color: #fff !important;
+    --bs-table-striped-bg: #000 !important;
+    --bs-table-striped-color: #fff !important;
+    --bs-table-hover-bg: #1a1a1a !important;
+    --bs-table-hover-color: #fff !important;
+}
+
+/* Formularios de Bootstrap en alto contraste */
+body.alto-contraste .form-control,
+body.alto-contraste .form-select,
+body.alto-contraste .input-group-text {
+    background: #000 !important;
+    border-color: #fff !important;
+    color: #fff !important;
+}
+body.alto-contraste .form-control::placeholder { color: #bbb !important; }
+body.alto-contraste .alert {
+    background: #000 !important;
+    border-color: #fff !important;
+    color: #fff !important;
+}
+
 /* Estados de acierto: verde saturado sobre negro (nunca rojo el error) */
 body.alto-contraste .opcion.acierto,
 body.alto-contraste .zona.llena,

@@ -32,6 +32,14 @@
     <FilesMatch "\.php$">
         Header always set Cache-Control "no-store"
     </FilesMatch>
+
+    # CSS y JS propios: se pueden guardar, pero hay que revalidar antes
+    # de usarlos (con ETag/Last-Modified suele responder 304). Así un
+    # cambio en, p. ej., a11y.css llega enseguida sin que el navegador
+    # se quede con la versión vieja.
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
 </IfModule>
 
 # --- Código que nunca debe abrirse por URL ---

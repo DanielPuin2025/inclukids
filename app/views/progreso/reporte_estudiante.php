@@ -61,6 +61,8 @@ $fechaGeneracion = date("d/m/Y");
 <title>Reporte de <?= htmlspecialchars($estudiante["nombres"] . " " . $estudiante["apellidos"]) ?> - IncluKids</title>
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
+<link href="/IncluKids/public/css/a11y.css?v=2" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=2" defer></script>
 <style>
     .reporte-acciones { margin: 24px 0; }
     .reporte-encabezado {

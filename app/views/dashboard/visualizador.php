@@ -68,7 +68,7 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
 <link rel="icon" href="/IncluKids/public/img/logo-inclukids.jpg">
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/panel.css" rel="stylesheet">
+<link href="/IncluKids/public/css/panel.css?v=2" rel="stylesheet">
 </head>
 <body>
 

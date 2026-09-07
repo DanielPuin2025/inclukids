@@ -251,8 +251,8 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=2" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=2" defer></script>
 </head>
 <body class="<?= $esRompecabezas ? 'rompecabezas' : '' ?>">
 
@@ -391,6 +391,7 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
 
         function hablar(texto) {
             if (!('speechSynthesis' in window) || !texto) return;
+            if (JSON.parse(localStorage.getItem('inclukids_juegos') || '{}').voz === false) return;
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(texto);
             u.lang = 'es-ES';

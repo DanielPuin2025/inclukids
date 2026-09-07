@@ -1,21 +1,24 @@
 /* ==================================================================
    IncluKids · Accesibilidad compartida (sin dependencias)
    ------------------------------------------------------------------
-   Inyecta un botón flotante "♿" con tres ajustes y los aplica en
+   Inyecta un botón flotante "♿" con estos ajustes y los aplica en
    cuanto carga la página:
 
      - Tamaño de texto:  normal / grande / extra
      - Alto contraste
      - Reducir movimiento
+     - Leer en voz alta  (solo en las pantallas de juego)
 
-   Se guardan en localStorage bajo "inclukids_a11y", la MISMA clave y
-   las MISMAS clases (html.texto-grande / html.texto-extra /
-   body.alto-contraste / body.reducir-movimiento) que ya usa el menú
-   de accesibilidad de los paneles de administrador y docente, para
-   que la preferencia viaje entre esas pantallas y los juegos / login.
+   Los tres primeros se guardan en localStorage bajo "inclukids_a11y",
+   la MISMA clave y las MISMAS clases (html.texto-grande /
+   html.texto-extra / body.alto-contraste / body.reducir-movimiento)
+   que usa el menú de accesibilidad de los paneles de administrador y
+   docente, para que la preferencia viaje entre esas pantallas, las de
+   gestión, los juegos y el login.
 
-   En las pantallas de juego también sincroniza "reducir movimiento"
-   con la clave propia de los juegos ("inclukids_juegos").
+   "Leer en voz alta" vive en la clave propia de los juegos
+   ("inclukids_juegos.voz"), que es la que consultan los motores de
+   juego. "Reducir movimiento" también se sincroniza con esa clave.
    ================================================================== */
 (function () {
     "use strict";
@@ -29,8 +32,21 @@
     var prefiereMenosMovimiento = !!(window.matchMedia &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
+    function leerJuegos() {
+        try {
+            return JSON.parse(localStorage.getItem(CLAVE_JUEGOS)) || {};
+        } catch (e) {
+            return {};
+        }
+    }
+
     function cargar() {
-        var base = { tamano: "normal", contraste: false, movimiento: prefiereMenosMovimiento };
+        var base = {
+            tamano: "normal",
+            contraste: false,
+            movimiento: prefiereMenosMovimiento,
+            voz: leerJuegos().voz !== false // por defecto activada
+        };
         try {
             var g = JSON.parse(localStorage.getItem(CLAVE)) || {};
             if (g.tamano === "grande" || g.tamano === "extra" || g.tamano === "normal") base.tamano = g.tamano;
@@ -42,8 +58,23 @@
 
     function guardar(prefs) {
         try {
-            localStorage.setItem(CLAVE, JSON.stringify(prefs));
+            // "voz" no va en esta clave; se guarda en la de los juegos.
+            localStorage.setItem(CLAVE, JSON.stringify({
+                tamano: prefs.tamano,
+                contraste: prefs.contraste,
+                movimiento: prefs.movimiento
+            }));
         } catch (e) { /* modo privado: no se recuerda entre visitas */ }
+    }
+
+    function guardarEnJuegos(cambios) {
+        try {
+            var j = leerJuegos();
+            for (var k in cambios) {
+                if (Object.prototype.hasOwnProperty.call(cambios, k)) j[k] = cambios[k];
+            }
+            localStorage.setItem(CLAVE_JUEGOS, JSON.stringify(j));
+        } catch (e) { /* sin almacenamiento: los juegos usarán su propio defecto */ }
     }
 
     var prefs = cargar();
@@ -55,14 +86,9 @@
     }
 
     function sincronizarConJuegos() {
-        // La clave de los juegos usa "movimiento" con el sentido INVERSO
-        // (true = se permiten animaciones). Aquí "movimiento" significa
-        // "reducir movimiento", así que se invierte al sincronizar.
-        try {
-            var j = JSON.parse(localStorage.getItem(CLAVE_JUEGOS)) || {};
-            j.movimiento = !prefs.movimiento;
-            localStorage.setItem(CLAVE_JUEGOS, JSON.stringify(j));
-        } catch (e) { /* sin almacenamiento: los juegos usarán su propio defecto */ }
+        // "movimiento" aquí significa "reducir movimiento"; en la clave
+        // de los juegos es al revés (true = se permiten animaciones).
+        guardarEnJuegos({ movimiento: !prefs.movimiento, voz: prefs.voz });
 
         if (document.body) {
             document.body.classList.toggle("menos-movimiento", prefs.movimiento);
@@ -86,8 +112,20 @@
     // parpadeo). El resto necesita <body>.
     aplicar();
 
+    function fila(clave, texto) {
+        return '<label class="a11y-fila">' +
+            '<span>' + texto + '</span>' +
+            '<span class="a11y-switch">' +
+                '<input type="checkbox" data-pref="' + clave + '">' +
+                '<span class="a11y-switch__visual" aria-hidden="true"></span>' +
+            '</span>' +
+        '</label>';
+    }
+
     function construirWidget() {
         if (!document.body || document.querySelector(".a11y-fab")) return;
+
+        var enJuego = esPantallaDeJuego();
 
         var fab = document.createElement("button");
         fab.type = "button";
@@ -95,7 +133,7 @@
         fab.setAttribute("aria-haspopup", "true");
         fab.setAttribute("aria-expanded", "false");
         fab.setAttribute("aria-label", "Accesibilidad");
-        fab.textContent = "♿"; // ♿
+        fab.textContent = "♿";
 
         var panel = document.createElement("div");
         panel.className = "a11y-panel";
@@ -112,20 +150,9 @@
                     '<button type="button" data-tamano="extra" aria-pressed="false">A++</button>' +
                 '</span>' +
             '</div>' +
-            '<label class="a11y-fila">' +
-                '<span>Alto contraste</span>' +
-                '<span class="a11y-switch">' +
-                    '<input type="checkbox" data-pref="contraste">' +
-                    '<span class="a11y-switch__visual" aria-hidden="true"></span>' +
-                '</span>' +
-            '</label>' +
-            '<label class="a11y-fila">' +
-                '<span>Reducir movimiento</span>' +
-                '<span class="a11y-switch">' +
-                    '<input type="checkbox" data-pref="movimiento">' +
-                    '<span class="a11y-switch__visual" aria-hidden="true"></span>' +
-                '</span>' +
-            '</label>';
+            fila("contraste", "Alto contraste") +
+            fila("movimiento", "Reducir movimiento") +
+            (enJuego ? fila("voz", "Leer en voz alta") : "");
 
         document.body.appendChild(fab);
         document.body.appendChild(panel);
@@ -135,8 +162,9 @@
             Array.prototype.forEach.call(botones, function (b) {
                 b.setAttribute("aria-pressed", b.dataset.tamano === prefs.tamano ? "true" : "false");
             });
-            panel.querySelector('[data-pref="contraste"]').checked = !!prefs.contraste;
-            panel.querySelector('[data-pref="movimiento"]').checked = !!prefs.movimiento;
+            Array.prototype.forEach.call(panel.querySelectorAll('input[type="checkbox"]'), function (input) {
+                input.checked = !!prefs[input.dataset.pref];
+            });
         }
 
         function abrir(v) {
@@ -166,7 +194,12 @@
         Array.prototype.forEach.call(panel.querySelectorAll('input[type="checkbox"]'), function (input) {
             input.addEventListener("change", function () {
                 prefs[input.dataset.pref] = input.checked;
-                guardar(prefs);
+                if (input.dataset.pref === "voz") {
+                    guardarEnJuegos({ voz: input.checked });
+                    if (!input.checked && "speechSynthesis" in window) window.speechSynthesis.cancel();
+                } else {
+                    guardar(prefs);
+                }
                 aplicar();
             });
         });
