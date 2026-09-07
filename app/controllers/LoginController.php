@@ -1,7 +1,9 @@
 <?php
 
 require_once __DIR__ . "/../models/Docente.php";
+require_once __DIR__ . "/../config/database.php";
 require_once __DIR__ . "/../helpers/csrf.php";
+require_once __DIR__ . "/../helpers/rate_limit.php";
 
 class LoginController
 {
@@ -11,6 +13,19 @@ class LoginController
 
             csrf_verificar();
 
+            $ip = login_ip_cliente();
+            $db = (new Database())->conectar();
+
+            // Fuerza-bruta: si esta IP ya acumuló demasiados fallos,
+            // no se procesa el intento hasta que pase el bloqueo.
+            $espera = login_bloqueado($db, $ip);
+            if ($espera !== null) {
+                $minutos = (int) ceil($espera / 60);
+                $_SESSION["error_login"] = "Demasiados intentos fallidos. Espera unos "
+                    . $minutos . " minuto(s) antes de volver a intentar.";
+                return;
+            }
+
             $correo = $_POST["correo"];
             $password = $_POST["password"];
             $rolSeleccionado = $_POST["rol"] ?? "docente";
@@ -19,9 +34,14 @@ class LoginController
             $docente = $modelo->autenticar($correo, $password);
 
             if (!$docente) {
+                login_registrar_fallo($db, $ip, $correo);
                 $_SESSION["error_login"] = "Correo o contraseña incorrectos.";
                 return;
             }
+
+            // Credenciales correctas: se limpia el contador aunque el
+            // rol elegido no cuadre (no es un intento de fuerza-bruta).
+            login_limpiar($db, $ip);
 
             // El botón sí decide algo real, pero nunca en el sentido
             // peligroso: una cuenta de docente que marca "Administrador"

@@ -50,6 +50,12 @@ con una vista global de todo el colegio.
 
 4. **Abrir** `http://localhost/IncluKids/`.
 
+> **Instalación nueva:** `schema.sql` ya incluye todo, no hace falta
+> tocar `database/migrations/`.
+> **Base que ya existía** (creada antes de que hubiera `schema.sql`):
+> aplica las migraciones que te falten, en orden de fecha, p. ej.
+> `mysql -u root inclukids < database/migrations/2026_09_07_crear_login_bloqueo.sql`.
+
 > Los archivos `database/seeds/2026_*.sql` son el **historial** de cómo
 > se fue construyendo el contenido; no hace falta ejecutarlos y no lo
 > reproducen entero (parte se editó desde el panel). Los

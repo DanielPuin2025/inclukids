@@ -37,6 +37,7 @@ DROP TABLE IF EXISTS `tipoactividad`;
 DROP TABLE IF EXISTS `dba`;
 DROP TABLE IF EXISTS `estudiantes`;
 DROP TABLE IF EXISTS `cursos`;
+DROP TABLE IF EXISTS `login_bloqueo`;
 DROP TABLE IF EXISTS `docentes`;
 DROP TABLE IF EXISTS `materias`;
 
@@ -64,6 +65,19 @@ CREATE TABLE `docentes` (
   `contraseña` varchar(255) NOT NULL,
   PRIMARY KEY (`id_docente`),
   UNIQUE KEY `correo` (`correo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- -------------------------------------------------------------
+--  Límite de intentos de inicio de sesión por IP (anti fuerza-bruta).
+--  La mantiene app/helpers/rate_limit.php.
+-- -------------------------------------------------------------
+CREATE TABLE `login_bloqueo` (
+  `ip` varchar(45) NOT NULL,
+  `correo` varchar(100) DEFAULT NULL,
+  `intentos` int(11) NOT NULL DEFAULT 0,
+  `primer_intento` datetime NOT NULL,
+  `ultimo_intento` datetime NOT NULL,
+  PRIMARY KEY (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- -------------------------------------------------------------
