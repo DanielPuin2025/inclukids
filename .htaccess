@@ -1,0 +1,47 @@
+# IncluKids · Endurecimiento del servidor (Apache)
+# ---------------------------------------------------------------
+# Requiere "AllowOverride All" (o al menos FileInfo + Options +
+# Limit) para htdocs, que es el valor por defecto en XAMPP.
+# Todas las directivas van envueltas en <IfModule> para que el
+# sitio siga funcionando si algún módulo no está cargado.
+
+# --- Sin listado de directorios ---
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# --- Cabeceras de seguridad ---
+<IfModule mod_headers.c>
+    # Clickjacking: la app nunca se muestra dentro de un <iframe> ajeno.
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # No adivinar el tipo de contenido (evita que un .txt se ejecute como JS, etc.).
+    Header always set X-Content-Type-Options "nosniff"
+    # No filtrar la URL completa (lleva ids) a sitios externos.
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # Aísla la ventana de otras pestañas de distinto origen.
+    Header always set Cross-Origin-Opener-Policy "same-origin"
+
+    # Content-Security-Policy. 'unsafe-inline' es necesario porque las
+    # pantallas de juego y algunos paneles llevan <script>/<style> en
+    # línea; aun así se bloquea cualquier script de un origen externo.
+    # Fuentes de Google (login y juegos) van explícitas.
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+
+    # Las respuestas PHP (siempre dinámicas y a menudo con datos de
+    # sesión) no deben quedar en caché del navegador ni de proxies.
+    <FilesMatch "\.php$">
+        Header always set Cache-Control "no-store"
+    </FilesMatch>
+</IfModule>
+
+# --- Código que nunca debe abrirse por URL ---
+# Estas carpetas solo se usan vía require_once desde PHP.
+<IfModule mod_alias.c>
+    RedirectMatch 404 (?i)/(app/config|app/models|app/controllers|app/helpers|database)/
+</IfModule>
+
+# Volcados SQL, documentación y scripts sueltos: nunca como respuesta.
+# (database/schema.sql, por ejemplo, contiene el hash del administrador.)
+<FilesMatch "\.(sql|md|sh|inc|bak|dist|json)$">
+    Require all denied
+</FilesMatch>

@@ -17,6 +17,12 @@ con una vista global de todo el colegio.
   **`IncluKids`** (las rutas de recursos están escritas como
   `/IncluKids/public/...`). Si la clonas con otro nombre, ajusta esas
   rutas o crea un alias en Apache.
+- Apache con **`AllowOverride All`** en `htdocs` (valor por defecto de
+  XAMPP) y los módulos `mod_headers`, `mod_rewrite` y `mod_alias`
+  activados, para que `.htaccess` aplique las cabeceras de seguridad y
+  bloquee el acceso directo a `database/`, `app/config/`, etc. Si no se
+  puede usar `.htaccess`, el sitio funciona igual pero sin ese
+  endurecimiento.
 
 ## Puesta en marcha
 
