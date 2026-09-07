@@ -1,0 +1,33 @@
+# Sistema operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Editores / IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*~
+*.swp
+*.swo
+
+# Logs y temporales
+*.log
+error_log
+/tmp/
+*.bak
+*.tmp
+
+# Configuración local (si algún día se separa de app/config/database.php)
+app/config/database.local.php
+/.env
+
+# Dependencias (por si en el futuro se usa Composer)
+/vendor/
+composer.lock
+
+# Volcados de base de datos que no deben versionarse
+/database/dumps/
+*.sql.gz
