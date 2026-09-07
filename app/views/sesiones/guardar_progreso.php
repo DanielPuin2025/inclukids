@@ -1,20 +1,11 @@
 <?php
-session_start();
-
-require_once __DIR__ . "/../../helpers/sesion.php";
-sesion_verificar_timeout();
-
-if (!isset($_SESSION["id_docente"])) {
-    header("Location: ../../../index.php");
-    exit();
-}
+require __DIR__ . "/../../bootstrap.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: paso1_curso.php");
     exit();
 }
 
-require_once __DIR__ . "/../../helpers/csrf.php";
 csrf_verificar();
 
 require_once __DIR__ . "/../../controllers/SesionClaseController.php";

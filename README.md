@@ -136,8 +136,13 @@ pantallas de juego y al login.
 
 ## Notas de desarrollo
 
-- Sin framework: enrutamiento por archivo (cada vista es un endpoint y
-  arranca con su propio `session_start()` + guard de sesión).
+- Sin framework: enrutamiento por archivo (cada vista es un endpoint).
+  Toda vista de gestión empieza con
+  `require __DIR__ . "/../../bootstrap.php";` (y, si es solo de admin,
+  `requireAdministrador("../dashboard/visualizador.php");` justo
+  después). `app/bootstrap.php` hace `session_start()`, el cierre por
+  inactividad y el guard de "hay que estar logueado", y deja cargados
+  los helpers de CSRF y de rol. Las pantallas de juego NO lo usan.
 - Sin dependencias de Composer ni `node_modules`; Bootstrap y jQuery
   están vendorizados en `public/`.
 - Sin suite de pruebas todavía.

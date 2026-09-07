@@ -1,15 +1,6 @@
 <?php
-session_start();
+require __DIR__ . "/../../bootstrap.php";
 
-require_once __DIR__ . "/../../helpers/sesion.php";
-sesion_verificar_timeout();
-
-if (!isset($_SESSION["id_docente"])) {
-    header("Location: ../../../index.php");
-    exit();
-}
-
-require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
 require_once __DIR__ . "/../../controllers/CursoController.php";
