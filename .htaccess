@@ -43,9 +43,9 @@
 </IfModule>
 
 # --- Código que nunca debe abrirse por URL ---
-# Estas carpetas solo se usan vía require_once desde PHP.
+# Estas carpetas (y app/bootstrap.php) solo se usan vía require_once.
 <IfModule mod_alias.c>
-    RedirectMatch 404 (?i)/(app/config|app/models|app/controllers|app/helpers|database)/
+    RedirectMatch 404 (?i)/(app/(config|models|controllers|helpers)/|app/bootstrap\.php$|database/)
 </IfModule>
 
 # Volcados SQL, documentación y scripts sueltos: nunca como respuesta.
