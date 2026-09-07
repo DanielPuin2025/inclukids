@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require_once __DIR__ . "/../../helpers/csrf.php";
+
 // Si ya hay sesión activa, no tiene sentido registrarse de nuevo
 if (isset($_SESSION["id_docente"])) {
     header("Location: ../dashboard/home.php");
@@ -39,6 +41,7 @@ unset($_SESSION["error_registro"]);
                     <?php endif; ?>
 
                     <form action="guardar_registro.php" method="POST">
+                        <?= csrf_campo() ?>
                         <div class="row">
                             <div class="col-6 mb-3">
                                 <label class="form-label">Nombres</label>

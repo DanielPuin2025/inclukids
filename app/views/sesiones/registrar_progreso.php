@@ -6,6 +6,7 @@ if (!isset($_SESSION["id_docente"])) {
     exit();
 }
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/SesionClaseController.php";
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 
@@ -53,6 +54,7 @@ $estudiantes = $estudianteController->listarPorCurso($sesion["id_curso"]);
         </div>
     <?php else: ?>
         <form method="POST" action="guardar_progreso.php">
+            <?= csrf_campo() ?>
             <input type="hidden" name="id_sesion" value="<?= $idSesion ?>">
 
             <?php foreach ($estudiantes as $estudiante): ?>

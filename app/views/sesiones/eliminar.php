@@ -6,9 +6,17 @@ if (!isset($_SESSION["id_docente"])) {
     exit();
 }
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: ../dashboard/visualizador.php");
+    exit();
+}
+
+require_once __DIR__ . "/../../helpers/csrf.php";
+csrf_verificar();
+
 require_once __DIR__ . "/../../controllers/SesionClaseController.php";
 
-$idSesion = (int) ($_GET["id_sesion"] ?? 0);
+$idSesion = (int) ($_POST["id_sesion"] ?? 0);
 $esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
 
 // A dónde volver después de borrar. Por defecto cada rol va a su
@@ -16,7 +24,7 @@ $esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
 // la vista global de sesiones) es mejor volver ahí mismo en vez de
 // mandar siempre al panel principal. Se valida contra una lista fija
 // de destinos conocidos, nunca una URL libre.
-$volverParam = $_GET["volver"] ?? "";
+$volverParam = $_POST["volver"] ?? "";
 if ($esAdmin && $volverParam === "global") {
     $volver = "../progreso/global.php";
 } elseif ($esAdmin && preg_match('/^curso:(\d+)$/', $volverParam, $coincidencia)) {

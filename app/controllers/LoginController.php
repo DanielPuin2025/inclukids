@@ -1,12 +1,15 @@
 <?php
 
 require_once __DIR__ . "/../models/Docente.php";
+require_once __DIR__ . "/../helpers/csrf.php";
 
 class LoginController
 {
     public function iniciarSesion()
     {
         if (isset($_POST["login"])) {
+
+            csrf_verificar();
 
             $correo = $_POST["correo"];
             $password = $_POST["password"];
@@ -31,6 +34,10 @@ class LoginController
                 $_SESSION["error_login"] = "Esta cuenta no tiene permisos de administrador. Ingresa marcando \"Docente\".";
                 return;
             }
+
+            // Evita session fixation: un id de sesión conocido por un
+            // atacante antes del login deja de ser válido después.
+            session_regenerate_id(true);
 
             $_SESSION["id_docente"] = $docente["id_docente"];
             $_SESSION["nombre"] = $docente["nombres"];

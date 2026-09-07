@@ -9,6 +9,7 @@ if (!isset($_SESSION["id_docente"])) {
 require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/CursoController.php";
 
 $cursoController = new CursoController();
@@ -57,11 +58,12 @@ $cursos = $cursoController->listar();
                         <td><?= htmlspecialchars(($curso['docente_nombres'] ?? '-') . ' ' . ($curso['docente_apellidos'] ?? '')) ?></td>
                         <td>
                             <a href="editar.php?id_curso=<?= (int) $curso['id_curso'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
-                            <a href="eliminar.php?id_curso=<?= (int) $curso['id_curso'] ?>"
-                               class="btn btn-sm btn-outline-danger"
-                               onclick="return confirm('¿Eliminar este curso? Esto puede afectar estudiantes y sesiones ya ligados a él.');">
-                               Eliminar
-                            </a>
+                            <form method="POST" action="eliminar.php" class="d-inline"
+                                  onsubmit="return confirm('¿Eliminar este curso? Esto puede afectar estudiantes y sesiones ya ligados a él.');">
+                                <?= csrf_campo() ?>
+                                <input type="hidden" name="id_curso" value="<?= (int) $curso['id_curso'] ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            </form>
                         </td>
                     </tr>
                     <?php endforeach; endif; ?>

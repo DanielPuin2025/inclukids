@@ -9,9 +9,17 @@ if (!isset($_SESSION["id_docente"])) {
 require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: index.php");
+    exit();
+}
+
+require_once __DIR__ . "/../../helpers/csrf.php";
+csrf_verificar();
+
 require_once __DIR__ . "/../../controllers/CursoController.php";
 
-$idCurso = (int) ($_GET["id_curso"] ?? 0);
+$idCurso = (int) ($_POST["id_curso"] ?? 0);
 
 if ($idCurso > 0) {
     $cursoController = new CursoController();

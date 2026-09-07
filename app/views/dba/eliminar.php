@@ -5,9 +5,14 @@ if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); e
 require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") { header("Location: index.php"); exit(); }
+
+require_once __DIR__ . "/../../helpers/csrf.php";
+csrf_verificar();
+
 require_once __DIR__ . "/../../controllers/DbaController.php";
 
-$idDba = (int) ($_GET["id_dba"] ?? 0);
+$idDba = (int) ($_POST["id_dba"] ?? 0);
 
 if ($idDba > 0) {
     $dbaController = new DbaController();

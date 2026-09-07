@@ -5,6 +5,7 @@ if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); e
 require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/ActividadController.php";
 require_once __DIR__ . "/../../controllers/ContenidoActividadController.php";
 
@@ -51,9 +52,13 @@ $siguienteOrden = count($preguntas) + 1;
                         <td><?= htmlspecialchars($p['pregunta']) ?></td>
                         <td><span class="badge bg-success"><?= htmlspecialchars($p['respuesta_correcta']) ?></span></td>
                         <td>
-                            <a href="eliminar_contenido.php?id_contenido=<?= (int) $p['id_contenido'] ?>&id_actividad=<?= $idActividad ?>"
-                               class="btn btn-sm btn-outline-danger"
-                               onclick="return confirm('¿Eliminar esta pregunta?');">Eliminar</a>
+                            <form method="POST" action="eliminar_contenido.php" class="d-inline"
+                                  onsubmit="return confirm('¿Eliminar esta pregunta?');">
+                                <?= csrf_campo() ?>
+                                <input type="hidden" name="id_contenido" value="<?= (int) $p['id_contenido'] ?>">
+                                <input type="hidden" name="id_actividad" value="<?= (int) $idActividad ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            </form>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -68,7 +73,8 @@ $siguienteOrden = count($preguntas) + 1;
             <h5 class="card-title">Agregar pregunta nueva</h5>
 
             <form method="POST" action="guardar_contenido.php">
-                <input type="hidden" name="id_actividad" value="<?= $idActividad ?>">
+                <?= csrf_campo() ?>
+                <input type="hidden" name="id_actividad" value="<?= (int) $idActividad ?>">
 
                 <div class="mb-3">
                     <label class="form-label">Pregunta</label>

@@ -5,6 +5,7 @@ if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); e
 require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/ActividadController.php";
 require_once __DIR__ . "/../../controllers/DbaController.php";
 require_once __DIR__ . "/../../controllers/TipoActividadController.php";

@@ -5,6 +5,7 @@ if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); e
 require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/ActividadController.php";
 
 $actividadController = new ActividadController();
@@ -50,8 +51,12 @@ $actividades = $actividadController->listar();
                         <td>
                             <a href="editar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
                             <a href="contenido.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>" class="btn btn-sm btn-outline-secondary">Preguntas</a>
-                            <a href="eliminar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>" class="btn btn-sm btn-outline-danger"
-                               onclick="return confirm('¿Eliminar esta actividad?');">Eliminar</a>
+                            <form method="POST" action="eliminar.php" class="d-inline"
+                                  onsubmit="return confirm('¿Eliminar esta actividad?');">
+                                <?= csrf_campo() ?>
+                                <input type="hidden" name="id_actividad" value="<?= (int) $actividad['id_actividad'] ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            </form>
                         </td>
                     </tr>
                     <?php endforeach; endif; ?>

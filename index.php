@@ -2,6 +2,7 @@
 
 session_start();
 
+require_once __DIR__ . "/app/helpers/csrf.php";
 require_once __DIR__ . "/app/controllers/LoginController.php";
 
 $login = new LoginController();

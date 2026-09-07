@@ -9,6 +9,7 @@ if (!isset($_SESSION["id_docente"])) {
 require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/CursoController.php";
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 require_once __DIR__ . "/../../controllers/ProgresoController.php";
@@ -107,7 +108,12 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                             <td>
                                 <a href="editar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
                                 <a href="../progreso/reporte_estudiante.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-secondary">📄 Reporte</a>
-                                <a href="eliminar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar este estudiante? También se eliminará el progreso que tenga registrado.');">Eliminar</a>
+                                <form method="POST" action="eliminar.php" class="d-inline"
+                                      onsubmit="return confirm('¿Eliminar este estudiante? También se eliminará el progreso que tenga registrado.');">
+                                    <?= csrf_campo() ?>
+                                    <input type="hidden" name="id_estudiante" value="<?= (int) $estudiante['id_estudiante'] ?>">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                </form>
                             </td>
                         </tr>
                         <?php endforeach; endif; ?>
@@ -127,9 +133,13 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                     <h6 class="mb-1">📅 <?= htmlspecialchars($sesion["fecha"]) ?></h6>
-                    <a href="../sesiones/eliminar.php?id_sesion=<?= (int) $idSesionCard ?>&volver=curso:<?= $idCurso ?>"
-                       class="btn btn-sm btn-outline-danger"
-                       onclick="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">Eliminar sesión</a>
+                    <form method="POST" action="../sesiones/eliminar.php" class="d-inline"
+                          onsubmit="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">
+                        <?= csrf_campo() ?>
+                        <input type="hidden" name="id_sesion" value="<?= (int) $idSesionCard ?>">
+                        <input type="hidden" name="volver" value="curso:<?= (int) $idCurso ?>">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar sesión</button>
+                    </form>
                 </div>
                 <?php if ($sesion["dba_codigo"]): ?>
                 <p class="text-muted small mb-3">

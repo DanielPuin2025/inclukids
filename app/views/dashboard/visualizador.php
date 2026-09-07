@@ -2,6 +2,7 @@
 session_start();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 require_once __DIR__ . "/../../controllers/DbaController.php";
 require_once __DIR__ . "/../../controllers/SesionClaseController.php";
@@ -180,9 +181,12 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                                            class="btn btn-sm btn-primary">Registrar progreso</a>
                                     </td>
                                     <td>
-                                        <a href="../sesiones/eliminar.php?id_sesion=<?= (int) $sesion['id_sesion'] ?>"
-                                           class="btn btn-sm btn-outline-danger"
-                                           onclick="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">Eliminar</a>
+                                        <form method="POST" action="../sesiones/eliminar.php" class="d-inline"
+                                              onsubmit="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">
+                                            <?= csrf_campo() ?>
+                                            <input type="hidden" name="id_sesion" value="<?= (int) $sesion['id_sesion'] ?>">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 <?php endforeach; endif; ?>

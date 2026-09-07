@@ -6,10 +6,18 @@ if (!isset($_SESSION["id_docente"])) {
     exit();
 }
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: index.php");
+    exit();
+}
+
+require_once __DIR__ . "/../../helpers/csrf.php";
+csrf_verificar();
+
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 require_once __DIR__ . "/../../controllers/CursoController.php";
 
-$idEstudiante = (int) ($_GET["id_estudiante"] ?? 0);
+$idEstudiante = (int) ($_POST["id_estudiante"] ?? 0);
 $esAdmin = ($_SESSION["rol"] ?? "docente") === "administrador";
 
 $estudianteController = new EstudianteController();

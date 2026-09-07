@@ -5,6 +5,8 @@ $esEdicion = $dba !== null;
 ?>
 <form method="POST" action="guardar.php">
 
+    <?= csrf_campo() ?>
+
     <?php if ($esEdicion): ?>
         <input type="hidden" name="id_dba" value="<?= (int) $dba['id_dba'] ?>">
     <?php endif; ?>

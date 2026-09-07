@@ -11,6 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit();
 }
 
+require_once __DIR__ . "/../../helpers/csrf.php";
+csrf_verificar();
+
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 require_once __DIR__ . "/../../controllers/CursoController.php";
 

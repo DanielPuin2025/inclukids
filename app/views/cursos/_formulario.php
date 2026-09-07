@@ -8,6 +8,8 @@ $esEdicion = $curso !== null;
 
 <form method="POST" action="guardar.php">
 
+    <?= csrf_campo() ?>
+
     <?php if ($esEdicion): ?>
         <input type="hidden" name="id_curso" value="<?= (int) $curso['id_curso'] ?>">
     <?php endif; ?>

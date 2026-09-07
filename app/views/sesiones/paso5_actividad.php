@@ -6,6 +6,7 @@ if (!isset($_SESSION["id_docente"])) {
     exit();
 }
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/DbaController.php";
 require_once __DIR__ . "/../../controllers/ActividadController.php";
 require_once __DIR__ . "/../../controllers/CursoController.php";
@@ -51,6 +52,7 @@ $actividades = $actividadController->listarPorDba($idDba);
         </div>
     <?php else: ?>
         <form method="POST" action="crear_sesion.php">
+            <?= csrf_campo() ?>
             <input type="hidden" name="id_curso" value="<?= $idCurso ?>">
             <input type="hidden" name="id_dba" value="<?= $idDba ?>">
 

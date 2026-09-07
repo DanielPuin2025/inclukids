@@ -2,6 +2,7 @@
 session_start();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/DocenteController.php";
 
 $docenteController = new DocenteController();
@@ -33,6 +34,7 @@ unset($_SESSION["mensaje_perfil"]);
         <div class="card-body">
             <h5 class="card-title">Mis datos</h5>
             <form method="POST" action="guardar_perfil.php">
+                <?= csrf_campo() ?>
                 <div class="mb-3">
                     <label class="form-label">Nombres</label>
                     <input type="text" class="form-control" name="nombres"
@@ -57,6 +59,7 @@ unset($_SESSION["mensaje_perfil"]);
         <div class="card-body">
             <h5 class="card-title">Cambiar contraseña</h5>
             <form method="POST" action="guardar_password.php">
+                <?= csrf_campo() ?>
                 <div class="mb-3">
                     <label class="form-label">Nueva contraseña</label>
                     <input type="password" class="form-control" name="nueva" minlength="6" required>

@@ -7,6 +7,9 @@ requireAdministrador("../dashboard/visualizador.php");
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") { header("Location: index.php"); exit(); }
 
+require_once __DIR__ . "/../../helpers/csrf.php";
+csrf_verificar();
+
 require_once __DIR__ . "/../../controllers/ContenidoActividadController.php";
 
 $idActividad = (int) ($_POST["id_actividad"] ?? 0);

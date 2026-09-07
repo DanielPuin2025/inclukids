@@ -6,6 +6,7 @@ if (!isset($_SESSION["id_docente"])) {
     exit();
 }
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
 require_once __DIR__ . "/../../controllers/CursoController.php";
 
@@ -56,6 +57,7 @@ $cursos = $esAdmin ? $cursoController->listar() : $cursoController->listarPorDoc
     <h2 class="mt-3 mb-4">Editar estudiante</h2>
 
     <form method="POST" action="guardar.php">
+        <?= csrf_campo() ?>
         <input type="hidden" name="id_estudiante" value="<?= (int) $estudiante['id_estudiante'] ?>">
 
         <div class="mb-3">

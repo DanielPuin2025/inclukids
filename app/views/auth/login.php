@@ -82,6 +82,7 @@ unset($_SESSION["error_login"]);
 
             <form action="" method="POST" id="loginForm" novalidate>
 
+                <?= csrf_campo() ?>
                 <input type="hidden" name="rol" id="rolSeleccionado" value="docente">
 
                 <div class="field">

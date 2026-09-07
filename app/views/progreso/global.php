@@ -9,6 +9,7 @@ if (!isset($_SESSION["id_docente"])) {
 require_once __DIR__ . "/../../helpers/auth.php";
 requireAdministrador("../dashboard/visualizador.php");
 
+require_once __DIR__ . "/../../helpers/csrf.php";
 require_once __DIR__ . "/../../controllers/SesionClaseController.php";
 require_once __DIR__ . "/../../controllers/ProgresoController.php";
 require_once __DIR__ . "/../../controllers/DocenteController.php";
@@ -141,9 +142,13 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                         </p>
                         <?php endif; ?>
                     </div>
-                    <a href="../sesiones/eliminar.php?id_sesion=<?= $idSesionCard ?>&volver=global"
-                       class="btn btn-sm btn-outline-danger"
-                       onclick="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">Eliminar sesión</a>
+                    <form method="POST" action="../sesiones/eliminar.php" class="d-inline"
+                          onsubmit="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">
+                        <?= csrf_campo() ?>
+                        <input type="hidden" name="id_sesion" value="<?= (int) $idSesionCard ?>">
+                        <input type="hidden" name="volver" value="global">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar sesión</button>
+                    </form>
                 </div>
 
                 <?php if (empty($progresoPorSesion[$idSesionCard])): ?>

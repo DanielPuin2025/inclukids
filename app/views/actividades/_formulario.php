@@ -5,6 +5,8 @@ $esEdicion = $actividad !== null;
 ?>
 <form method="POST" action="guardar.php">
 
+    <?= csrf_campo() ?>
+
     <?php if ($esEdicion): ?>
         <input type="hidden" name="id_actividad" value="<?= (int) $actividad['id_actividad'] ?>">
     <?php endif; ?>
