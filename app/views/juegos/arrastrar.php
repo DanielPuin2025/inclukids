@@ -251,8 +251,8 @@ if ($contenido) {
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=2" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=2" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=3" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=3" defer></script>
 </head>
 <body>
 
@@ -408,6 +408,17 @@ if ($contenido) {
 
         let zonasLlenas = new Set();
 
+        // Texto que lee el botón 🔊: la consigna + lo que hay en pantalla
+        // (casillas y fichas), para el estudiante que solo mira y escucha.
+        function textoParaEscuchar(ronda) {
+            const partes = [ronda.instruccion || ''];
+            const casillas = (ronda.zonas || []).map(z => z.etiqueta).filter(Boolean);
+            const fichas = (ronda.piezas || []).map(p => p.etiqueta).filter(Boolean);
+            if (casillas.length) partes.push('Casillas: ' + casillas.join(', '));
+            if (fichas.length) partes.push('Fichas: ' + fichas.join(', '));
+            return partes.filter(Boolean).join('. ');
+        }
+
         function mostrarRonda() {
             const ronda = rondas[indiceRonda];
             mensajeEl.textContent = '';
@@ -416,7 +427,7 @@ if ($contenido) {
             zonasLlenas = new Set();
 
             instruccionEl.textContent = ronda.instruccion || '';
-            btnEscuchar.onclick = () => hablar(ronda.instruccion || '');
+            btnEscuchar.onclick = () => hablar(textoParaEscuchar(ronda));
 
             contenedorZonas.innerHTML = '';
             (ronda.zonas || []).forEach(zona => {
@@ -424,7 +435,7 @@ if ($contenido) {
                 div.className = 'zona';
                 div.dataset.zonaId = zona.id;
                 const contenidoZona = zona.imagen
-                    ? `<img class="zona-imagen" src="${zona.imagen}" alt="">`
+                    ? `<img class="zona-imagen" src="${zona.imagen}" alt="${zona.etiqueta ?? ''}">`
                     : (zona.emoji ? `<span>${zona.emoji}</span>` : '');
                 div.innerHTML = contenidoZona +
                     `<span class="zona-etiqueta">${zona.etiqueta ?? ''}</span>`;
@@ -439,7 +450,7 @@ if ($contenido) {
                 div.className = 'pieza';
                 div.dataset.piezaZona = pieza.zona ?? '';
                 const contenidoPieza = pieza.imagen
-                    ? `<img class="pieza-imagen" src="${pieza.imagen}" alt="">`
+                    ? `<img class="pieza-imagen" src="${pieza.imagen}" alt="${pieza.etiqueta ?? ''}">`
                     : (pieza.emoji ? `<span>${pieza.emoji}</span>` : '');
                 div.innerHTML = contenidoPieza +
                     (pieza.etiqueta ? `<span class="pieza-etiqueta">${pieza.etiqueta}</span>` : '');

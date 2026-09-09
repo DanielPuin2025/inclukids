@@ -181,8 +181,8 @@ if ($contenido) {
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=2" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=2" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=3" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=3" defer></script>
 </head>
 <body>
 

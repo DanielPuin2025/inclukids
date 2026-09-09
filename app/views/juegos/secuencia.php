@@ -252,8 +252,8 @@ if ($contenido) {
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=2" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=2" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=3" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=3" defer></script>
 </head>
 <body>
 
@@ -411,8 +411,17 @@ if ($contenido) {
         }
 
         function contenidoFicha(pieza) {
-            if (pieza.imagen) return `<img class="ficha-imagen" src="${pieza.imagen}" alt="">`;
+            if (pieza.imagen) return `<img class="ficha-imagen" src="${pieza.imagen}" alt="${pieza.etiqueta ?? ''}">`;
             return pieza.emoji ? `<span>${pieza.emoji}</span>` : '';
+        }
+
+        // Texto del botón 🔊: consigna + las fichas a ordenar, para el
+        // estudiante que solo mira y escucha.
+        function textoParaEscuchar(ronda) {
+            const fichas = (ronda.piezas || []).map(p => p.etiqueta).filter(Boolean);
+            const partes = [ronda.instruccion || ''];
+            if (fichas.length) partes.push('Fichas: ' + fichas.join(', '));
+            return partes.filter(Boolean).join('. ');
         }
 
         let ordenCorrecto = [];
@@ -427,7 +436,7 @@ if ($contenido) {
             indiceEsperado = 0;
 
             instruccionEl.textContent = ronda.instruccion || '';
-            btnEscuchar.onclick = () => hablar(ronda.instruccion || '');
+            btnEscuchar.onclick = () => hablar(textoParaEscuchar(ronda));
 
             filaSlots.innerHTML = '';
             ordenCorrecto.forEach((_, i) => {

@@ -30,8 +30,8 @@ $totalPreguntas = count($preguntas);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
 <link href="/IncluKids/public/css/juegos.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=2" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=2" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=3" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=3" defer></script>
 </head>
 <body class="juego">
 
@@ -175,7 +175,11 @@ $totalPreguntas = count($preguntas);
 
     btnEscuchar.addEventListener('click', () => {
         btnEscuchar.setAttribute('aria-pressed', 'true');
-        IncluKidsJuegos.hablar(preguntaActual().pregunta);
+        // Lee la pregunta y también cada opción, para el estudiante que
+        // solo mira y escucha.
+        const p = preguntaActual();
+        const ops = opcionesDe(p).map((op, i) => (i + 1) + ': ' + op.texto).join('. ');
+        IncluKidsJuegos.hablar(p.pregunta + '. Opciones. ' + ops);
     });
 
     btnContinuar.addEventListener('click', () => {

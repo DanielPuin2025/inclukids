@@ -207,9 +207,74 @@
         sincronizarControles();
     }
 
+    /* ---------- Modo presentación (solo pantallas de juego) ----------
+       El docente maneja el dispositivo y el estudiante mira. Este botón
+       deja la pantalla limpia para el niño: oculta los controles del
+       docente (♿ y ⚙️), agranda el contenido y pasa a pantalla
+       completa. Se sale con el mismo botón o con Escape. */
+    var CLAVE_PRESENTA = "inclukids_presenta";
+
+    function montarPresentacion() {
+        if (!document.body || !esPantallaDeJuego() || document.querySelector(".a11y-presenta")) return;
+
+        var boton = document.createElement("button");
+        boton.type = "button";
+        boton.className = "a11y-presenta";
+        boton.setAttribute("aria-pressed", "false");
+
+        function pintarBoton(activo) {
+            boton.textContent = activo ? "✕ Salir de presentación" : "🖥️ Presentación";
+            boton.setAttribute("aria-pressed", activo ? "true" : "false");
+        }
+
+        function aplicarModo(activo, conPantallaCompleta) {
+            document.body.classList.toggle("modo-presentacion", activo);
+            pintarBoton(activo);
+            try {
+                sessionStorage.setItem(CLAVE_PRESENTA, activo ? "1" : "0");
+            } catch (e) { /* sin sessionStorage: no se recuerda entre juegos */ }
+
+            if (!conPantallaCompleta) return;
+            try {
+                if (activo && !document.fullscreenElement && document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(function () {});
+                } else if (!activo && document.fullscreenElement && document.exitFullscreen) {
+                    document.exitFullscreen().catch(function () {});
+                }
+            } catch (e) { /* pantalla completa no disponible: el modo visual igual aplica */ }
+        }
+
+        boton.addEventListener("click", function () {
+            aplicarModo(!document.body.classList.contains("modo-presentacion"), true);
+        });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && document.body.classList.contains("modo-presentacion")) {
+                aplicarModo(false, true);
+            }
+        });
+        // Si el docente sale de pantalla completa por su cuenta (F11, Esc
+        // del navegador), se sale también del modo presentación.
+        document.addEventListener("fullscreenchange", function () {
+            if (!document.fullscreenElement && document.body.classList.contains("modo-presentacion")) {
+                aplicarModo(false, false);
+            }
+        });
+
+        document.body.appendChild(boton);
+
+        var recordado = "0";
+        try { recordado = sessionStorage.getItem(CLAVE_PRESENTA) || "0"; } catch (e) {}
+        if (recordado === "1") {
+            aplicarModo(true, false); // sin pantalla completa: hace falta un clic del usuario
+        } else {
+            pintarBoton(false);
+        }
+    }
+
     function iniciar() {
         aplicar();
         construirWidget();
+        montarPresentacion();
     }
 
     if (document.readyState === "loading") {

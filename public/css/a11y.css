@@ -325,3 +325,60 @@ body.alto-contraste .field__input::placeholder { color: #bbb !important; }
     .a11y-switch__visual,
     .a11y-switch__visual::before { transition: none; }
 }
+
+/* ==================================================================
+   Modo presentación  (public/js/a11y.js, solo pantallas de juego)
+   El docente maneja; el estudiante mira. Pantalla limpia y grande.
+   ================================================================== */
+.a11y-presenta {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 2147483000;
+    min-height: 44px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 2px solid #1D4448;
+    background: #fff;
+    color: #1D4448;
+    font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(36, 48, 58, 0.22);
+}
+.a11y-presenta:focus-visible {
+    outline: 3px solid #1D4448;
+    outline-offset: 3px;
+}
+
+/* Con el modo activo: fuera los controles del docente. El botón de
+   salir se queda, discreto, hasta que se le pasa por encima. */
+body.modo-presentacion .a11y-fab,
+body.modo-presentacion .a11y-panel,
+body.modo-presentacion .juego-ajustes {
+    display: none !important;
+}
+body.modo-presentacion .a11y-presenta { opacity: 0.35; }
+body.modo-presentacion .a11y-presenta:hover,
+body.modo-presentacion .a11y-presenta:focus-visible { opacity: 1; }
+
+/* Agranda lo que mira el niño (mismos elementos que el tamaño de
+   texto, un punto por encima de "grande"). */
+body.modo-presentacion.a11y-juego h1,
+body.modo-presentacion.a11y-juego .juego-encabezado h1 { font-size: 36px; }
+body.modo-presentacion.a11y-juego .instruccion,
+body.modo-presentacion.a11y-juego .juego-instruccion { font-size: 46px; }
+body.modo-presentacion.a11y-juego .opcion { font-size: 34px; }
+body.modo-presentacion.a11y-juego .mensaje,
+body.modo-presentacion.a11y-juego .juego-mensaje { font-size: 32px; }
+body.modo-presentacion.a11y-juego .zona-etiqueta,
+body.modo-presentacion.a11y-juego .unir-item__etiqueta { font-size: 27px; }
+body.modo-presentacion.a11y-juego .pieza-etiqueta,
+body.modo-presentacion.a11y-juego .ficha-etiqueta,
+body.modo-presentacion.a11y-juego .carta-etiqueta,
+body.modo-presentacion.a11y-juego .cara-frente .etiqueta { font-size: 19px; }
+body.modo-presentacion.a11y-juego .btn-escuchar,
+body.modo-presentacion.a11y-juego .btn-siguiente,
+body.modo-presentacion.a11y-juego .btn-primario,
+body.modo-presentacion.a11y-juego .btn-volver { font-size: 22px; }

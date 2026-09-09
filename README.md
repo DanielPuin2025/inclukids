@@ -142,6 +142,19 @@ clave:
   (+ `public/css/a11y.css`). Los `<link>`/`<script>` llevan `?v=N`;
   súbelo al cambiar esos archivos para saltarse la caché del navegador.
 
+### En las pantallas de juego
+
+Como la app la maneja el docente y el estudiante solo mira y responde
+de viva voz:
+
+- **Botón 🔊 "Escuchar"**: lee la consigna **y también** las opciones /
+  fichas / casillas que hay en pantalla (respeta el toggle "Leer en voz
+  alta"). Las ilustraciones llevan `alt` con su etiqueta.
+- **Botón 🖥️ "Presentación"** (arriba a la izquierda): deja la pantalla
+  limpia para el niño — oculta los controles del docente (♿ y ⚙️),
+  agranda el contenido y pasa a pantalla completa. Se sale con el mismo
+  botón o con `Escape`.
+
 ## Notas de desarrollo
 
 - Sin framework: enrutamiento por archivo (cada vista es un endpoint).

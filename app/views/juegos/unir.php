@@ -274,8 +274,8 @@ if ($contenido) {
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=2" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=2" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=3" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=3" defer></script>
 </head>
 <body>
 
@@ -440,6 +440,17 @@ if ($contenido) {
         let totalPares = 0;
         let paresParaLinea = [];   // [{piezaEl, zonaEl}] — para volver a dibujar si cambia el tamaño de ventana
 
+        // Texto del botón 🔊: consigna + los elementos de las dos columnas,
+        // para el estudiante que solo mira y escucha.
+        function textoParaEscuchar(ronda) {
+            const partes = [ronda.instruccion || ''];
+            const a = (ronda.piezas || []).map(p => p.etiqueta).filter(Boolean);
+            const b = (ronda.zonas || []).map(z => z.etiqueta).filter(Boolean);
+            if (a.length) partes.push('Columna 1: ' + a.join(', '));
+            if (b.length) partes.push('Columna 2: ' + b.join(', '));
+            return partes.filter(Boolean).join('. ');
+        }
+
         function mostrarRonda() {
             const ronda = rondas[indiceRonda];
             mensajeEl.textContent = '';
@@ -451,7 +462,7 @@ if ($contenido) {
             svgLineas.innerHTML = '';
 
             instruccionEl.textContent = ronda.instruccion || '';
-            btnEscuchar.onclick = () => hablar(ronda.instruccion || '');
+            btnEscuchar.onclick = () => hablar(textoParaEscuchar(ronda));
 
             const zonas = ronda.zonas || [];
             totalPares = zonas.length;
@@ -465,7 +476,7 @@ if ($contenido) {
                 btn.dataset.id = pieza.id;
                 btn.dataset.zonaCorrecta = pieza.zona ?? '';
                 const contenidoPieza = pieza.imagen
-                    ? `<img class="unir-item__imagen" src="${pieza.imagen}" alt="">`
+                    ? `<img class="unir-item__imagen" src="${pieza.imagen}" alt="${pieza.etiqueta ?? ''}">`
                     : (pieza.emoji ? `<span class="unir-item__emoji">${pieza.emoji}</span>` : '');
                 btn.innerHTML = contenidoPieza +
                     (pieza.etiqueta ? `<span class="unir-item__etiqueta">${pieza.etiqueta}</span>` : '');
@@ -481,7 +492,7 @@ if ($contenido) {
                 btn.className = 'unir-item';
                 btn.dataset.id = zona.id;
                 const contenidoZona = zona.imagen
-                    ? `<img class="unir-item__imagen" src="${zona.imagen}" alt="">`
+                    ? `<img class="unir-item__imagen" src="${zona.imagen}" alt="${zona.etiqueta ?? ''}">`
                     : (zona.emoji ? `<span class="unir-item__emoji">${zona.emoji}</span>` : '');
                 btn.innerHTML = contenidoZona +
                     `<span class="unir-item__etiqueta">${zona.etiqueta ?? ''}</span>`;
