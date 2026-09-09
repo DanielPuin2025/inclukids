@@ -30,14 +30,20 @@ $totalPreguntas = count($preguntas);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
 <link href="/IncluKids/public/css/juegos.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=3" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=3" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
 </head>
 <body class="juego">
 
 <div class="juego-encabezado">
     <h1><?= htmlspecialchars($actividad['nombre']) ?></h1>
 </div>
+
+<?php $notasDocente = trim((string) ($actividad['instrucciones'] ?? '')); ?>
+<?php $objetivoDocente = trim((string) ($actividad['descripcion'] ?? '')); ?>
+<?php if ($notasDocente !== '' || $objetivoDocente !== ''): ?>
+<div id="notas-docente" hidden data-objetivo="<?= htmlspecialchars($objetivoDocente, ENT_QUOTES) ?>"><?= htmlspecialchars($notasDocente, ENT_QUOTES) ?></div>
+<?php endif; ?>
 
 <?php if (empty($preguntas)): ?>
 
@@ -98,6 +104,7 @@ $totalPreguntas = count($preguntas);
 
     let indiceActual = 0;
     let resuelta = false; // true cuando ya se acertó la pregunta actual
+    let fallos = 0;       // opciones equivocadas tocadas en toda la actividad
 
     const pantallaInicio = document.getElementById('pantallaInicio');
     const pantallaJuego = document.getElementById('pantallaJuego');
@@ -166,6 +173,7 @@ $totalPreguntas = count($preguntas);
         } else {
             // Sin castigo: se marca en neutro (nunca rojo) y se puede
             // volver a intentar cuantas veces haga falta.
+            fallos++;
             botonElegido.classList.add('no-es-esa');
             mensajeFeedback.textContent = 'Inténtalo otra vez';
             mensajeFeedback.className = 'juego-mensaje neutro';
@@ -191,7 +199,9 @@ $totalPreguntas = count($preguntas);
             IncluKidsJuegos.pantallaFinal(pantallaFinal, {
                 titulo: '¡Terminaste todas las preguntas!',
                 urlVolver: URL_VOLVER,
-                textoVolver: '← Volver a la sesión'
+                textoVolver: '← Volver a la sesión',
+                detalle: preguntas.length + (preguntas.length === 1 ? ' pregunta' : ' preguntas') +
+                    (fallos > 0 ? ' · ayudas: ' + fallos : ' · sin ayudas 🌟')
             });
         }
     });

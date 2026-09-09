@@ -382,3 +382,73 @@ body.modo-presentacion.a11y-juego .btn-escuchar,
 body.modo-presentacion.a11y-juego .btn-siguiente,
 body.modo-presentacion.a11y-juego .btn-primario,
 body.modo-presentacion.a11y-juego .btn-volver { font-size: 22px; }
+
+/* ==================================================================
+   Notas para el docente  (ⓘ, public/js/a11y.js, solo juegos)
+   ================================================================== */
+.juego-info-fab {
+    position: fixed;
+    top: 16px;
+    right: 64px;              /* deja hueco al engranaje de Seleccionar */
+    z-index: 2147483000;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #1D4448;
+    background: #fff;
+    color: #1D4448;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(36, 48, 58, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.juego-info-fab:focus-visible {
+    outline: 3px solid #1D4448;
+    outline-offset: 3px;
+}
+.juego-info-panel {
+    position: fixed;
+    top: 68px;
+    right: 16px;
+    z-index: 2147483000;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    max-height: 70vh;
+    overflow: auto;
+    background: #fff;
+    color: #24303A;
+    border: 2px solid #D7DED9;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(36, 48, 58, 0.22);
+    padding: 16px;
+    font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+}
+.juego-info-panel[hidden] { display: none !important; }
+.juego-info-panel__titulo {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #5B6B66;
+    margin: 0 0 10px;
+}
+.juego-info-panel__obj {
+    font-size: 15px;
+    margin: 0 0 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #EEF1EF;
+}
+.juego-info-panel__cuerpo {
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-line;   /* respeta los saltos de línea del campo */
+}
+
+/* En modo presentación no se ve nada de esto (es para el docente). */
+body.modo-presentacion .juego-info-fab,
+body.modo-presentacion .juego-info-panel {
+    display: none !important;
+}

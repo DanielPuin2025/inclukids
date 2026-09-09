@@ -154,6 +154,13 @@ de viva voz:
   limpia para el niño — oculta los controles del docente (♿ y ⚙️),
   agranda el contenido y pasa a pantalla completa. Se sale con el mismo
   botón o con `Escape`.
+- **Botón ⓘ "Notas para el docente"** (arriba a la derecha, oculto en
+  modo presentación): muestra el objetivo y las instrucciones/adaptaciones
+  de la actividad (campo `instrucciones` de la BD), que si no solo se ven
+  en la pantalla de edición del admin.
+- **Pantalla final**: un renglón discreto con `N rondas · ayudas: M`
+  (o `sin ayudas 🌟`) — un dato objetivo para que el docente decida la
+  nota, sin marcar nada como "mal".
 
 ## Notas de desarrollo
 

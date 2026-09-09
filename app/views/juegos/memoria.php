@@ -181,12 +181,18 @@ if ($contenido) {
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=3" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=3" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
 </head>
 <body>
 
 <h1><?= htmlspecialchars($actividad['nombre']) ?></h1>
+
+<?php $notasDocente = trim((string) ($actividad['instrucciones'] ?? '')); ?>
+<?php $objetivoDocente = trim((string) ($actividad['descripcion'] ?? '')); ?>
+<?php if ($notasDocente !== '' || $objetivoDocente !== ''): ?>
+<div id="notas-docente" hidden data-objetivo="<?= htmlspecialchars($objetivoDocente, ENT_QUOTES) ?>"><?= htmlspecialchars($notasDocente, ENT_QUOTES) ?></div>
+<?php endif; ?>
 
 <?php if (empty($pares)): ?>
 
@@ -218,6 +224,21 @@ if ($contenido) {
         const mensajeEl = document.getElementById('mensaje');
         const pantallaJuego = document.getElementById('pantallaJuego');
         const pantallaFinal = document.getElementById('pantallaFinal');
+
+        let fallos = 0;   // parejas destapadas que no coincidían
+
+        // Renglón discreto en la pantalla final: dato objetivo para el
+        // docente, sin marcar nada como "mal".
+        function marcadorResultado(total, palabra) {
+            if (pantallaFinal.querySelector('.resultado-docente')) return;
+            const p = document.createElement('p');
+            p.className = 'resultado-docente';
+            p.style.cssText = 'font-size:19px;font-weight:600;opacity:.68;margin:8px 0 0;';
+            p.textContent = total + ' ' + palabra + (total === 1 ? '' : 's') +
+                (fallos > 0 ? ' · ayudas: ' + fallos : ' · sin ayudas 🌟');
+            const h2 = pantallaFinal.querySelector('h2');
+            (h2 || pantallaFinal).insertAdjacentElement(h2 ? 'afterend' : 'afterbegin', p);
+        }
 
         // Confeti + sonido de cierre: solo el "premio extra" de quien
         // activó "más color y premios" (mismo ajuste que usa el juego de
@@ -388,12 +409,14 @@ if ($contenido) {
                         mensajeEl.textContent = '¡Excelente memoria! 🎉';
                         setTimeout(() => {
                             pantallaJuego.style.display = 'none';
+                            marcadorResultado(pares.length, 'pareja');
                             pantallaFinal.style.display = 'block';
                             celebrarFinal();
                         }, 900);
                     }
                 }, 500);
             } else {
+                fallos++;
                 primeraCarta.el.classList.add('rebotando');
                 segundaCarta.el.classList.add('rebotando');
                 setTimeout(() => {

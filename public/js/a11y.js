@@ -271,10 +271,75 @@
         }
     }
 
+    /* ---------- Notas para el docente (ⓘ, solo pantallas de juego) ----
+       Muestra el objetivo y las instrucciones/adaptaciones de la
+       actividad (campo `instrucciones` en la BD), que si no solo se
+       ven en la pantalla de edición del admin. La vista de juego deja
+       el texto en un <div id="notas-docente" hidden>. Se oculta en
+       modo presentación. */
+    function montarNotasDocente() {
+        var fuente = document.getElementById("notas-docente");
+        if (!document.body || !esPantallaDeJuego() || !fuente) return;
+        if (document.querySelector(".juego-info-fab")) return;
+
+        var instrucciones = (fuente.textContent || "").trim();
+        var objetivo = (fuente.getAttribute("data-objetivo") || "").trim();
+        if (!instrucciones && !objetivo) return;
+
+        var fab = document.createElement("button");
+        fab.type = "button";
+        fab.className = "juego-info-fab";
+        fab.setAttribute("aria-expanded", "false");
+        fab.setAttribute("aria-label", "Notas para el docente");
+        fab.textContent = "ⓘ";
+
+        var panel = document.createElement("div");
+        panel.className = "juego-info-panel";
+        panel.hidden = true;
+        panel.setAttribute("role", "dialog");
+        panel.setAttribute("aria-label", "Notas para el docente");
+
+        var titulo = document.createElement("p");
+        titulo.className = "juego-info-panel__titulo";
+        titulo.textContent = "Notas para el docente";
+        panel.appendChild(titulo);
+        if (objetivo) {
+            var o = document.createElement("p");
+            o.className = "juego-info-panel__obj";
+            o.textContent = "Objetivo: " + objetivo;
+            panel.appendChild(o);
+        }
+        if (instrucciones) {
+            var c = document.createElement("div");
+            c.className = "juego-info-panel__cuerpo";
+            c.textContent = instrucciones;
+            panel.appendChild(c);
+        }
+
+        function abrir(v) {
+            panel.hidden = !v;
+            fab.setAttribute("aria-expanded", v ? "true" : "false");
+        }
+        fab.addEventListener("click", function (e) {
+            e.stopPropagation();
+            abrir(panel.hidden);
+        });
+        document.addEventListener("click", function (e) {
+            if (!panel.hidden && !panel.contains(e.target) && e.target !== fab) abrir(false);
+        });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && !panel.hidden) { abrir(false); fab.focus(); }
+        });
+
+        document.body.appendChild(fab);
+        document.body.appendChild(panel);
+    }
+
     function iniciar() {
         aplicar();
         construirWidget();
         montarPresentacion();
+        montarNotasDocente();
     }
 
     if (document.readyState === "loading") {

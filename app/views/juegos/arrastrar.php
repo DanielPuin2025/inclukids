@@ -251,12 +251,18 @@ if ($contenido) {
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=3" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=3" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
 </head>
 <body>
 
 <h1><?= htmlspecialchars($actividad['nombre']) ?></h1>
+
+<?php $notasDocente = trim((string) ($actividad['instrucciones'] ?? '')); ?>
+<?php $objetivoDocente = trim((string) ($actividad['descripcion'] ?? '')); ?>
+<?php if ($notasDocente !== '' || $objetivoDocente !== ''): ?>
+<div id="notas-docente" hidden data-objetivo="<?= htmlspecialchars($objetivoDocente, ENT_QUOTES) ?>"><?= htmlspecialchars($notasDocente, ENT_QUOTES) ?></div>
+<?php endif; ?>
 
 <?php if (empty($rondas)): ?>
 
@@ -292,6 +298,20 @@ if ($contenido) {
     <script>
         const rondas = <?= json_encode($rondas, JSON_UNESCAPED_UNICODE) ?>;
         let indiceRonda = 0;
+        let fallos = 0;   // toques/sueltas equivocados en toda la actividad
+
+        // Renglón discreto en la pantalla final: le da al docente un dato
+        // objetivo para decidir la nota, sin marcar nada como "mal".
+        function marcadorResultado(total, palabra) {
+            if (pantallaFinal.querySelector('.resultado-docente')) return;
+            const p = document.createElement('p');
+            p.className = 'resultado-docente';
+            p.style.cssText = 'font-size:19px;font-weight:600;opacity:.68;margin:8px 0 0;';
+            p.textContent = total + ' ' + palabra + (total === 1 ? '' : 's') +
+                (fallos > 0 ? ' · ayudas: ' + fallos : ' · sin ayudas 🌟');
+            const h2 = pantallaFinal.querySelector('h2');
+            (h2 || pantallaFinal).insertAdjacentElement(h2 ? 'afterend' : 'afterbegin', p);
+        }
 
         const barraProgreso = document.getElementById('barraProgreso');
         const instruccionEl = document.getElementById('instruccion');
@@ -537,6 +557,7 @@ if ($contenido) {
                     }
                 } else {
                     // Error: la pieza regresa suavemente a su lugar, sin penalizar.
+                    fallos++;
                     pieza.classList.add('rebotando');
                     setTimeout(() => pieza.classList.remove('rebotando'), 300);
                     pieza.style.left = posOriginal.left + 'px';
@@ -554,6 +575,7 @@ if ($contenido) {
                 mostrarRonda();
             } else {
                 pantallaJuego.style.display = 'none';
+                marcadorResultado(rondas.length, 'ronda');
                 pantallaFinal.style.display = 'block';
                 celebrarFinal();
             }

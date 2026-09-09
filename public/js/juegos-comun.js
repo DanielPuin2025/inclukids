@@ -90,10 +90,17 @@
         var titulo = opciones.titulo || "¡Actividad terminada!";
         var urlVolver = opciones.urlVolver || "#";
         var textoVolver = opciones.textoVolver || "Volver a la sesión";
+        // Renglón opcional con un dato objetivo para el docente
+        // ("N preguntas · ayudas: M"). Discreto, nunca marca nada como mal.
+        var detalle = opciones.detalle
+            ? '<p class="juego-final__detalle" style="font-size:19px;font-weight:600;opacity:.68;margin:6px 0 0;">'
+              + escapar(opciones.detalle) + '</p>'
+            : '';
 
         contenedor.innerHTML =
             '<div class="juego-final__emoji" aria-hidden="true">🌟</div>' +
             '<h2>' + escapar(titulo) + '</h2>' +
+            detalle +
             '<p>Lo hiciste muy bien.</p>' +
             '<a class="btn-volver" href="' + escaparAtributo(urlVolver) + '">' +
             escapar(textoVolver) + '</a>';
