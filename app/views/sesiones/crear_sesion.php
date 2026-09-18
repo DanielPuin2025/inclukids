@@ -18,7 +18,9 @@ $observaciones = trim($_POST["observaciones"] ?? "");
 $actividades = $_POST["actividades"] ?? [];
 
 if ($idCurso === 0 || $idDba === 0 || empty($actividades)) {
-    die("Faltan datos para crear la sesión. Vuelve atrás e inténtalo de nuevo.");
+    flash_set("error", "Faltan datos para crear la sesión. Elige curso, DBA y al menos una actividad.");
+    header("Location: paso1_curso.php");
+    exit();
 }
 
 // Un docente solo puede crear sesiones para un curso que tiene a
@@ -30,7 +32,9 @@ if (!$esAdmin) {
     $cursoController = new CursoController();
     $curso = $cursoController->obtenerPorId($idCurso);
     if (!$curso || (int) $curso["id_docente"] !== (int) $_SESSION["id_docente"]) {
-        die("No tienes permiso para crear una sesión en ese curso.");
+        flash_set("error", "No tienes permiso para crear una sesión en ese curso.");
+        header("Location: paso1_curso.php");
+        exit();
     }
 }
 

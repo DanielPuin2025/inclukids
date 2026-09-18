@@ -1,10 +1,13 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 /**
  * Protección CSRF para todos los formularios que cambian datos.
  *
- * Requiere que session_start() ya se haya llamado (todas las vistas
- * lo hacen al inicio). El token es POR SESIÓN, no por request: alcanza
+ * Requiere que la sesión ya esté arrancada (sesion_iniciar(), que
+ * todas las vistas llaman al inicio). El token es POR SESIÓN, no por
+ * request: alcanza
  * contra CSRF y no rompe el botón "atrás" ni tener varias pestañas
  * abiertas.
  *

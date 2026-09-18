@@ -248,6 +248,59 @@ a:hover {
     letter-spacing: 0.03em;
 }
 
+/* ---------- Barra de estados de progreso (progreso/_barra_estados.php) ---------- */
+.barra-estados {
+    margin: 0 0 24px;
+}
+.barra-estados__titulo {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--texto-suave);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.barra-estados__track {
+    display: flex;
+    gap: 2px;                 /* separación de superficie entre segmentos */
+    height: 30px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--borde);
+}
+.barra-estados__seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2px;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+.barra-estados__leyenda {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 13.5px;
+    color: var(--tinta);
+}
+.barra-estados__leyenda li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.barra-estados__punto {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
 /* ---------- List group ---------- */
 .list-group-item {
     border-color: var(--borde) !important;

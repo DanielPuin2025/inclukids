@@ -20,7 +20,7 @@ $estadisticas = $dashboardController->obtenerEstadisticas();
 <link rel="icon" href="/IncluKids/public/img/logo-inclukids.jpg">
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/panel.css?v=2" rel="stylesheet">
+<link href="<?= htmlspecialchars(asset_url('css/panel.css')) ?>" rel="stylesheet">
 
 </head>
 <body>
@@ -142,6 +142,17 @@ $estadisticas = $dashboardController->obtenerEstadisticas();
             </span>
         </a>
 
+        <a href="../docentes/index.php" class="panel-tile panel-tile--visualizador panel-tile--enlace">
+            <span class="panel-tile__header">
+                <span class="panel-tile__icono">🧑‍🏫</span>
+                <span class="panel-tile__texto">
+                    <span class="panel-tile__titulo">Docentes</span>
+                    <span class="panel-tile__subtitulo">Crear cuentas, editarlas y restablecer contraseñas</span>
+                </span>
+                <span class="panel-tile__chevron panel-tile__chevron--enlace">→</span>
+            </span>
+        </a>
+
         <a href="../actividades/index.php" class="panel-tile panel-tile--actividades panel-tile--enlace">
             <span class="panel-tile__header">
                 <span class="panel-tile__icono">🎮</span>
@@ -159,6 +170,17 @@ $estadisticas = $dashboardController->obtenerEstadisticas();
                 <span class="panel-tile__texto">
                     <span class="panel-tile__titulo">Sesiones y progreso</span>
                     <span class="panel-tile__subtitulo">Vista global, de todos los docentes</span>
+                </span>
+                <span class="panel-tile__chevron panel-tile__chevron--enlace">→</span>
+            </span>
+        </a>
+
+        <a href="../auditoria/index.php" class="panel-tile panel-tile--dba panel-tile--enlace">
+            <span class="panel-tile__header">
+                <span class="panel-tile__icono">🗒️</span>
+                <span class="panel-tile__texto">
+                    <span class="panel-tile__titulo">Bitácora</span>
+                    <span class="panel-tile__subtitulo">Quién borró o retiró qué, y cuándo</span>
                 </span>
                 <span class="panel-tile__chevron panel-tile__chevron--enlace">→</span>
             </span>

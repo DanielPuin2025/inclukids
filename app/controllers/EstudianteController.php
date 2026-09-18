@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../models/Estudiante.php";
 
 class EstudianteController
@@ -40,9 +42,39 @@ class EstudianteController
         return $modelo->actualizar($idEstudiante, $nombres, $apellidos, $idCurso);
     }
 
+    public function crearVarios($idCurso, array $filas)
+    {
+        $modelo = new Estudiante();
+        return $modelo->crearVarios($idCurso, $filas);
+    }
+
     public function eliminar($idEstudiante)
     {
         $modelo = new Estudiante();
         return $modelo->eliminar($idEstudiante);
+    }
+
+    public function restaurar($idEstudiante)
+    {
+        $modelo = new Estudiante();
+        return $modelo->restaurar($idEstudiante);
+    }
+
+    public function listarEliminados($idDocente = null)
+    {
+        $modelo = new Estudiante();
+        return $modelo->listarEliminados($idDocente);
+    }
+
+    public function contarEliminados($idDocente = null)
+    {
+        $modelo = new Estudiante();
+        return $modelo->contarEliminados($idDocente);
+    }
+
+    public function eliminarDefinitivo($idEstudiante)
+    {
+        $modelo = new Estudiante();
+        return $modelo->eliminarDefinitivo($idEstudiante);
     }
 }

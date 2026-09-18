@@ -51,8 +51,11 @@
     function hablar(texto) {
         if (!prefs.voz) return;
         if (!("speechSynthesis" in window) || !texto) return;
+        // Leer solo el texto: fuera emojis y pictogramas.
+        texto = String(texto).replace(/[\u{1F000}-\u{1FAFF}\u{1F1E6}-\u{1F1FF}\u{2190}-\u{21FF}\u{2300}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E000}-\u{F8FF}]/gu, "").replace(/\s+/g, " ").trim();
+        if (!texto) return;
         window.speechSynthesis.cancel();
-        var u = new SpeechSynthesisUtterance(String(texto));
+        var u = new SpeechSynthesisUtterance(texto);
         u.lang = "es-ES";
         u.rate = 0.9;
         window.speechSynthesis.speak(u);

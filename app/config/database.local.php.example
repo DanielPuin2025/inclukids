@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * Plantilla de configuración local de la base de datos.
+ *
+ * Copia este archivo como  app/config/database.local.php  (sin
+ * ".example") y ajusta solo las claves que necesites. Lo que no
+ * pongas aquí toma el valor por defecto de app/config/database.php
+ * (host "localhost", usuario "root", sin contraseña, BD "incluKids").
+ *
+ * database.local.php está en .gitignore: no se sube al repositorio.
+ */
+
+return [
+    // "host"     => "localhost",
+    // "dbname"   => "inclukids",
+    // "user"     => "inclukids_app",
+    // "password" => "cambia-esto",
+];

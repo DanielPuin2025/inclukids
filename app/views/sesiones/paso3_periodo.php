@@ -18,20 +18,9 @@ if (!$curso || !$materia || (int) $curso["id_docente"] !== (int) $_SESSION["id_d
     exit();
 }
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Iniciar sesión de clase - Paso 3</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Iniciar sesión de clase - Paso 3"); ?>
 <body>
 <div class="container mt-5" style="max-width: 600px;">
-
-    <a href="paso2_materia.php?id_curso=<?= $idCurso ?>" class="text-decoration-none">&larr; Cambiar materia</a>
 
     <h4 class="text-muted mt-3">Paso 3 de 5</h4>
     <h2 class="mb-1">¿Qué periodo académico?</h2>

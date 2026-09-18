@@ -26,16 +26,7 @@ $registros = $progresoController->listarPorSesion($idSesion);
 
 $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" => "danger"];
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Progreso guardado</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Progreso guardado"); ?>
 <body>
 <div class="container mt-5" style="max-width: 600px;">
 

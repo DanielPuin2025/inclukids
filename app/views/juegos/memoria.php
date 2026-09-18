@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . "/../../helpers/session_boot.php";
+sesion_iniciar();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
 require_once __DIR__ . "/../../controllers/ActividadController.php";
@@ -7,6 +8,13 @@ require_once __DIR__ . "/../../controllers/ContenidoJuegoController.php";
 
 $idActividad = (int) ($_GET["id_actividad"] ?? 0);
 $idSesion = (int) ($_GET["id_sesion"] ?? 0);
+
+// Sin id_sesion se entra en "vista previa": el docente abre el juego
+// desde el catálogo para explorarlo, sin una sesión de clase detrás.
+$urlVolver = $idSesion > 0
+    ? "../sesiones/confirmacion.php?id_sesion=$idSesion"
+    : "../actividades/index.php";
+$textoVolver = $idSesion > 0 ? "Volver a la sesión" : "Volver al catálogo";
 
 $actividadController = new ActividadController();
 $actividad = $actividadController->obtenerPorId($idActividad);
@@ -181,8 +189,9 @@ if ($contenido) {
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=6" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=6" defer></script>
+<script src="/IncluKids/public/js/juegos-voz.js?v=3" defer></script>
 </head>
 <body>
 
@@ -199,7 +208,7 @@ if ($contenido) {
     <p style="text-align:center; max-width: 500px;">
         Este juego todavía no tiene parejas cargadas.
     </p>
-    <a href="../sesiones/confirmacion.php?id_sesion=<?= $idSesion ?>" class="btn-volver">&larr; Volver</a>
+    <a href="<?= htmlspecialchars($urlVolver) ?>" class="btn-volver">&larr; Volver</a>
 
 <?php else: ?>
 
@@ -214,7 +223,7 @@ if ($contenido) {
 
     <div class="pantalla-final" id="pantallaFinal">
         <h2>🎉 ¡Encontraste todas las parejas!</h2>
-        <a href="../sesiones/confirmacion.php?id_sesion=<?= $idSesion ?>" class="btn-volver">&larr; Volver a la sesión</a>
+        <a href="<?= htmlspecialchars($urlVolver) ?>" class="btn-volver">&larr; <?= htmlspecialchars($textoVolver) ?></a>
     </div>
 
     <script>
@@ -327,6 +336,9 @@ if ($contenido) {
         function hablar(texto) {
             if (!('speechSynthesis' in window) || !texto) return;
             if (JSON.parse(localStorage.getItem('inclukids_juegos') || '{}').voz === false) return;
+            // Leer solo el texto: fuera emojis y pictogramas.
+            texto = String(texto).replace(/[\u{1F000}-\u{1FAFF}\u{1F1E6}-\u{1F1FF}\u{2190}-\u{21FF}\u{2300}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E000}-\u{F8FF}]/gu, '').replace(/\s+/g, ' ').trim();
+            if (!texto) return;
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(texto);
             u.lang = 'es-ES';

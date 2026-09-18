@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../models/Progreso.php";
 
 class ProgresoController
@@ -8,6 +10,12 @@ class ProgresoController
     {
         $modelo = new Progreso();
         return $modelo->registrar($idSesion, $idEstudiante, $estado, $observaciones);
+    }
+
+    public function registrarOActualizar($idSesion, $idEstudiante, $estado, $observaciones)
+    {
+        $modelo = new Progreso();
+        return $modelo->registrarOActualizar($idSesion, $idEstudiante, $estado, $observaciones);
     }
 
     public function listarPorSesion($idSesion)

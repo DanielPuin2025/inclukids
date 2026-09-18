@@ -6,29 +6,22 @@ require_once __DIR__ . "/../../controllers/DocenteController.php";
 $docenteController = new DocenteController();
 $docente = $docenteController->obtenerPorId($_SESSION["id_docente"]);
 
-$mensaje = $_SESSION["mensaje_perfil"] ?? "";
-unset($_SESSION["mensaje_perfil"]);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Mi perfil</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Mi perfil"); ?>
 <body>
 <div class="container mt-5" style="max-width: 500px;">
 
-    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al inicio</a>
-
     <h2 class="mt-3 mb-4">👤 Mi perfil</h2>
 
-    <?php if ($mensaje): ?>
-        <div class="alert alert-success"><?= htmlspecialchars($mensaje) ?></div>
+    <?php if (!empty($_SESSION["forzar_cambio_password"])): ?>
+        <div class="alert alert-danger">
+            <strong>Cambia tu contraseña para continuar.</strong> La cuenta sigue con
+            una contraseña insegura (posiblemente la de fábrica). El resto del panel
+            está bloqueado hasta que la cambies aquí abajo.
+        </div>
     <?php endif; ?>
+
+    <?= flash_render() ?>
 
     <div class="card mb-4">
         <div class="card-body">
@@ -62,11 +55,12 @@ unset($_SESSION["mensaje_perfil"]);
                 <?= csrf_campo() ?>
                 <div class="mb-3">
                     <label class="form-label">Nueva contraseña</label>
-                    <input type="password" class="form-control" name="nueva" minlength="6" required>
+                    <input type="password" class="form-control" name="nueva" minlength="8" required>
+                    <small class="text-muted">Al menos 8 caracteres. No puede ser una contraseña común.</small>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Confirmar nueva contraseña</label>
-                    <input type="password" class="form-control" name="confirmar" minlength="6" required>
+                    <input type="password" class="form-control" name="confirmar" minlength="8" required>
                 </div>
                 <button type="submit" class="btn btn-secondary w-100">Cambiar contraseña</button>
             </form>

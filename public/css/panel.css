@@ -486,8 +486,20 @@ a.panel-tile--enlace:hover .panel-tile__chevron--enlace {
 
 /* ---------- Preferencias de accesibilidad ---------- */
 
-html.texto-grande { font-size: 112.5%; }
-html.texto-extra { font-size: 125%; }
+/* Tamaño de texto. Casi todo el texto de la app va en px, así que subir
+   solo el font-size de <html> apenas se notaba entre A / A+ / A++.
+   Se escala el contenido entero con `zoom` (sí afecta a las medidas en
+   px); en navegadores sin `zoom` se cae a un font-size de raíz alto.
+   Este mismo bloque está duplicado en public/css/a11y.css: cámbialos
+   juntos. */
+@supports (zoom: 1) {
+    html.texto-grande body:not(.a11y-juego) { zoom: 1.25; }
+    html.texto-extra  body:not(.a11y-juego) { zoom: 1.6; }
+}
+@supports not (zoom: 1) {
+    html.texto-grande { font-size: 128%; }
+    html.texto-extra  { font-size: 160%; }
+}
 
 body.reducir-movimiento *,
 body.reducir-movimiento *::before,
@@ -500,23 +512,31 @@ body.alto-contraste {
     background: #000000 !important;
     color: #FFFFFF !important;
 }
+/* TODO el texto pasa a blanco: así no queda nada oscuro e ilegible sobre
+   el negro (.text-muted, <small>, texto suelto en <div>, celdas…). Lo
+   que debe llevar color (enlaces, botones) se re-corrige más abajo con
+   selectores más específicos. */
+body.alto-contraste,
+body.alto-contraste * {
+    color: #FFFFFF !important;
+}
+body.alto-contraste a,
+body.alto-contraste a * {
+    color: #FFEB3B !important;
+}
 body.alto-contraste .panel-tile,
 body.alto-contraste .card,
+body.alto-contraste .card-header,
+body.alto-contraste .card-footer,
+body.alto-contraste .list-group-item,
 body.alto-contraste .avatar-menu__panel {
     background: #000000 !important;
     border-color: #FFFFFF !important;
 }
-body.alto-contraste .panel-tile__titulo,
-body.alto-contraste .panel-tile__subtitulo,
-body.alto-contraste .avatar-menu__nombre,
-body.alto-contraste .avatar-menu__item,
-body.alto-contraste h1, body.alto-contraste h2, body.alto-contraste h3,
-body.alto-contraste h4, body.alto-contraste h5, body.alto-contraste p,
-body.alto-contraste td, body.alto-contraste th {
+body.alto-contraste .badge {
+    background: #000000 !important;
+    border: 2px solid #FFFFFF !important;
     color: #FFFFFF !important;
-}
-body.alto-contraste a {
-    color: #FFEB3B !important;
 }
 body.alto-contraste table,
 body.alto-contraste th,
@@ -531,10 +551,29 @@ body.alto-contraste td {
     --bs-table-striped-bg: #000000 !important;
     --bs-table-striped-color: #FFFFFF !important;
 }
+body.alto-contraste .btn,
+body.alto-contraste .btn *,
 body.alto-contraste .btn-primary,
+body.alto-contraste .btn-primary *,
 body.alto-contraste .btn-success,
+body.alto-contraste .btn-success *,
 body.alto-contraste .avatar-menu__boton {
     background-color: #FFEB3B !important;
     border-color: #FFEB3B !important;
     color: #000000 !important;
+}
+body.alto-contraste .btn *,
+body.alto-contraste .btn-primary *,
+body.alto-contraste .btn-success * {
+    background-color: transparent !important;
+}
+body.alto-contraste .form-control,
+body.alto-contraste .form-select,
+body.alto-contraste input,
+body.alto-contraste select,
+body.alto-contraste textarea,
+body.alto-contraste option {
+    background: #000000 !important;
+    border-color: #FFFFFF !important;
+    color: #FFFFFF !important;
 }

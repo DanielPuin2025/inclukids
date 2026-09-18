@@ -16,16 +16,21 @@ $nombre = trim($_POST["nombre"] ?? "");
 $descripcion = trim($_POST["descripcion"] ?? "");
 $instrucciones = trim($_POST["instrucciones"] ?? "");
 
+$volver = $idActividad > 0 ? "editar.php?id_actividad=$idActividad" : "nuevo.php";
 if ($idDba === 0 || $idTipo === 0 || $nombre === "") {
-    die("Faltan datos. <a href='index.php'>Volver</a>");
+    flash_set("error", "Faltan datos: la actividad necesita DBA, tipo y nombre.");
+    header("Location: $volver");
+    exit();
 }
 
 $actividadController = new ActividadController();
 
 if ($idActividad === 0) {
     $actividadController->crear($idDba, $idTipo, $nombre, $descripcion, $instrucciones);
+    flash_set("exito", "Actividad «$nombre» creada.");
 } else {
     $actividadController->actualizar($idActividad, $idDba, $idTipo, $nombre, $descripcion, $instrucciones);
+    flash_set("exito", "Actividad «$nombre» actualizada.");
 }
 
 header("Location: index.php");

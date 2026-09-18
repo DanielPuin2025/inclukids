@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . "/../../helpers/session_boot.php";
+sesion_iniciar();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
 require_once __DIR__ . "/../../controllers/ActividadController.php";
@@ -7,6 +8,13 @@ require_once __DIR__ . "/../../controllers/ContenidoJuegoController.php";
 
 $idActividad = (int) ($_GET["id_actividad"] ?? 0);
 $idSesion = (int) ($_GET["id_sesion"] ?? 0);
+
+// Sin id_sesion se entra en "vista previa": el docente abre el juego
+// desde el catálogo para explorarlo, sin una sesión de clase detrás.
+$urlVolver = $idSesion > 0
+    ? "../sesiones/confirmacion.php?id_sesion=$idSesion"
+    : "../actividades/index.php";
+$textoVolver = $idSesion > 0 ? "Volver a la sesión" : "Volver al catálogo";
 
 $actividadController = new ActividadController();
 $actividad = $actividadController->obtenerPorId($idActividad);
@@ -153,6 +161,13 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
     }
     .ficha:hover { transform: translateY(-2px); }
     .ficha:focus-visible { outline: 3px solid var(--color-primario); outline-offset: 3px; }
+    /* Ficha elegida con un toque / con el teclado (alternativa al arrastre). */
+    .ficha.seleccionada {
+        outline: 4px solid var(--color-primario);
+        outline-offset: 4px;
+        box-shadow: var(--sombra-pieza-alta);
+    }
+    .slot[role="button"], .ficha[role="button"] { cursor: pointer; }
     .ficha .ficha-etiqueta { font-size: 14px; font-weight: 600; margin-top: 2px; }
     .ficha.arrastrando { box-shadow: var(--sombra-pieza-alta); cursor: grabbing; z-index: 50; transform: scale(1.05); }
     .ficha-imagen { width: 58%; max-width: 74px; aspect-ratio: 1 / 1; border-radius: 14px; pointer-events: none; }
@@ -231,6 +246,7 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
         }
         .punto.activo { transform: none; }
         .ficha:hover, .ficha.arrastrando { transform: none; }
+        .ficha.seleccionada { transform: none; }
         .btn-escuchar:hover, .btn-comprobar:hover, .btn-siguiente:hover, .btn-volver:hover { transform: none; }
     }
 
@@ -251,8 +267,9 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=6" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=6" defer></script>
+<script src="/IncluKids/public/js/juegos-voz.js?v=3" defer></script>
 </head>
 <body class="<?= $esRompecabezas ? 'rompecabezas' : '' ?>">
 
@@ -269,7 +286,7 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
     <p style="text-align:center; max-width: 500px;">
         Este juego todavía no tiene rondas cargadas.
     </p>
-    <a href="../sesiones/confirmacion.php?id_sesion=<?= $idSesion ?>" class="btn-volver">&larr; Volver</a>
+    <a href="<?= htmlspecialchars($urlVolver) ?>" class="btn-volver">&larr; Volver</a>
 
 <?php else: ?>
 
@@ -293,7 +310,7 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
 
     <div class="pantalla-final" id="pantallaFinal">
         <h2>🎉 ¡Actividad completada!</h2>
-        <a href="../sesiones/confirmacion.php?id_sesion=<?= $idSesion ?>" class="btn-volver">&larr; Volver a la sesión</a>
+        <a href="<?= htmlspecialchars($urlVolver) ?>" class="btn-volver">&larr; <?= htmlspecialchars($textoVolver) ?></a>
     </div>
 
     <script>
@@ -381,30 +398,48 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
         // diferencia de celebrarFinal(), esto NO depende de "más color y
         // premios" — es solo confirmar que el toque se registró.
         let ctxToque = null;
-        function tonoClic() {
+        function tono(frecuencias, duracionMs, volumen) {
             try {
                 if (!ctxToque) {
                     const AudioCtx = window.AudioContext || window.webkitAudioContext;
                     if (!AudioCtx) return;
                     ctxToque = new AudioCtx();
                 }
-                if (ctxToque.state === 'suspended') ctxToque.resume();
-                const ahora = ctxToque.currentTime;
-                const osc = ctxToque.createOscillator();
-                const ganancia = ctxToque.createGain();
-                osc.type = 'sine';
-                osc.frequency.value = 700;
-                ganancia.gain.setValueAtTime(0, ahora);
-                ganancia.gain.linearRampToValueAtTime(0.045, ahora + 0.008);
-                ganancia.gain.exponentialRampToValueAtTime(0.0001, ahora + 0.09);
-                osc.connect(ganancia);
-                ganancia.connect(ctxToque.destination);
-                osc.start(ahora);
-                osc.stop(ahora + 0.1);
+                const reproducir = () => {
+                    const ahora = ctxToque.currentTime + 0.02;
+                    frecuencias.forEach((f, i) => {
+                        const osc = ctxToque.createOscillator();
+                        const ganancia = ctxToque.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = f;
+                        const t0 = ahora + i * 0.07;
+                        ganancia.gain.setValueAtTime(0, t0);
+                        ganancia.gain.linearRampToValueAtTime(volumen, t0 + 0.008);
+                        ganancia.gain.exponentialRampToValueAtTime(0.0001, t0 + duracionMs / 1000);
+                        osc.connect(ganancia);
+                        ganancia.connect(ctxToque.destination);
+                        osc.start(t0);
+                        osc.stop(t0 + duracionMs / 1000 + 0.02);
+                    });
+                };
+                // El navegador arranca el audio "suspendido" hasta el primer
+                // gesto: si no esperamos a que reanude, el primer sonido se
+                // pierde (por eso "no sonaba nada" al principio).
+                if (ctxToque.state === 'suspended') {
+                    ctxToque.resume().then(reproducir).catch(() => {});
+                } else {
+                    reproducir();
+                }
             } catch (e) { /* Web Audio no disponible: no pasa nada */ }
         }
+        // "Tick" corto al pulsar cualquier botón.
+        function tonoClic() { tono([700], 90, 0.06); }
+        // Sonidos del arrastre: uno al AGARRAR una ficha y otro al SOLTARLA.
+        function tonoAgarrar() { tono([540], 90, 0.09); }
+        function tonoSoltar() { tono([494], 130, 0.10); }
         document.addEventListener('pointerdown', (e) => {
-            if (e.target.closest && e.target.closest('button, .ficha, a.btn-volver, [role="button"]')) {
+            // Las fichas ya suenan con tonoAgarrar(); aquí solo los botones.
+            if (e.target.closest && e.target.closest('button, a.btn-volver, [role="button"]')) {
                 tonoClic();
             }
         }, true);
@@ -412,6 +447,9 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
         function hablar(texto) {
             if (!('speechSynthesis' in window) || !texto) return;
             if (JSON.parse(localStorage.getItem('inclukids_juegos') || '{}').voz === false) return;
+            // Leer solo el texto: fuera emojis y pictogramas.
+            texto = String(texto).replace(/[\u{1F000}-\u{1FAFF}\u{1F1E6}-\u{1F1FF}\u{2190}-\u{21FF}\u{2300}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E000}-\u{F8FF}]/gu, '').replace(/\s+/g, ' ').trim();
+            if (!texto) return;
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(texto);
             u.lang = 'es-ES';
@@ -430,9 +468,12 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
 
         // slots[i] = id de la pieza colocada en el slot i, o null si está vacío.
         let slots = [];
+        // Ficha elegida con un toque / teclado (se guarda el id, no el
+        // nodo: repintar() recrea los elementos en cada movimiento).
+        let fichaSeleccionadaId = null;
 
         function piezaPorId(id) {
-            return rondas[indiceRonda].piezas.find(p => p.id === id);
+            return rondas[indiceRonda].piezas.find(p => String(p.id) === String(id));
         }
 
         // Texto del botón 🔊: consigna + las fichas que hay que ordenar,
@@ -448,21 +489,61 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
             const div = document.createElement('div');
             div.className = 'ficha';
             div.dataset.piezaId = pieza.id;
+            div.setAttribute('role', 'button');
+            div.setAttribute('tabindex', '0');
+            div.setAttribute('aria-label', 'Ficha ' + (pieza.etiqueta ?? ''));
             const contenidoPieza = pieza.imagen
                 ? `<img class="ficha-imagen" src="${pieza.imagen}" alt="${pieza.etiqueta ?? ''}">`
                 : (pieza.emoji ? `<span>${pieza.emoji}</span>` : '');
             div.innerHTML = contenidoPieza +
                 `<span class="ficha-etiqueta">${pieza.etiqueta ?? ''}</span>`;
+            div.addEventListener('click', (e) => {
+                if (div.dataset.arrastrado === '1') { div.dataset.arrastrado = ''; return; }
+                alternarSeleccion(String(pieza.id));
+            });
+            div.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alternarSeleccion(String(pieza.id)); }
+            });
             activarArrastre(div);
             return div;
         }
 
+        // Elegir / soltar una ficha (modo toque-teclado, alternativa al arrastre).
+        function alternarSeleccion(id) {
+            fichaSeleccionadaId = (fichaSeleccionadaId === id) ? null : id;
+            if (fichaSeleccionadaId) {
+                tonoAgarrar();
+                const p = piezaPorId(id);
+                hablar('Ficha ' + ((p && p.etiqueta) || '') + '. Ahora elige una casilla.');
+            }
+            repintar();
+        }
+
+        // Toque / Enter sobre una casilla: mueve ahí la ficha elegida.
+        function colocarEnSlot(indiceSlot) {
+            if (!fichaSeleccionadaId) return;
+            const id = fichaSeleccionadaId;
+
+            // Quitarla de donde estuviera y ponerla en el slot destino.
+            const previo = slots.indexOf(id);
+            if (previo !== -1) slots[previo] = null;
+            slots[indiceSlot] = id;   // si el slot tenía otra, esa vuelve a la bandeja
+
+            fichaSeleccionadaId = null;
+            tonoSoltar();
+            mensajeEl.textContent = '';
+            mensajeEl.className = 'mensaje';
+            repintar();
+        }
+
         function repintar() {
+            const idSel = fichaSeleccionadaId;
+
             // Bandeja: piezas que no están en ningún slot.
             const enSlots = new Set(slots.filter(x => x !== null));
             bandeja.innerHTML = '';
             rondas[indiceRonda].piezas.forEach(pieza => {
-                if (!enSlots.has(pieza.id)) {
+                if (!enSlots.has(String(pieza.id))) {
                     bandeja.appendChild(crearFichaEl(pieza));
                 }
             });
@@ -475,9 +556,17 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
                 const idPieza = slots[i];
                 if (idPieza !== null) {
                     const pieza = piezaPorId(idPieza);
-                    slotEl.appendChild(crearFichaEl(pieza));
+                    if (pieza) slotEl.appendChild(crearFichaEl(pieza));
                 }
+                // Pista visual: casillas vacías se resaltan si hay ficha elegida.
+                slotEl.classList.toggle('resaltado', !!idSel && slots[i] === null);
             });
+
+            // Volver a marcar (y enfocar) la ficha elegida tras recrear los nodos.
+            if (idSel) {
+                const sel = document.querySelector('.ficha[data-pieza-id="' + idSel + '"]');
+                if (sel) { sel.classList.add('seleccionada'); sel.focus(); }
+            }
         }
 
         function mostrarRonda() {
@@ -497,7 +586,14 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
                 const slotEl = document.createElement('div');
                 slotEl.className = 'slot';
                 slotEl.dataset.indice = i;
+                slotEl.setAttribute('role', 'button');
+                slotEl.setAttribute('tabindex', '0');
+                slotEl.setAttribute('aria-label', 'Casilla ' + (i + 1));
                 slotEl.innerHTML = `<span class="numero">${i + 1}</span>`;
+                slotEl.addEventListener('click', () => colocarEnSlot(i));
+                slotEl.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); colocarEnSlot(i); }
+                });
                 filaSlots.appendChild(slotEl);
             });
 
@@ -520,29 +616,31 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
         }
 
         function activarArrastre(ficha) {
-            let offsetX = 0, offsetY = 0;
+            let startX = 0, startY = 0;
             let arrastrando = false;
+            let movido = false;
 
             ficha.addEventListener('pointerdown', (e) => {
                 arrastrando = true;
+                movido = false;
+                tonoAgarrar();
                 ficha.setPointerCapture(e.pointerId);
-                ficha.classList.add('arrastrando');
-
-                const rect = ficha.getBoundingClientRect();
-                offsetX = e.clientX - rect.left;
-                offsetY = e.clientY - rect.top;
-
-                ficha.style.position = 'fixed';
-                ficha.style.left = rect.left + 'px';
-                ficha.style.top = rect.top + 'px';
-                ficha.style.width = rect.width + 'px';
-                ficha.style.margin = '0';
+                startX = e.clientX;
+                startY = e.clientY;
+                ficha.style.transition = 'none';
             });
 
             ficha.addEventListener('pointermove', (e) => {
                 if (!arrastrando) return;
-                ficha.style.left = (e.clientX - offsetX) + 'px';
-                ficha.style.top = (e.clientY - offsetY) + 'px';
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                if (!movido && Math.hypot(dx, dy) < 6) return;   // todavía es un toque
+                if (!movido) {
+                    movido = true;
+                    ficha.classList.add('arrastrando');
+                    ficha.style.zIndex = '50';
+                }
+                ficha.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.05)';
 
                 const c = centro(ficha.getBoundingClientRect());
                 document.querySelectorAll('.slot').forEach(s => s.classList.remove('resaltado'));
@@ -554,23 +652,36 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
                 if (!arrastrando) return;
                 arrastrando = false;
                 ficha.classList.remove('arrastrando');
+
+                if (!movido) {
+                    // Fue un toque, no un arrastre: elegir / soltar la ficha.
+                    ficha.style.transition = '';
+                    alternarSeleccion(ficha.dataset.piezaId);
+                    return;
+                }
+
+                ficha.dataset.arrastrado = '1';   // que el click posterior no re-seleccione
+                tonoSoltar();
                 document.querySelectorAll('.slot').forEach(s => s.classList.remove('resaltado'));
 
+                // Leer la posición ANTES de quitar el transform.
                 const c = centro(ficha.getBoundingClientRect());
                 const slotDestino = slotBajoPunto(c.x, c.y);
                 const idPieza = ficha.dataset.piezaId;
 
-                // Quita la pieza de donde estuviera antes (slot o bandeja).
+                ficha.style.transform = '';
+                ficha.style.transition = '';
+                ficha.style.zIndex = '';
+
                 const indicePrevio = slots.indexOf(idPieza);
                 if (indicePrevio !== -1) slots[indicePrevio] = null;
 
                 if (slotDestino) {
-                    const i = parseInt(slotDestino.dataset.indice, 10);
-                    // Si el slot destino ya tenía otra pieza, esa vuelve a la bandeja.
-                    slots[i] = idPieza;
+                    slots[parseInt(slotDestino.dataset.indice, 10)] = idPieza;
                 }
-                // Si no se soltó sobre un slot, la pieza simplemente vuelve a la bandeja (ya se quitó arriba).
+                // Si no se soltó sobre un slot, vuelve a la bandeja (ya se quitó arriba).
 
+                fichaSeleccionadaId = null;
                 mensajeEl.textContent = '';
                 mensajeEl.className = 'mensaje';
                 repintar();

@@ -48,27 +48,40 @@ foreach ($registrosProgreso as $r) {
 }
 
 $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" => "danger"];
+
+// Resumen por DBA: para cada DBA, el estado MÁS RECIENTE de cada
+// estudiante (la consulta ya viene ordenada por fecha desc).
+$resumenDba = [];
+$vistoEstDba = [];
+foreach ($registrosProgreso as $r) {
+    $dbaCod = $r["dba_codigo"] ?: "(sin DBA)";
+    $clave = $dbaCod . "|" . $r["id_estudiante"];
+    if (isset($vistoEstDba[$clave])) continue;
+    $vistoEstDba[$clave] = true;
+    if (!isset($resumenDba[$dbaCod])) {
+        $resumenDba[$dbaCod] = [
+            "desc" => $r["dba_descripcion"] ?? "",
+            "Logrado" => 0, "En proceso" => 0, "Requiere apoyo" => 0,
+        ];
+    }
+    if (isset($resumenDba[$dbaCod][$r["estado"]])) {
+        $resumenDba[$dbaCod][$r["estado"]]++;
+    }
+}
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= (int) $curso['grado'] ?>°<?= htmlspecialchars($curso['grupo']) ?> - Estudiantes - IncluKids</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-<link href="/IncluKids/public/css/panel.css?v=2" rel="stylesheet">
-</head>
+<?php render_head(
+    ((int) $curso['grado']) . "°" . $curso['grupo'] . " - Estudiantes - IncluKids",
+    ["css" => ["panel.css"]]
+); ?>
 <body>
 <div class="container mt-5">
 
-    <a href="index.php" class="text-decoration-none">&larr; Elegir otro curso</a>
-
     <div class="d-flex justify-content-between align-items-center mt-3 mb-1">
         <h2 class="mb-0">🏫 <?= (int) $curso['grado'] ?>°<?= htmlspecialchars($curso['grupo']) ?></h2>
-        <a href="nuevo.php?id_curso=<?= $idCurso ?>" class="btn btn-success btn-sm">+ Nuevo estudiante</a>
+        <span class="d-flex gap-2 flex-wrap">
+            <a href="importar.php?id_curso=<?= $idCurso ?>" class="btn btn-outline-secondary btn-sm">📋 Importar</a>
+            <a href="nuevo.php?id_curso=<?= $idCurso ?>" class="btn btn-success btn-sm">+ Nuevo estudiante</a>
+        </span>
     </div>
     <p class="text-muted mb-4">
         Año <?= (int) $curso['anio'] ?>
@@ -78,6 +91,8 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
             · Sin docente asignado
         <?php endif; ?>
     </p>
+
+    <?= flash_render() ?>
 
     <h5 class="mb-3">Estudiantes</h5>
     <div class="card mb-4">
@@ -104,7 +119,7 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                                 <a href="editar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
                                 <a href="../progreso/reporte_estudiante.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-secondary">📄 Reporte</a>
                                 <form method="POST" action="eliminar.php" class="d-inline"
-                                      onsubmit="return confirm('¿Eliminar este estudiante? También se eliminará el progreso que tenga registrado.');">
+                                      data-confirmar="¿Eliminar este estudiante? También se eliminará el progreso que tenga registrado.">
                                     <?= csrf_campo() ?>
                                     <input type="hidden" name="id_estudiante" value="<?= (int) $estudiante['id_estudiante'] ?>">
                                     <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
@@ -118,7 +133,46 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
         </div>
     </div>
 
-    <h5 class="mb-3">📊 Progreso por sesión</h5>
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h5 class="mb-0">📊 Progreso por sesión</h5>
+        <span class="d-flex gap-2 flex-wrap">
+            <a href="../progreso/cobertura.php?id_curso=<?= (int) $idCurso ?>"
+               class="btn btn-sm btn-outline-secondary">🗺️ Cobertura de DBA</a>
+            <a href="../progreso/reporte_curso.php?id_curso=<?= (int) $idCurso ?>"
+               class="btn btn-sm btn-outline-secondary">🖨️ Reporte</a>
+            <a href="../progreso/exportar.php?id_curso=<?= (int) $idCurso ?>"
+               class="btn btn-sm btn-outline-secondary">⬇️ Exportar CSV</a>
+        </span>
+    </div>
+
+    <?php if (!empty($resumenDba)): ?>
+        <h4 class="mt-4">Resumen por DBA</h4>
+        <p class="text-muted small mb-2">Estado más reciente de cada estudiante en cada DBA.</p>
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th>DBA</th>
+                        <th class="text-center">✅ Logrado</th>
+                        <th class="text-center">🟡 En proceso</th>
+                        <th class="text-center">🆘 Requiere apoyo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($resumenDba as $cod => $fila): ?>
+                    <tr>
+                        <td><strong><?= htmlspecialchars($cod) ?></strong>
+                            <?php if ($fila["desc"]): ?><br><span class="text-muted small"><?= htmlspecialchars($fila["desc"]) ?></span><?php endif; ?>
+                        </td>
+                        <td class="text-center"><?= $fila["Logrado"] ?></td>
+                        <td class="text-center"><?= $fila["En proceso"] ?></td>
+                        <td class="text-center"><?= $fila["Requiere apoyo"] ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
 
     <?php if (empty($progresoPorSesion)): ?>
         <p class="text-muted">Todavía no se ha registrado progreso en ninguna sesión de este curso.</p>
@@ -129,7 +183,7 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                 <div class="d-flex justify-content-between align-items-start">
                     <h6 class="mb-1">📅 <?= htmlspecialchars($sesion["fecha"]) ?></h6>
                     <form method="POST" action="../sesiones/eliminar.php" class="d-inline"
-                          onsubmit="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">
+                          data-confirmar="¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.">
                         <?= csrf_campo() ?>
                         <input type="hidden" name="id_sesion" value="<?= (int) $idSesionCard ?>">
                         <input type="hidden" name="volver" value="curso:<?= (int) $idCurso ?>">

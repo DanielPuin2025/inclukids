@@ -63,6 +63,7 @@ CREATE TABLE `docentes` (
   `correo` varchar(100) NOT NULL,
   `rol` enum('administrador','docente') NOT NULL DEFAULT 'docente',
   `contraseña` varchar(255) NOT NULL,
+  `solicitud_password_en` datetime DEFAULT NULL,
   PRIMARY KEY (`id_docente`),
   UNIQUE KEY `correo` (`correo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -78,6 +79,27 @@ CREATE TABLE `login_bloqueo` (
   `primer_intento` datetime NOT NULL,
   `ultimo_intento` datetime NOT NULL,
   PRIMARY KEY (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- -------------------------------------------------------------
+--  Bitácora de auditoría (quién borró/retiró/restauró qué).
+--  La escribe app/helpers/auditoria.php con auditar().
+-- -------------------------------------------------------------
+DROP TABLE IF EXISTS `auditoria`;
+CREATE TABLE `auditoria` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` datetime NOT NULL,
+  `id_docente` int(11) DEFAULT NULL,
+  `docente_nombre` varchar(200) DEFAULT NULL,
+  `rol` varchar(20) DEFAULT NULL,
+  `accion` varchar(40) NOT NULL,
+  `entidad` varchar(40) NOT NULL,
+  `id_entidad` int(11) DEFAULT NULL,
+  `detalle` varchar(500) DEFAULT NULL,
+  `ip` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_auditoria_fecha` (`fecha`),
+  KEY `idx_auditoria_entidad` (`entidad`,`id_entidad`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- -------------------------------------------------------------
@@ -102,8 +124,10 @@ CREATE TABLE `estudiantes` (
   `nombres` varchar(100) NOT NULL,
   `apellidos` varchar(100) NOT NULL,
   `id_curso` int(11) NOT NULL,
+  `eliminado_en` datetime DEFAULT NULL,
   PRIMARY KEY (`id_estudiante`),
   KEY `fk_curso_estudiante` (`id_curso`),
+  KEY `idx_estudiante_eliminado` (`eliminado_en`),
   CONSTRAINT `fk_curso_estudiante` FOREIGN KEY (`id_curso`) REFERENCES `cursos` (`id_curso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

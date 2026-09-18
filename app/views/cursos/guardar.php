@@ -18,16 +18,21 @@ $grupo = strtoupper(trim($_POST["grupo"] ?? ""));
 $anio = (int) ($_POST["anio"] ?? 0);
 $idDocente = (int) ($_POST["id_docente"] ?? 0);
 
+$volver = $idCurso > 0 ? "editar.php?id_curso=$idCurso" : "nuevo.php";
 if ($grado === 0 || $grupo === "" || $anio === 0 || $idDocente === 0) {
-    die("Faltan datos. <a href='index.php'>Volver</a>");
+    flash_set("error", "Faltan datos: revisa grado, grupo, año y docente.");
+    header("Location: $volver");
+    exit();
 }
 
 $cursoController = new CursoController();
 
 if ($idCurso === 0) {
     $cursoController->crear($grado, $grupo, $anio, $idDocente);
+    flash_set("exito", "Curso $grado°$grupo creado.");
 } else {
     $cursoController->actualizar($idCurso, $grado, $grupo, $anio, $idDocente);
+    flash_set("exito", "Curso $grado°$grupo actualizado.");
 }
 
 header("Location: index.php");

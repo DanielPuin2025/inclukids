@@ -1,23 +1,23 @@
 <?php
-session_start();
+require_once __DIR__ . "/../../helpers/session_boot.php";
+sesion_iniciar();
 
-require_once __DIR__ . "/../../helpers/csrf.php";
-
-// Si ya hay sesión activa, no tiene sentido registrarse de nuevo
+// El registro público se cerró: las cuentas de docente las crea el
+// administrador desde el panel (app/views/docentes/nuevo.php). Este
+// archivo se deja en pie (en vez de borrarlo) para que un link viejo o
+// guardado en favoritos no caiga en un 404 confuso, pero ya no ofrece
+// ningún formulario.
 if (isset($_SESSION["id_docente"])) {
     header("Location: ../dashboard/home.php");
     exit();
 }
-
-$error = $_SESSION["error_registro"] ?? "";
-unset($_SESSION["error_registro"]);
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IncluKids - Registro de docente</title>
+    <title>IncluKids - Registro cerrado</title>
     <link rel="icon" href="/IncluKids/public/img/logo-inclukids.jpg">
     <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
     <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
@@ -32,49 +32,17 @@ unset($_SESSION["error_registro"]);
             </div>
             <div class="card shadow">
                 <div class="card-header text-center bg-primary text-white">
-                    <h3>Crear cuenta - IncluKids</h3>
+                    <h3>Registro cerrado</h3>
                 </div>
-                <div class="card-body">
-
-                    <?php if ($error): ?>
-                        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-                    <?php endif; ?>
-
-                    <form action="guardar_registro.php" method="POST">
-                        <?= csrf_campo() ?>
-                        <div class="row">
-                            <div class="col-6 mb-3">
-                                <label class="form-label">Nombres</label>
-                                <input type="text" name="nombres" class="form-control" required>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <label class="form-label">Apellidos</label>
-                                <input type="text" name="apellidos" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Correo electrónico</label>
-                            <input type="email" name="correo" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Contraseña</label>
-                            <input type="password" name="password" class="form-control" minlength="6" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Confirmar contraseña</label>
-                            <input type="password" name="password_confirmar" class="form-control" minlength="6" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-success w-100">Crear cuenta</button>
-                    </form>
-
-                    <p class="text-center mt-3 mb-0">
-    ¿Ya tienes cuenta? <a href="../../../index.php">Inicia sesión</a>
-</p>
-
+                <div class="card-body text-center">
+                    <p>
+                        Las cuentas de docente ya no se crean por aquí:
+                        pídele a la persona que administra IncluKids en tu
+                        colegio que te dé de alta.
+                    </p>
+                    <p class="mb-0">
+                        <a href="../../../index.php">Volver a iniciar sesión</a>
+                    </p>
                 </div>
             </div>
         </div>

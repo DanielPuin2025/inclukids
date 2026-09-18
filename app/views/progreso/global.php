@@ -44,28 +44,29 @@ foreach ($sesiones as $s) {
 }
 
 $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" => "danger"];
+
+// Total de registros por estado (todos los registros, no "el más
+// reciente por estudiante" — aquí interesa el volumen global).
+$conteo = ["Logrado" => 0, "En proceso" => 0, "Requiere apoyo" => 0];
+foreach ($registrosProgreso as $r) {
+    if (isset($conteo[$r["estado"]])) {
+        $conteo[$r["estado"]]++;
+    }
+}
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sesiones y progreso - IncluKids</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-<link href="/IncluKids/public/css/panel.css?v=2" rel="stylesheet">
-</head>
+<?php render_head("Sesiones y progreso - IncluKids", ["css" => ["panel.css"]]); ?>
 <body>
 <div class="container mt-5" style="max-width: 1000px;">
 
-    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al panel</a>
-
-    <h2 class="mt-3 mb-1">📊 Sesiones y progreso</h2>
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-1 flex-wrap gap-2">
+        <h2 class="mb-0">📊 Sesiones y progreso</h2>
+        <a href="cobertura.php" class="btn btn-sm btn-outline-secondary">🗺️ Cobertura de DBA por curso</a>
+    </div>
     <p class="text-muted mb-4">Vista global de todas las sesiones de clase registradas, de todos los docentes.</p>
 
-    <div class="row g-3 mb-4">
+<?= flash_render() ?>
+
+        <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
             <div class="stat-card" style="cursor: default;">
                 <div class="stat-card__etiqueta">Sesiones</div>
@@ -86,6 +87,9 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
         </div>
     </div>
 
+    <?php $barraTitulo = "Distribución — total de registros de progreso por estado"; ?>
+    <?php include __DIR__ . "/_barra_estados.php"; ?>
+
     <form method="GET" class="mb-4 d-flex align-items-end gap-2 flex-wrap">
         <div>
             <label class="form-label mb-1" for="id_docente">Filtrar por docente</label>
@@ -101,6 +105,8 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
         <?php if ($idDocenteFiltro > 0): ?>
             <a href="global.php" class="btn btn-outline-secondary">Quitar filtro</a>
         <?php endif; ?>
+        <a href="exportar.php<?= $idDocenteFiltro > 0 ? '?id_docente=' . $idDocenteFiltro : '' ?>"
+           class="btn btn-outline-secondary ms-auto">⬇️ Exportar CSV</a>
     </form>
 
     <?php if (empty($sesiones)): ?>
@@ -138,7 +144,7 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                         <?php endif; ?>
                     </div>
                     <form method="POST" action="../sesiones/eliminar.php" class="d-inline"
-                          onsubmit="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">
+                          data-confirmar="¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.">
                         <?= csrf_campo() ?>
                         <input type="hidden" name="id_sesion" value="<?= (int) $idSesionCard ?>">
                         <input type="hidden" name="volver" value="global">

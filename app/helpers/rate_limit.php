@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 /**
  * Límite de intentos de inicio de sesión, por dirección IP.
  *

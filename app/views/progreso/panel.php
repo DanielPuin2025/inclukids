@@ -46,24 +46,39 @@ foreach ($masRecientePorEstudiante as $r) {
 }
 
 $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" => "danger"];
+
+// Resumen por DBA: para cada DBA, el estado MÁS RECIENTE de cada
+// estudiante (la consulta ya viene ordenada por fecha desc).
+$resumenDba = [];
+$vistoEstDba = [];
+foreach ($registros as $r) {
+    $dbaCod = $r["dba_codigo"] ?: "(sin DBA)";
+    $clave = $dbaCod . "|" . $r["id_estudiante"];
+    if (isset($vistoEstDba[$clave])) continue;
+    $vistoEstDba[$clave] = true;
+    if (!isset($resumenDba[$dbaCod])) {
+        $resumenDba[$dbaCod] = [
+            "desc" => $r["dba_descripcion"] ?? "",
+            "Logrado" => 0, "En proceso" => 0, "Requiere apoyo" => 0,
+        ];
+    }
+    if (isset($resumenDba[$dbaCod][$r["estado"]])) {
+        $resumenDba[$dbaCod][$r["estado"]]++;
+    }
+}
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Progreso de mis estudiantes - IncluKids</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Progreso de mis estudiantes - IncluKids"); ?>
 <body>
 <div class="container mt-5" style="max-width: 900px;">
 
-    <a href="../dashboard/visualizador.php" class="text-decoration-none">&larr; Volver a mi panel</a>
-
-    <h2 class="mt-3 mb-1">📊 Progreso de mis estudiantes</h2>
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-1 flex-wrap gap-2">
+        <h2 class="mb-0">📊 Progreso de mis estudiantes</h2>
+        <span class="d-flex gap-2 flex-wrap">
+            <a href="cobertura.php" class="btn btn-sm btn-outline-secondary">🗺️ Cobertura de DBA</a>
+            <a href="reporte_curso.php" class="btn btn-sm btn-outline-secondary">🖨️ Reporte de curso</a>
+            <a href="exportar.php" class="btn btn-sm btn-outline-secondary">⬇️ Exportar CSV</a>
+        </span>
+    </div>
     <p class="text-muted mb-4">
         El progreso se lleva sesión por sesión: cada estudiante puede
         tener un registro distinto en cada una.
@@ -107,6 +122,36 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                     </div>
                 </div>
             </div>
+        </div>
+
+        <?php $barraTitulo = "Distribución — estado más reciente por estudiante"; ?>
+        <?php include __DIR__ . "/_barra_estados.php"; ?>
+
+        <h4 class="mt-4">Resumen por DBA</h4>
+        <p class="text-muted small mb-2">Estado más reciente de cada estudiante en cada DBA.</p>
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th>DBA</th>
+                        <th class="text-center">✅ Logrado</th>
+                        <th class="text-center">🟡 En proceso</th>
+                        <th class="text-center">🆘 Requiere apoyo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($resumenDba as $cod => $fila): ?>
+                    <tr>
+                        <td><strong><?= htmlspecialchars($cod) ?></strong>
+                            <?php if ($fila["desc"]): ?><br><span class="text-muted small"><?= htmlspecialchars($fila["desc"]) ?></span><?php endif; ?>
+                        </td>
+                        <td class="text-center"><?= $fila["Logrado"] ?></td>
+                        <td class="text-center"><?= $fila["En proceso"] ?></td>
+                        <td class="text-center"><?= $fila["Requiere apoyo"] ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
 
         <h4>Progreso por sesión</h4>

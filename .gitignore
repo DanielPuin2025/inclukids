@@ -20,9 +20,13 @@ error_log
 *.bak
 *.tmp
 
-# Configuración local (si algún día se separa de app/config/database.php)
+# Configuración local (credenciales de BD fuera del repo).
+# Ver app/config/database.local.php.example
 app/config/database.local.php
 /.env
+
+# Respaldos generados por scripts/respaldo.*
+/backups/
 
 # Dependencias (por si en el futuro se usa Composer)
 /vendor/

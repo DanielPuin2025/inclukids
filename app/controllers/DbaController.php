@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../models/Dba.php";
 
 class DbaController
@@ -26,6 +28,12 @@ class DbaController
     {
         $modelo = new Dba();
         return $modelo->obtenerPorId($idDba);
+    }
+
+    public function coberturaPorCurso($idCurso)
+    {
+        $modelo = new Dba();
+        return $modelo->coberturaPorCurso($idCurso);
     }
 
     public function crear($idMateria, $grado, $periodo, $codigo, $descripcion)

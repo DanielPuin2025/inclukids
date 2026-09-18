@@ -16,9 +16,14 @@ if ($idActividad > 0) {
     try {
         $actividadController->eliminar($idActividad);
     } catch (PDOException $e) {
-        die("No se pudo eliminar: probablemente tiene preguntas o sesiones ligadas. "
-            . "<a href='index.php'>Volver</a>");
+        error_log("IncluKids - no se pudo eliminar actividad $idActividad: " . $e->getMessage());
+        flash_set("error", "No se pudo eliminar la actividad: probablemente ya se usó "
+            . "en una sesión de clase.");
+        header("Location: index.php");
+        exit();
     }
+    auditar("eliminar", "actividad", $idActividad);
+    flash_set("exito", "Actividad eliminada.");
 }
 
 header("Location: index.php");

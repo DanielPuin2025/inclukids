@@ -16,6 +16,7 @@ $dbaLista = $dbaController->listarPorDocente($idDocente);
 
 $sesionController = new SesionClaseController();
 $sesiones = $sesionController->listarPorDocente($idDocente);
+$nSinProgreso = $sesionController->contarSinProgreso($idDocente);
 
 $progresoController = new ProgresoController();
 $registrosProgreso = $progresoController->listarPorDocente($idDocente);
@@ -39,25 +40,10 @@ foreach ($progresoPorEstudiante as $r) {
     }
 }
 
-// El progreso se lleva por sesión (cada sesión es un registro
-// independiente por estudiante), así que el detalle se agrupa por
-// sesión y no como un estado único por estudiante.
-$progresoPorSesion = [];
-foreach ($registrosProgreso as $r) {
-    $idSesionProgreso = (int) $r["id_sesion"];
-    if (!isset($progresoPorSesion[$idSesionProgreso])) {
-        $progresoPorSesion[$idSesionProgreso] = [
-            "fecha" => $r["fecha"],
-            "dba_codigo" => $r["dba_codigo"],
-            "grado" => $r["grado"],
-            "grupo" => $r["grupo"],
-            "estudiantes" => [],
-        ];
-    }
-    $progresoPorSesion[$idSesionProgreso]["estudiantes"][] = $r;
-}
-
-$colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" => "danger"];
+// El detalle de sesiones y de progreso ya no se despliega aquí: cada
+// uno tiene su propia vista (../sesiones/mis_sesiones.php y
+// ../progreso/panel.php). En este panel solo quedan los contadores del
+// subtítulo.
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -68,7 +54,7 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
 <link rel="icon" href="/IncluKids/public/img/logo-inclukids.jpg">
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/panel.css?v=2" rel="stylesheet">
+<link href="<?= htmlspecialchars(asset_url('css/panel.css')) ?>" rel="stylesheet">
 </head>
 <body>
 
@@ -119,6 +105,14 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
     </div>
     <p class="text-muted mb-0">Estudiantes, DBA, sesiones y progreso de los cursos a tu cargo.</p>
 
+    <?php if ($nSinProgreso > 0): ?>
+        <div class="alert alert-warning mt-3 mb-0">
+            Tienes <strong><?= $nSinProgreso ?></strong>
+            sesi<?= $nSinProgreso === 1 ? "ón" : "ones" ?> de clase sin progreso registrado.
+            <a href="../sesiones/mis_sesiones.php">Ir a mis sesiones →</a>
+        </div>
+    <?php endif; ?>
+
     <a href="../sesiones/paso1_curso.php" class="btn btn-primary btn-lg panel-cta">
         ▶️ Iniciar sesión de clase
     </a>
@@ -137,68 +131,21 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
             </span>
         </a>
 
-        <!-- Mis sesiones de clase -->
-        <div class="panel-tile panel-tile--sesiones" data-abierto="false" id="tileSesiones">
-            <button type="button" class="panel-tile__header" aria-expanded="false" aria-controls="contenidoSesiones">
+        <!-- Mis sesiones de clase: enlace a la vista aparte, no despliega aquí -->
+        <a href="../sesiones/mis_sesiones.php" class="panel-tile panel-tile--sesiones panel-tile--enlace">
+            <span class="panel-tile__header">
                 <span class="panel-tile__icono">📅</span>
                 <span class="panel-tile__texto">
                     <span class="panel-tile__titulo">Mis sesiones de clase</span>
                     <span class="panel-tile__subtitulo"><?= count($sesiones) ?> registradas</span>
                 </span>
-                <span class="panel-tile__chevron">▾</span>
-            </button>
-            <div class="panel-tile__contenido" id="contenidoSesiones">
-                <div class="panel-tile__contenido-inner">
+                <span class="panel-tile__chevron panel-tile__chevron--enlace">→</span>
+            </span>
+        </a>
 
-                    <div class="table-responsive mt-2">
-                        <table class="table table-bordered mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Curso</th>
-                                    <th>DBA trabajado</th>
-                                    <th>Progreso</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (empty($sesiones)): ?>
-                                <tr>
-                                    <td colspan="5" class="text-center">
-                                        No hay sesiones registradas todavía. Usa
-                                        "▶️ Iniciar sesión de clase" arriba.
-                                    </td>
-                                </tr>
-                                <?php else: foreach ($sesiones as $sesion): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($sesion["fecha"]) ?></td>
-                                    <td><?= $sesion["grado"] !== null ? (int) $sesion["grado"] . "°" . htmlspecialchars($sesion["grupo"]) : "-" ?></td>
-                                    <td><?= htmlspecialchars($sesion["dba_codigo"] ?? "-") ?></td>
-                                    <td>
-                                        <a href="../sesiones/registrar_progreso.php?id_sesion=<?= (int) $sesion['id_sesion'] ?>"
-                                           class="btn btn-sm btn-primary">Registrar progreso</a>
-                                    </td>
-                                    <td>
-                                        <form method="POST" action="../sesiones/eliminar.php" class="d-inline"
-                                              onsubmit="return confirm('¿Eliminar esta sesión? También se eliminará el progreso y las actividades registradas en ella.');">
-                                            <?= csrf_campo() ?>
-                                            <input type="hidden" name="id_sesion" value="<?= (int) $sesion['id_sesion'] ?>">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                <?php endforeach; endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Progreso de mis estudiantes -->
-        <div class="panel-tile panel-tile--progreso" data-abierto="false" id="tileProgreso">
-            <button type="button" class="panel-tile__header" aria-expanded="false" aria-controls="contenidoProgreso">
+        <!-- Progreso de mis estudiantes: enlace al historial completo, no despliega aquí -->
+        <a href="../progreso/panel.php" class="panel-tile panel-tile--progreso panel-tile--enlace">
+            <span class="panel-tile__header">
                 <span class="panel-tile__icono">📊</span>
                 <span class="panel-tile__texto">
                     <span class="panel-tile__titulo">Progreso de mis estudiantes</span>
@@ -212,52 +159,9 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
                         <?php endif; ?>
                     </span>
                 </span>
-                <span class="panel-tile__chevron">▾</span>
-            </button>
-            <div class="panel-tile__contenido" id="contenidoProgreso">
-                <div class="panel-tile__contenido-inner">
-
-                    <?php if (empty($progresoPorSesion)): ?>
-                        <p class="text-muted mt-2 mb-0">
-                            Todavía no has registrado progreso de ningún estudiante.
-                            Usa "Registrar progreso" desde una sesión de clase.
-                        </p>
-                    <?php else: ?>
-                        <p class="text-muted small mt-2 mb-3">
-                            El progreso se lleva sesión por sesión: cada estudiante
-                            puede tener un registro distinto en cada una.
-                        </p>
-
-                        <?php foreach ($progresoPorSesion as $sesionProgreso): ?>
-                        <div class="progreso-sesion">
-                            <div class="progreso-sesion__titulo">
-                                📅 <?= htmlspecialchars($sesionProgreso["fecha"]) ?>
-                                <?php if ($sesionProgreso["grado"] !== null): ?>
-                                    · <?= (int) $sesionProgreso["grado"] ?>°<?= htmlspecialchars($sesionProgreso["grupo"]) ?>
-                                <?php endif; ?>
-                                <?php if ($sesionProgreso["dba_codigo"]): ?>
-                                    · <?= htmlspecialchars($sesionProgreso["dba_codigo"]) ?>
-                                <?php endif; ?>
-                            </div>
-                            <ul class="progreso-sesion__lista">
-                                <?php foreach ($sesionProgreso["estudiantes"] as $reg): ?>
-                                <li>
-                                    <span><?= htmlspecialchars($reg["nombres"] . " " . $reg["apellidos"]) ?></span>
-                                    <span class="badge bg-<?= $colores[$reg["estado"]] ?? "secondary" ?>">
-                                        <?= htmlspecialchars($reg["estado"]) ?>
-                                    </span>
-                                </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                        <?php endforeach; ?>
-
-                        <a href="../progreso/panel.php" class="btn btn-sm btn-outline-primary mt-2">Ver historial completo &rarr;</a>
-                    <?php endif; ?>
-
-                </div>
-            </div>
-        </div>
+                <span class="panel-tile__chevron panel-tile__chevron--enlace">→</span>
+            </span>
+        </a>
 
         <!-- DBA correspondientes -->
         <div class="panel-tile panel-tile--dba" data-abierto="false" id="tileDba">
@@ -310,7 +214,9 @@ $colores = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" 
 </div>
 
 <script>
-    document.querySelectorAll('.panel-tile__header').forEach(function (boton) {
+    // Solo las tarjetas que despliegan contenido (las de tipo enlace
+    // navegan a su propia vista y no llevan este toggle).
+    document.querySelectorAll('.panel-tile:not(.panel-tile--enlace) .panel-tile__header').forEach(function (boton) {
         boton.addEventListener('click', function () {
             var tile = boton.closest('.panel-tile');
             var abierto = tile.getAttribute('data-abierto') === 'true';

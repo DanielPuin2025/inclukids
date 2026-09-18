@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../config/database.php";
 
 class Docente
@@ -62,11 +64,24 @@ class Docente
         return $consulta->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function listar()
+    public function buscarPorCorreo(string $correo): ?array
     {
         $sql = "SELECT id_docente, nombres, apellidos, correo, rol
                 FROM docentes
-                ORDER BY nombres";
+                WHERE correo = ?";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$correo]);
+        $fila = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        return $fila ?: null;
+    }
+
+    public function listar()
+    {
+        $sql = "SELECT id_docente, nombres, apellidos, correo, rol, solicitud_password_en
+                FROM docentes
+                ORDER BY (solicitud_password_en IS NULL), solicitud_password_en, nombres";
 
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute();
@@ -113,11 +128,27 @@ class Docente
         return $this->actualizarContrasenaPublica($idDocente, $hash);
     }
 
+    // Cambiar la contraseña (el admin la restablece, o el docente la
+    // pone él mismo desde "Mi perfil") siempre resuelve cualquier
+    // solicitud de cambio que hubiera quedado pendiente.
     private function actualizarContrasenaPublica($idDocente, $hash)
     {
-        $sql = "UPDATE docentes SET contraseña = ? WHERE id_docente = ?";
+        $sql = "UPDATE docentes SET contraseña = ?, solicitud_password_en = NULL WHERE id_docente = ?";
         $consulta = $this->conexion->prepare($sql);
         return $consulta->execute([$hash, $idDocente]);
+    }
+
+    /**
+     * Un docente que no puede entrar pide que el administrador le
+     * cambie la contraseña (ver app/views/auth/olvide_enviar.php). No
+     * hace nada si ya no existe ese correo: quien llama siempre
+     * muestra el mismo mensaje, exista o no la cuenta.
+     */
+    public function marcarSolicitudPassword(int $idDocente): void
+    {
+        $sql = "UPDATE docentes SET solicitud_password_en = NOW() WHERE id_docente = ?";
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$idDocente]);
     }
 
     public function eliminar($idDocente)

@@ -23,16 +23,7 @@ if (!$esAdmin && (int) $sesion["id_docente"] !== (int) $_SESSION["id_docente"]) 
 $sesionActividadController = new SesionActividadController();
 $actividades = $sesionActividadController->listarPorSesion($idSesion);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Sesión iniciada</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Sesión iniciada"); ?>
 <body>
 <div class="container mt-5" style="max-width: 600px;">
 

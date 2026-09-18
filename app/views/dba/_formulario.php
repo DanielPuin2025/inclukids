@@ -3,6 +3,7 @@
 // nuevo) y $materias (lista para el selector).
 $esEdicion = $dba !== null;
 ?>
+<?= flash_render() ?>
 <form method="POST" action="guardar.php">
 
     <?= csrf_campo() ?>

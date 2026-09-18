@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../models/SesionActividad.php";
 
 class SesionActividadController

@@ -16,16 +16,21 @@ $periodo = (int) ($_POST["periodo"] ?? 0);
 $codigo = trim($_POST["codigo"] ?? "");
 $descripcion = trim($_POST["descripcion"] ?? "");
 
+$volver = $idDba > 0 ? "editar.php?id_dba=$idDba" : "nuevo.php";
 if ($idMateria === 0 || $grado === 0 || $periodo === 0 || $codigo === "" || $descripcion === "") {
-    die("Faltan datos. <a href='index.php'>Volver</a>");
+    flash_set("error", "Faltan datos: revisa materia, grado, periodo, código y descripción.");
+    header("Location: $volver");
+    exit();
 }
 
 $dbaController = new DbaController();
 
 if ($idDba === 0) {
     $dbaController->crear($idMateria, $grado, $periodo, $codigo, $descripcion);
+    flash_set("exito", "DBA $codigo creado.");
 } else {
     $dbaController->actualizar($idDba, $idMateria, $grado, $periodo, $codigo, $descripcion);
+    flash_set("exito", "DBA $codigo actualizado.");
 }
 
 header("Location: index.php");

@@ -3,6 +3,7 @@
 // si es nuevo), $dbaLista y $tipos para los selectores.
 $esEdicion = $actividad !== null;
 ?>
+<?= flash_render() ?>
 <form method="POST" action="guardar.php">
 
     <?= csrf_campo() ?>

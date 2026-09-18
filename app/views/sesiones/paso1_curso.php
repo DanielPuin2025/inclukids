@@ -6,23 +6,14 @@ require_once __DIR__ . "/../../controllers/CursoController.php";
 $cursoController = new CursoController();
 $cursos = $cursoController->listarPorDocente($_SESSION["id_docente"]);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Iniciar sesión de clase - Paso 1</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Iniciar sesión de clase - Paso 1"); ?>
 <body>
 <div class="container mt-5" style="max-width: 600px;">
 
-    <a href="../dashboard/visualizador.php" class="text-decoration-none">&larr; Cancelar y volver a mi panel</a>
-
     <h4 class="text-muted mt-3">Paso 1 de 5</h4>
     <h2 class="mb-4">¿Con qué curso vas a trabajar?</h2>
+
+    <?= flash_render() ?>
 
     <?php if (empty($cursos)): ?>
         <div class="alert alert-warning">

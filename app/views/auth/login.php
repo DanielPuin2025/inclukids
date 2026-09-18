@@ -1,6 +1,7 @@
 <?php
 $registrado = isset($_GET["registrado"]);
 $expirado = isset($_GET["expirado"]);
+$solicitud = isset($_GET["solicitud"]);
 
 $error = $_SESSION["error_login"] ?? null;
 unset($_SESSION["error_login"]);
@@ -21,8 +22,8 @@ unset($_SESSION["error_login"]);
     <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
     <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
     <link href="/IncluKids/public/css/login.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
+    <link href="/IncluKids/public/css/a11y.css?v=6" rel="stylesheet">
+    <script src="/IncluKids/public/js/a11y.js?v=6" defer></script>
 
 </head>
 
@@ -67,6 +68,14 @@ unset($_SESSION["error_login"]);
                 </div>
             <?php endif; ?>
 
+            <?php if ($solicitud): ?>
+                <div class="login-alert login-alert--exito" role="status">
+                    Si ese correo tiene una cuenta, le avisamos al
+                    administrador. Te va a pasar una contraseña temporal
+                    por un canal seguro.
+                </div>
+            <?php endif; ?>
+
             <?php if ($error): ?>
                 <div class="login-alert login-alert--error" role="alert">
                     <?= htmlspecialchars($error) ?>
@@ -107,16 +116,16 @@ unset($_SESSION["error_login"]);
                     </button>
                 </div>
 
+                <p class="text-end mb-3">
+                    <a href="app/views/auth/olvide_password.php">¿Olvidaste tu contraseña?</a>
+                </p>
+
                 <button type="submit" name="login" class="btn login-submit w-100" id="loginSubmit">
                     <span class="login-submit__label">Iniciar sesión</span>
                     <span class="login-submit__spinner" aria-hidden="true">📖</span>
                 </button>
 
             </form>
-
-            <p class="text-center mt-3 mb-0 login-card__footer">
-                ¿No tienes cuenta? <a href="app/views/auth/registro.php">Regístrate aquí</a>
-            </p>
 
         </div>
 

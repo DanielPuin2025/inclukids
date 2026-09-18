@@ -4,31 +4,28 @@ require __DIR__ . "/../../bootstrap.php";
 requireAdministrador("../dashboard/visualizador.php");
 
 require_once __DIR__ . "/../../controllers/CursoController.php";
+require_once __DIR__ . "/../../controllers/EstudianteController.php";
 
 $cursoController = new CursoController();
 $cursos = $cursoController->listar();
+
+$nRetirados = (new EstudianteController())->contarEliminados();
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estudiantes - IncluKids</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-<link href="/IncluKids/public/css/panel.css?v=2" rel="stylesheet">
-</head>
+<?php render_head("Estudiantes - IncluKids", ["css" => ["panel.css"]]); ?>
 <body>
 <div class="container mt-5">
 
-    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al panel</a>
-
-    <h2 class="mt-3 mb-1">👨‍🎓 Estudiantes</h2>
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-1 flex-wrap gap-2">
+        <h2 class="mb-0">👨‍🎓 Estudiantes</h2>
+        <a href="papelera.php" class="btn btn-sm btn-outline-secondary">
+            🗑️ Retirados<?= $nRetirados > 0 ? " (" . $nRetirados . ")" : "" ?>
+        </a>
+    </div>
     <p class="text-muted mb-4">
         Elige un curso para ver sus estudiantes y el progreso registrado en sus sesiones.
     </p>
+
+    <?= flash_render() ?>
 
     <?php if (empty($cursos)): ?>
 

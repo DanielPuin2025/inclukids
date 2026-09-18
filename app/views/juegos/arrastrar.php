@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . "/../../helpers/session_boot.php";
+sesion_iniciar();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
 require_once __DIR__ . "/../../controllers/ActividadController.php";
@@ -7,6 +8,14 @@ require_once __DIR__ . "/../../controllers/ContenidoJuegoController.php";
 
 $idActividad = (int) ($_GET["id_actividad"] ?? 0);
 $idSesion = (int) ($_GET["id_sesion"] ?? 0);
+
+// Sin id_sesion se entra en "vista previa": el docente abre el juego
+// desde el catálogo para explorarlo, sin una sesión de clase detrás.
+// El juego funciona igual; solo cambia a dónde vuelve.
+$urlVolver = $idSesion > 0
+    ? "../sesiones/confirmacion.php?id_sesion=$idSesion"
+    : "../actividades/index.php";
+$textoVolver = $idSesion > 0 ? "Volver a la sesión" : "Volver al catálogo";
 
 $actividadController = new ActividadController();
 $actividad = $actividadController->obtenerPorId($idActividad);
@@ -168,6 +177,14 @@ if ($contenido) {
     }
     .pieza:hover { transform: translateY(-2px); }
     .pieza:focus-visible { outline: 3px solid var(--color-primario); outline-offset: 3px; }
+    /* Ficha elegida con un toque / con el teclado (alternativa al arrastre). */
+    .pieza.seleccionada {
+        outline: 4px solid var(--color-primario);
+        outline-offset: 4px;
+        box-shadow: var(--sombra-pieza-alta);
+        transform: translateY(-2px) scale(1.03);
+    }
+    .zona[role="button"] { cursor: pointer; }
     .pieza .pieza-etiqueta { font-size: 15px; font-weight: 600; margin-top: 2px; color: var(--color-texto); }
     .pieza-imagen { width: 60%; max-width: 76px; aspect-ratio: 1 / 1; border-radius: 14px; pointer-events: none; }
     .pieza.arrastrando { box-shadow: var(--sombra-pieza-alta); cursor: grabbing; z-index: 50; transform: scale(1.05); }
@@ -231,6 +248,7 @@ if ($contenido) {
         .punto.activo { transform: none; }
         .zona.resaltada { transform: none; }
         .pieza:hover, .pieza.arrastrando { transform: none; }
+        .pieza.seleccionada { transform: none; }
         .btn-escuchar:hover, .btn-siguiente:hover, .btn-volver:hover { transform: none; }
     }
 
@@ -251,8 +269,9 @@ if ($contenido) {
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=6" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=6" defer></script>
+<script src="/IncluKids/public/js/juegos-voz.js?v=3" defer></script>
 </head>
 <body>
 
@@ -269,7 +288,7 @@ if ($contenido) {
     <p style="text-align:center; max-width: 500px;">
         Este juego todavía no tiene rondas cargadas.
     </p>
-    <a href="../sesiones/confirmacion.php?id_sesion=<?= $idSesion ?>" class="btn-volver">&larr; Volver</a>
+    <a href="<?= htmlspecialchars($urlVolver) ?>" class="btn-volver">&larr; Volver</a>
 
 <?php else: ?>
 
@@ -292,7 +311,7 @@ if ($contenido) {
 
     <div class="pantalla-final" id="pantallaFinal">
         <h2>🎉 ¡Actividad completada!</h2>
-        <a href="../sesiones/confirmacion.php?id_sesion=<?= $idSesion ?>" class="btn-volver">&larr; Volver a la sesión</a>
+        <a href="<?= htmlspecialchars($urlVolver) ?>" class="btn-volver">&larr; <?= htmlspecialchars($textoVolver) ?></a>
     </div>
 
     <script>
@@ -379,30 +398,52 @@ if ($contenido) {
         // diferencia de celebrarFinal(), esto NO depende de "más color y
         // premios" — es solo confirmar que el toque se registró.
         let ctxToque = null;
-        function tonoClic() {
+        function tono(frecuencias, duracionMs, volumen) {
             try {
                 if (!ctxToque) {
                     const AudioCtx = window.AudioContext || window.webkitAudioContext;
                     if (!AudioCtx) return;
                     ctxToque = new AudioCtx();
                 }
-                if (ctxToque.state === 'suspended') ctxToque.resume();
-                const ahora = ctxToque.currentTime;
-                const osc = ctxToque.createOscillator();
-                const ganancia = ctxToque.createGain();
-                osc.type = 'sine';
-                osc.frequency.value = 700;
-                ganancia.gain.setValueAtTime(0, ahora);
-                ganancia.gain.linearRampToValueAtTime(0.045, ahora + 0.008);
-                ganancia.gain.exponentialRampToValueAtTime(0.0001, ahora + 0.09);
-                osc.connect(ganancia);
-                ganancia.connect(ctxToque.destination);
-                osc.start(ahora);
-                osc.stop(ahora + 0.1);
+                const reproducir = () => {
+                    const ahora = ctxToque.currentTime + 0.02;
+                    frecuencias.forEach((f, i) => {
+                        const osc = ctxToque.createOscillator();
+                        const ganancia = ctxToque.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = f;
+                        const t0 = ahora + i * 0.07;
+                        ganancia.gain.setValueAtTime(0, t0);
+                        ganancia.gain.linearRampToValueAtTime(volumen, t0 + 0.008);
+                        ganancia.gain.exponentialRampToValueAtTime(0.0001, t0 + duracionMs / 1000);
+                        osc.connect(ganancia);
+                        ganancia.connect(ctxToque.destination);
+                        osc.start(t0);
+                        osc.stop(t0 + duracionMs / 1000 + 0.02);
+                    });
+                };
+                // El navegador arranca el audio "suspendido" hasta el primer
+                // gesto: si no esperamos a que reanude, el primer sonido se
+                // pierde.
+                if (ctxToque.state === 'suspended') {
+                    ctxToque.resume().then(reproducir).catch(() => {});
+                } else {
+                    reproducir();
+                }
             } catch (e) { /* Web Audio no disponible: no pasa nada */ }
         }
+        // "Tick" corto al pulsar cualquier botón.
+        function tonoClic() { tono([700], 90, 0.06); }
+        // Sonidos propios del arrastre: uno al AGARRAR una ficha y otro
+        // al SOLTARLA (distinto según caiga bien o vuelva a su sitio).
+        function tonoAgarrar() { tono([540], 90, 0.09); }
+        function tonoSoltar(acierto) {
+            if (acierto) tono([523.25, 659.25], 200, 0.11); // dos notas que suben
+            else tono([320], 160, 0.09);                     // una nota grave y suave
+        }
         document.addEventListener('pointerdown', (e) => {
-            if (e.target.closest && e.target.closest('button, .pieza, a.btn-volver, [role="button"]')) {
+            // Las fichas ya suenan con tonoAgarrar(); aquí solo los botones.
+            if (e.target.closest && e.target.closest('button, a.btn-volver, [role="button"]')) {
                 tonoClic();
             }
         }, true);
@@ -419,6 +460,9 @@ if ($contenido) {
         function hablar(texto) {
             if (!('speechSynthesis' in window) || !texto) return;
             if (JSON.parse(localStorage.getItem('inclukids_juegos') || '{}').voz === false) return;
+            // Leer solo el texto: fuera emojis y pictogramas.
+            texto = String(texto).replace(/[\u{1F000}-\u{1FAFF}\u{1F1E6}-\u{1F1FF}\u{2190}-\u{21FF}\u{2300}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{200D}\u{20E3}\u{E000}-\u{F8FF}]/gu, '').replace(/\s+/g, ' ').trim();
+            if (!texto) return;
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(texto);
             u.lang = 'es-ES';
@@ -427,6 +471,7 @@ if ($contenido) {
         }
 
         let zonasLlenas = new Set();
+        let piezaSeleccionada = null;   // ficha elegida con un toque / teclado
 
         // Texto que lee el botón 🔊: la consigna + lo que hay en pantalla
         // (casillas y fichas), para el estudiante que solo mira y escucha.
@@ -449,16 +494,27 @@ if ($contenido) {
             instruccionEl.textContent = ronda.instruccion || '';
             btnEscuchar.onclick = () => hablar(textoParaEscuchar(ronda));
 
+            piezaSeleccionada = null;
+
             contenedorZonas.innerHTML = '';
             (ronda.zonas || []).forEach(zona => {
                 const div = document.createElement('div');
                 div.className = 'zona';
                 div.dataset.zonaId = zona.id;
+                // Se puede tocar / enfocar la casilla: es la otra forma de
+                // jugar (elegir ficha y luego tocar la casilla), sin arrastrar.
+                div.setAttribute('role', 'button');
+                div.setAttribute('tabindex', '0');
+                div.setAttribute('aria-label', 'Casilla ' + (zona.etiqueta ?? ''));
                 const contenidoZona = zona.imagen
                     ? `<img class="zona-imagen" src="${zona.imagen}" alt="${zona.etiqueta ?? ''}">`
                     : (zona.emoji ? `<span>${zona.emoji}</span>` : '');
                 div.innerHTML = contenidoZona +
                     `<span class="zona-etiqueta">${zona.etiqueta ?? ''}</span>`;
+                div.addEventListener('click', () => activarZona(div));
+                div.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activarZona(div); }
+                });
                 contenedorZonas.appendChild(div);
             });
 
@@ -469,11 +525,17 @@ if ($contenido) {
                 const div = document.createElement('div');
                 div.className = 'pieza';
                 div.dataset.piezaZona = pieza.zona ?? '';
+                div.setAttribute('role', 'button');
+                div.setAttribute('tabindex', '0');
+                div.setAttribute('aria-label', 'Ficha ' + (pieza.etiqueta ?? ''));
                 const contenidoPieza = pieza.imagen
                     ? `<img class="pieza-imagen" src="${pieza.imagen}" alt="${pieza.etiqueta ?? ''}">`
                     : (pieza.emoji ? `<span>${pieza.emoji}</span>` : '');
                 div.innerHTML = contenidoPieza +
                     (pieza.etiqueta ? `<span class="pieza-etiqueta">${pieza.etiqueta}</span>` : '');
+                div.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alternarSeleccion(div); }
+                });
                 contenedorPiezas.appendChild(div);
                 activarArrastre(div);
             });
@@ -488,6 +550,18 @@ if ($contenido) {
             return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
         }
 
+        // Quita todo lo que se aplica solo mientras se arrastra. La ficha
+        // se mueve con "transform", así que NUNCA sale del flujo: sigue
+        // ocupando su hueco en la fila y ninguna otra ficha se descoloca.
+        // (Antes se usaba position:fixed y, si soltabas fuera de una zona,
+        // la ficha se quedaba flotando en el centro y ya no se podía
+        // agarrar ninguna.)
+        function restaurarLayout(pieza) {
+            pieza.style.transform = '';
+            pieza.style.transition = '';
+            pieza.style.zIndex = '';
+        }
+
         function zonaBajoPunto(x, y) {
             const zonas = contenedorZonas.querySelectorAll('.zona:not(.llena)');
             for (const zona of zonas) {
@@ -497,35 +571,108 @@ if ($contenido) {
             return null;
         }
 
+        // ---- Colocar una ficha en una casilla (lo usan el arrastre Y el
+        //      modo "tocar ficha → tocar casilla" / teclado) ----
+        function colocarEnZona(pieza, zona) {
+            if (!zona || zona.classList.contains('llena')) {
+                restaurarLayout(pieza);   // p. ej. se soltó fuera de toda casilla
+                return false;
+            }
+
+            if (zona.dataset.zonaId === pieza.dataset.piezaZona) {
+                zona.classList.add('llena');
+                zonasLlenas.add(zona.dataset.zonaId);
+                restaurarLayout(pieza);
+                pieza.classList.add('oculta');
+                pieza.setAttribute('tabindex', '-1');
+                tonoSoltar(true);
+                hablar('¡Correcto!');
+
+                const totalZonas = rondas[indiceRonda].zonas.length;
+                if (zonasLlenas.size >= totalZonas) {
+                    mensajeEl.textContent = '¡Muy bien! 🎉';
+                    mensajeEl.classList.add('correcto');
+                    btnSiguiente.style.display = 'inline-block';
+                    btnSiguiente.focus();
+                }
+                return true;
+            }
+
+            // No es su casilla: sin castigo, la ficha "rebota".
+            fallos++;
+            tonoSoltar(false);
+            restaurarLayout(pieza);
+            pieza.classList.add('rebotando');
+            setTimeout(() => pieza.classList.remove('rebotando'), 300);
+            return false;
+        }
+
+        function marcarZonasObjetivo(activo) {
+            contenedorZonas.querySelectorAll('.zona:not(.llena)').forEach(z => {
+                z.classList.toggle('resaltada', activo);
+            });
+        }
+
+        function deseleccionar() {
+            if (piezaSeleccionada) piezaSeleccionada.classList.remove('seleccionada');
+            piezaSeleccionada = null;
+            marcarZonasObjetivo(false);
+        }
+
+        function alternarSeleccion(pieza) {
+            if (pieza.classList.contains('oculta')) return;
+            if (piezaSeleccionada === pieza) { deseleccionar(); return; }
+            deseleccionar();
+            piezaSeleccionada = pieza;
+            pieza.classList.add('seleccionada');
+            marcarZonasObjetivo(true);
+            tonoAgarrar();
+            hablar((pieza.getAttribute('aria-label') || 'Ficha') + '. Ahora elige una casilla.');
+        }
+
+        // Toque / Enter sobre una casilla: si hay una ficha elegida, se
+        // intenta colocar ahí.
+        function activarZona(zona) {
+            if (!piezaSeleccionada) return;
+            const pieza = piezaSeleccionada;
+            const acerto = colocarEnZona(pieza, zona);
+            deseleccionar();
+            if (!acerto && pieza && !pieza.classList.contains('oculta')) pieza.focus();
+        }
+
+        // Escape quita la selección.
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && piezaSeleccionada) { e.preventDefault(); deseleccionar(); }
+        });
+
         function activarArrastre(pieza) {
-            let offsetX = 0, offsetY = 0;
-            let posOriginal = null;
+            let startX = 0, startY = 0;
             let arrastrando = false;
+            let movido = false;
 
             pieza.addEventListener('pointerdown', (e) => {
                 if (pieza.classList.contains('oculta')) return;
                 arrastrando = true;
+                movido = false;
+                tonoAgarrar();
                 pieza.setPointerCapture(e.pointerId);
-                pieza.classList.add('arrastrando');
 
-                const rect = pieza.getBoundingClientRect();
-                posOriginal = { left: rect.left, top: rect.top };
-                offsetX = e.clientX - rect.left;
-                offsetY = e.clientY - rect.top;
-
-                pieza.style.position = 'fixed';
-                pieza.style.left = rect.left + 'px';
-                pieza.style.top = rect.top + 'px';
-                pieza.style.width = rect.width + 'px';
-                pieza.style.margin = '0';
+                startX = e.clientX;
+                startY = e.clientY;
+                pieza.style.transition = 'none';
             });
 
             pieza.addEventListener('pointermove', (e) => {
                 if (!arrastrando) return;
-                const x = e.clientX - offsetX;
-                const y = e.clientY - offsetY;
-                pieza.style.left = x + 'px';
-                pieza.style.top = y + 'px';
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                if (!movido && Math.hypot(dx, dy) < 6) return;   // todavía es un toque, no un arrastre
+                if (!movido) {
+                    movido = true;
+                    pieza.classList.add('arrastrando');
+                    pieza.style.zIndex = '50';
+                }
+                pieza.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.05)';
 
                 const c = centro(pieza.getBoundingClientRect());
                 document.querySelectorAll('.zona').forEach(z => z.classList.remove('resaltada'));
@@ -537,32 +684,18 @@ if ($contenido) {
                 if (!arrastrando) return;
                 arrastrando = false;
                 pieza.classList.remove('arrastrando');
-                document.querySelectorAll('.zona').forEach(z => z.classList.remove('resaltada'));
 
-                const c = centro(pieza.getBoundingClientRect());
-                const zona = zonaBajoPunto(c.x, c.y);
-
-                if (zona && zona.dataset.zonaId === pieza.dataset.piezaZona) {
-                    // Acierto: la pieza se "ancla" dentro de la zona.
-                    zona.classList.add('llena');
-                    zonasLlenas.add(zona.dataset.zonaId);
-                    pieza.classList.add('oculta');
-                    hablar('¡Correcto!');
-
-                    const totalZonas = rondas[indiceRonda].zonas.length;
-                    if (zonasLlenas.size >= totalZonas) {
-                        mensajeEl.textContent = '¡Muy bien! 🎉';
-                        mensajeEl.classList.add('correcto');
-                        btnSiguiente.style.display = 'inline-block';
-                    }
-                } else {
-                    // Error: la pieza regresa suavemente a su lugar, sin penalizar.
-                    fallos++;
-                    pieza.classList.add('rebotando');
-                    setTimeout(() => pieza.classList.remove('rebotando'), 300);
-                    pieza.style.left = posOriginal.left + 'px';
-                    pieza.style.top = posOriginal.top + 'px';
+                if (!movido) {
+                    // Fue un toque, no un arrastre: elegir / deseleccionar la ficha.
+                    restaurarLayout(pieza);
+                    alternarSeleccion(pieza);
+                    return;
                 }
+
+                document.querySelectorAll('.zona').forEach(z => z.classList.remove('resaltada'));
+                const c = centro(pieza.getBoundingClientRect());
+                colocarEnZona(pieza, zonaBajoPunto(c.x, c.y));
+                deseleccionar();
             }
 
             pieza.addEventListener('pointerup', soltar);

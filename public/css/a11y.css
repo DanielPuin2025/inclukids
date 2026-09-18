@@ -13,46 +13,70 @@
    no cargan panel.css.
    ================================================================== */
 
-/* ---------- Tamaño de texto ---------- */
-html.texto-grande  { font-size: 112.5%; }
-html.texto-extra   { font-size: 125%; }
+/* ---------- Tamaño de texto ----------
+   Casi todo el texto de la app va en px, así que subir solo el
+   font-size de <html> apenas se notaba entre A / A+ / A++. FUERA de las
+   pantallas de juego se escala el contenido entero con `zoom` (sí
+   afecta a las medidas en px); en navegadores sin `zoom` (Firefox
+   < 126) se cae a un font-size de raíz alto.
+   Este bloque @supports está duplicado en public/css/panel.css:
+   cámbialos juntos. */
+@supports (zoom: 1) {
+    html.texto-grande body:not(.a11y-juego) { zoom: 1.25; }
+    html.texto-extra  body:not(.a11y-juego) { zoom: 1.6; }
+}
+@supports not (zoom: 1) {
+    html.texto-grande { font-size: 128%; }
+    html.texto-extra  { font-size: 160%; }
+}
 
-/* Los juegos escriben sus tamaños en px, así que el font-size raíz no
-   los escala solo. Se suben los textos que más importan para el niño. */
+/* Pantallas de juego: aquí NO se usa zoom (rompería el arrastre y
+   desbordaría la pantalla del niño). Se suben solo los TEXTOS, con
+   saltos bien marcados entre los tres tamaños. Tamaños base típicos:
+   instrucción ~34, mensaje ~27, etiquetas de ficha ~14-15,
+   etiqueta de zona ~23, h1 ~27. */
 html.texto-grande body.a11y-juego h1,
-html.texto-grande body.a11y-juego .juego-encabezado h1 { font-size: 32px; }
+html.texto-grande body.a11y-juego .juego-encabezado h1 { font-size: 36px; }
 html.texto-extra  body.a11y-juego h1,
-html.texto-extra  body.a11y-juego .juego-encabezado h1 { font-size: 38px; }
+html.texto-extra  body.a11y-juego .juego-encabezado h1 { font-size: 46px; }
 
 html.texto-grande body.a11y-juego .instruccion,
-html.texto-grande body.a11y-juego .juego-instruccion { font-size: 40px; }
+html.texto-grande body.a11y-juego .juego-instruccion { font-size: 46px; }
 html.texto-extra  body.a11y-juego .instruccion,
-html.texto-extra  body.a11y-juego .juego-instruccion { font-size: 46px; }
+html.texto-extra  body.a11y-juego .juego-instruccion { font-size: 60px; }
 
-html.texto-grande body.a11y-juego .opcion { font-size: 32px; }
-html.texto-extra  body.a11y-juego .opcion { font-size: 36px; }
+html.texto-grande body.a11y-juego .opcion { font-size: 34px; }
+html.texto-extra  body.a11y-juego .opcion { font-size: 46px; }
 
 html.texto-grande body.a11y-juego .mensaje,
-html.texto-grande body.a11y-juego .juego-mensaje { font-size: 30px; }
+html.texto-grande body.a11y-juego .juego-mensaje { font-size: 34px; }
 html.texto-extra  body.a11y-juego .mensaje,
-html.texto-extra  body.a11y-juego .juego-mensaje { font-size: 34px; }
+html.texto-extra  body.a11y-juego .juego-mensaje { font-size: 46px; }
 
-html.texto-grande body.a11y-juego .zona-etiqueta { font-size: 26px; }
-html.texto-extra  body.a11y-juego .zona-etiqueta { font-size: 29px; }
+html.texto-grande body.a11y-juego .zona-etiqueta { font-size: 30px; }
+html.texto-extra  body.a11y-juego .zona-etiqueta { font-size: 40px; }
 
 html.texto-grande body.a11y-juego .pieza-etiqueta,
-html.texto-grande body.a11y-juego .carta-etiqueta { font-size: 18px; }
+html.texto-grande body.a11y-juego .ficha-etiqueta,
+html.texto-grande body.a11y-juego .carta-etiqueta,
+html.texto-grande body.a11y-juego .cara-frente .etiqueta,
+html.texto-grande body.a11y-juego .unir-item__etiqueta { font-size: 22px; }
 html.texto-extra  body.a11y-juego .pieza-etiqueta,
-html.texto-extra  body.a11y-juego .carta-etiqueta { font-size: 20px; }
+html.texto-extra  body.a11y-juego .ficha-etiqueta,
+html.texto-extra  body.a11y-juego .carta-etiqueta,
+html.texto-extra  body.a11y-juego .cara-frente .etiqueta,
+html.texto-extra  body.a11y-juego .unir-item__etiqueta { font-size: 30px; }
 
 html.texto-grande body.a11y-juego .btn-escuchar,
 html.texto-grande body.a11y-juego .btn-siguiente,
 html.texto-grande body.a11y-juego .btn-primario,
-html.texto-grande body.a11y-juego .btn-volver { font-size: 21px; }
+html.texto-grande body.a11y-juego .btn-comprobar,
+html.texto-grande body.a11y-juego .btn-volver { font-size: 22px; }
 html.texto-extra  body.a11y-juego .btn-escuchar,
 html.texto-extra  body.a11y-juego .btn-siguiente,
 html.texto-extra  body.a11y-juego .btn-primario,
-html.texto-extra  body.a11y-juego .btn-volver { font-size: 24px; }
+html.texto-extra  body.a11y-juego .btn-comprobar,
+html.texto-extra  body.a11y-juego .btn-volver { font-size: 28px; }
 
 /* ---------- Reducir movimiento ---------- */
 body.reducir-movimiento *,
@@ -72,18 +96,19 @@ body.alto-contraste {
 /* Anula los degradados radiales de fondo de las pantallas de juego */
 body.alto-contraste.a11y-juego { background-image: none !important; }
 
-body.alto-contraste h1, body.alto-contraste h2, body.alto-contraste h3,
-body.alto-contraste h4, body.alto-contraste h5, body.alto-contraste h6,
-body.alto-contraste p,  body.alto-contraste span, body.alto-contraste li,
-body.alto-contraste td, body.alto-contraste th, body.alto-contraste label,
-body.alto-contraste .instruccion, body.alto-contraste .juego-instruccion,
-body.alto-contraste .mensaje, body.alto-contraste .juego-mensaje,
-body.alto-contraste .zona-etiqueta, body.alto-contraste .pieza-etiqueta,
-body.alto-contraste .juego-paso {
+/* TODO el texto pasa a blanco: así no se queda nada oscuro e ilegible
+   sobre el fondo negro (utilidades de Bootstrap como .text-muted / .small,
+   <small>, <strong>, texto suelto en <div>, celdas, etc.). Los textos y
+   superficies que SÍ deben llevar color (enlaces amarillos, botones,
+   estados de acierto) se re-corrigen más abajo con selectores más
+   específicos, que ganan a esta regla. */
+body.alto-contraste,
+body.alto-contraste * {
     color: #fff !important;
 }
 
-body.alto-contraste a { color: #FFEB3B !important; }
+body.alto-contraste a,
+body.alto-contraste a * { color: #FFEB3B !important; }
 
 /* Tarjetas / piezas / zonas / opciones: fondo negro, borde blanco grueso */
 body.alto-contraste .card,
@@ -104,6 +129,38 @@ body.alto-contraste .a11y-panel {
     color: #fff !important;
 }
 body.alto-contraste .opcion { border-width: 3px !important; }
+
+/* Superficies claras de Bootstrap que quedaban con texto blanco sobre
+   fondo blanco. */
+body.alto-contraste .list-group-item,
+body.alto-contraste .list-group-item-action,
+body.alto-contraste .badge,
+body.alto-contraste .card-header,
+body.alto-contraste .card-footer {
+    background: #000 !important;
+    border-color: #fff !important;
+    color: #fff !important;
+}
+body.alto-contraste .badge { border: 2px solid #fff !important; }
+
+/* Cuadro de confirmación propio (public/js/confirmar.js). */
+body.alto-contraste .confirmar-modal__fondo { background: rgba(0, 0, 0, .8) !important; }
+body.alto-contraste .confirmar-modal__caja {
+    background: #000 !important;
+    border: 2px solid #fff !important;
+}
+body.alto-contraste .confirmar-modal__btn--cancelar {
+    background: #000 !important;
+    border-color: #fff !important;
+    color: #fff !important;
+}
+/* El botón de borrar mantiene el rojo aunque en el resto de la app el
+   error nunca es rojo: aquí sí comunica "peligro" y es la convención. */
+body.alto-contraste .confirmar-modal__btn--eliminar {
+    background: #B24632 !important;
+    border-color: #fff !important;
+    color: #fff !important;
+}
 
 /* Tablas de Bootstrap: sus variables --bs-table-* pintan la celda de
    blanco, así que el texto blanco quedaba invisible. */
@@ -127,7 +184,11 @@ body.alto-contraste th {
 /* Formularios de Bootstrap en alto contraste */
 body.alto-contraste .form-control,
 body.alto-contraste .form-select,
-body.alto-contraste .input-group-text {
+body.alto-contraste .input-group-text,
+body.alto-contraste input,
+body.alto-contraste select,
+body.alto-contraste textarea,
+body.alto-contraste option {
     background: #000 !important;
     border-color: #fff !important;
     color: #fff !important;
@@ -141,21 +202,32 @@ body.alto-contraste .alert {
 
 /* Estados de acierto: verde saturado sobre negro (nunca rojo el error) */
 body.alto-contraste .opcion.acierto,
+body.alto-contraste .opcion.acierto *,
 body.alto-contraste .zona.llena,
+body.alto-contraste .zona.llena *,
 body.alto-contraste .mensaje.correcto,
 body.alto-contraste .juego-mensaje.acierto {
-    background: #003a1e !important;
+    background-color: #003a1e !important;
     border-color: #46e08a !important;
     color: #46e08a !important;
 }
 
-/* Botones de acción: amarillo sobre negro */
+/* Botones de acción: amarillo sobre negro (también el texto que lleven
+   dentro, p. ej. un <span> con un icono). */
 body.alto-contraste .btn,
+body.alto-contraste .btn *,
 body.alto-contraste .btn-primary,
+body.alto-contraste .btn-primary *,
 body.alto-contraste .btn-success,
+body.alto-contraste .btn-success *,
 body.alto-contraste .btn-siguiente,
+body.alto-contraste .btn-siguiente *,
 body.alto-contraste .btn-primario,
+body.alto-contraste .btn-primario *,
 body.alto-contraste .btn-volver,
+body.alto-contraste .btn-volver *,
+body.alto-contraste .btn-comprobar,
+body.alto-contraste .btn-comprobar *,
 body.alto-contraste .login-submit,
 body.alto-contraste .login-submit__label,
 body.alto-contraste .avatar-menu__boton {
@@ -164,12 +236,35 @@ body.alto-contraste .avatar-menu__boton {
     color: #000 !important;
     text-shadow: none !important;
 }
+/* El texto de dentro no necesita repintar el fondo amarillo. */
+body.alto-contraste .btn *,
+body.alto-contraste .btn-primary *,
+body.alto-contraste .btn-success *,
+body.alto-contraste .btn-siguiente *,
+body.alto-contraste .btn-primario *,
+body.alto-contraste .btn-volver *,
+body.alto-contraste .btn-comprobar * {
+    background: transparent !important;
+}
 body.alto-contraste .login-submit__label { background: transparent !important; }
 
 body.alto-contraste :focus-visible {
     outline: 3px solid #FFEB3B !important;
     outline-offset: 3px !important;
 }
+
+/* Barra de estados de progreso: fondos vivos sobre negro, texto negro
+   encima. La identidad no depende del color — cada segmento y cada
+   entrada de la leyenda llevan su etiqueta. */
+body.alto-contraste .barra-estados__track { background: #000 !important; }
+body.alto-contraste .barra-estados__seg,
+body.alto-contraste .barra-estados__seg * { color: #000 !important; }
+body.alto-contraste .barra-estados__seg[data-estado="Logrado"],
+body.alto-contraste .barra-estados__punto[data-estado="Logrado"] { background: #46e08a !important; }
+body.alto-contraste .barra-estados__seg[data-estado="En proceso"],
+body.alto-contraste .barra-estados__punto[data-estado="En proceso"] { background: #ffd24a !important; }
+body.alto-contraste .barra-estados__seg[data-estado="Requiere apoyo"],
+body.alto-contraste .barra-estados__punto[data-estado="Requiere apoyo"] { background: #ff7a5c !important; }
 
 /* ---- Login: la pantalla tiene su propia estructura de paneles ---- */
 body.alto-contraste.login-body,

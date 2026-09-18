@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../config/database.php";
 
 class Dba
@@ -61,6 +63,30 @@ class Dba
 
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute([$idDocente]);
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Cobertura de DBA de un curso: todos los DBA del grado del curso,
+     * con cuántas sesiones de clase de ESE curso los han trabajado ya
+     * (n_sesiones = 0  ->  DBA pendiente). Alimenta la vista de
+     * "Cobertura de DBA por curso".
+     */
+    public function coberturaPorCurso($idCurso)
+    {
+        $sql = "SELECT d.id_dba, d.periodo, d.codigo, d.descripcion,
+                       m.nombre AS materia,
+                       (SELECT COUNT(*) FROM sesionesclase s
+                        WHERE s.id_curso = ? AND s.id_dba = d.id_dba) AS n_sesiones
+                FROM dba d
+                INNER JOIN cursos c ON c.id_curso = ?
+                LEFT JOIN materias m ON d.id_materia = m.id_materia
+                WHERE d.grado = c.grado
+                ORDER BY m.nombre, d.periodo, d.codigo, d.id_dba";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$idCurso, $idCurso]);
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }

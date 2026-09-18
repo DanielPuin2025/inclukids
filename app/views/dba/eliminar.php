@@ -15,9 +15,10 @@ if ($idDba > 0) {
     $dbaController = new DbaController();
 
     if ($dbaController->tieneUsoReal($idDba)) {
-        die("No se pudo eliminar: este DBA (o una actividad suya) ya se usó en una "
-            . "sesión de clase real, así que no se puede borrar sin perder ese historial. "
-            . "<a href='index.php'>Volver</a>");
+        flash_set("error", "No se puede eliminar: este DBA (o una actividad suya) ya se "
+            . "usó en una sesión de clase real y se perdería ese historial.");
+        header("Location: index.php");
+        exit();
     }
 
     try {
@@ -25,9 +26,13 @@ if ($idDba > 0) {
         // a una sesión de clase real (ya se validó arriba).
         $dbaController->eliminarConActividades($idDba);
     } catch (PDOException $e) {
-        die("No se pudo eliminar: " . htmlspecialchars($e->getMessage())
-            . " <a href='index.php'>Volver</a>");
+        error_log("IncluKids - no se pudo eliminar DBA $idDba: " . $e->getMessage());
+        flash_set("error", "No se pudo eliminar el DBA. Inténtalo de nuevo.");
+        header("Location: index.php");
+        exit();
     }
+    auditar("eliminar", "dba", $idDba);
+    flash_set("exito", "DBA eliminado, junto con sus actividades.");
 }
 
 header("Location: index.php");

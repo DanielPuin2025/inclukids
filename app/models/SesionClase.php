@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../config/database.php";
 
 /**
@@ -26,7 +28,8 @@ class SesionClase
     {
         $sql = "SELECT s.id_sesion, s.fecha, s.observaciones,
                        c.grado, c.grupo,
-                       d.codigo AS dba_codigo, d.descripcion AS dba_descripcion
+                       d.codigo AS dba_codigo, d.descripcion AS dba_descripcion,
+                       (SELECT COUNT(*) FROM progreso p WHERE p.id_sesion = s.id_sesion) AS n_progreso
                 FROM SesionesClase s
                 LEFT JOIN Cursos c ON s.id_curso = c.id_curso
                 LEFT JOIN DBA d ON s.id_dba = d.id_dba
@@ -37,6 +40,26 @@ class SesionClase
         $consulta->execute([$idDocente]);
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Cuántas sesiones de clase de este docente todavía NO tienen
+     * ningún progreso registrado. Alimenta el aviso del panel del
+     * docente ("tienes N sesiones sin progreso").
+     */
+    public function contarSinProgreso($idDocente)
+    {
+        $sql = "SELECT COUNT(*)
+                FROM SesionesClase s
+                WHERE s.id_docente = ?
+                  AND NOT EXISTS (
+                      SELECT 1 FROM progreso p WHERE p.id_sesion = s.id_sesion
+                  )";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([$idDocente]);
+
+        return (int) $consulta->fetchColumn();
     }
 
     /**
@@ -97,6 +120,51 @@ class SesionClase
         $consulta->execute([$idSesion]);
 
         return $consulta->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Duplica una sesión: crea una nueva con el mismo docente, curso,
+     * DBA y observaciones, en otra fecha, y copia las actividades
+     * marcadas (sesionactividad). NO copia el progreso — la sesión
+     * nueva empieza en blanco. Devuelve el id de la sesión creada.
+     *
+     * Sirve para el docente que trabaja el mismo DBA con el mismo
+     * curso varios días: no tiene que repetir el asistente de 5 pasos.
+     */
+    public function duplicar($idSesion, $nuevaFecha)
+    {
+        $orig = $this->obtenerPorId($idSesion);
+        if (!$orig) {
+            return false;
+        }
+
+        $this->conexion->beginTransaction();
+
+        try {
+            $ins = $this->conexion->prepare(
+                "INSERT INTO SesionesClase (id_docente, id_curso, id_dba, fecha, observaciones)
+                 VALUES (?, ?, ?, ?, ?)"
+            );
+            $ins->execute([
+                $orig["id_docente"],
+                $orig["id_curso"],
+                $orig["id_dba"],
+                $nuevaFecha,
+                $orig["observaciones"],
+            ]);
+            $nuevoId = $this->conexion->lastInsertId();
+
+            $this->conexion->prepare(
+                "INSERT INTO sesionactividad (id_sesion, id_actividad)
+                 SELECT ?, id_actividad FROM sesionactividad WHERE id_sesion = ?"
+            )->execute([$nuevoId, $idSesion]);
+
+            $this->conexion->commit();
+            return $nuevoId;
+        } catch (PDOException $e) {
+            $this->conexion->rollBack();
+            throw $e;
+        }
     }
 
     /**

@@ -22,20 +22,9 @@ if (!$curso || !$dba || (int) $curso["id_docente"] !== (int) $_SESSION["id_docen
 $actividadController = new ActividadController();
 $actividades = $actividadController->listarPorDba($idDba);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Iniciar sesión de clase - Paso 5</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Iniciar sesión de clase - Paso 5"); ?>
 <body>
 <div class="container mt-5" style="max-width: 700px;">
-
-    <a href="javascript:history.back()" class="text-decoration-none">&larr; Cambiar DBA</a>
 
     <h4 class="text-muted mt-3">Paso 5 de 5</h4>
     <h2 class="mb-1">¿Qué actividad(es) van a hacer?</h2>
@@ -63,6 +52,8 @@ $actividades = $actividadController->listarPorDba($idDba);
                             <strong><?= htmlspecialchars($actividad['nombre']) ?></strong><br>
                             <span class="text-muted small"><?= htmlspecialchars($actividad['descripcion'] ?? '') ?></span>
                         </label>
+                        <a href="../juegos/jugar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>"
+                           class="btn btn-sm btn-outline-secondary float-end" target="_blank" rel="noopener">▶️ Probar</a>
                     </div>
                 <?php endforeach; ?>
             </div>

@@ -15,20 +15,9 @@ $volverEstudiantes = $esAdmin
     ? ($idCursoPreseleccionado > 0 ? "curso.php?id_curso=$idCursoPreseleccionado" : "index.php")
     : "../dashboard/visualizador.php";
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Nuevo estudiante</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Nuevo estudiante"); ?>
 <body>
 <div class="container mt-5" style="max-width: 500px;">
-
-    <a href="<?= htmlspecialchars($volverEstudiantes) ?>" class="text-decoration-none">&larr; Volver a Estudiantes</a>
 
     <h2 class="mt-3 mb-4">Nuevo estudiante</h2>
 

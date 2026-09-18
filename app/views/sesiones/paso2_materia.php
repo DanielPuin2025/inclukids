@@ -18,20 +18,9 @@ if (!$curso || (int) $curso["id_docente"] !== (int) $_SESSION["id_docente"]) {
 $materiaController = new MateriaController();
 $materias = $materiaController->listar();
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Iniciar sesión de clase - Paso 2</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Iniciar sesión de clase - Paso 2"); ?>
 <body>
 <div class="container mt-5" style="max-width: 600px;">
-
-    <a href="paso1_curso.php" class="text-decoration-none">&larr; Cambiar curso</a>
 
     <h4 class="text-muted mt-3">Paso 2 de 5</h4>
     <h2 class="mb-1">¿Qué materia van a trabajar?</h2>

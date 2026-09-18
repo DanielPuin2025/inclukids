@@ -18,16 +18,23 @@ $opcionD = trim($_POST["opcion_d"] ?? "");
 $respuestaCorrecta = $_POST["respuesta_correcta"] ?? "";
 $orden = (int) ($_POST["orden"] ?? 1);
 
+$volver = "contenido.php?id_actividad=" . $idActividad;
+
 if ($idActividad === 0 || $pregunta === "" || $opcionA === "" || $opcionB === "") {
-    die("Faltan datos. <a href='javascript:history.back()'>Volver</a>");
+    flash_set("error", "Faltan datos: la pregunta y las opciones A y B son obligatorias.");
+    header("Location: $volver");
+    exit();
 }
 
 if (($respuestaCorrecta === "C" && $opcionC === "") || ($respuestaCorrecta === "D" && $opcionD === "")) {
-    die("Marcaste una opción como correcta pero la dejaste vacía. <a href='javascript:history.back()'>Volver</a>");
+    flash_set("error", "Marcaste una opción como correcta pero la dejaste vacía.");
+    header("Location: $volver");
+    exit();
 }
 
 $contenidoController = new ContenidoActividadController();
 $contenidoController->crear($idActividad, $pregunta, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta, $orden);
+flash_set("exito", "Pregunta agregada.");
 
-header("Location: contenido.php?id_actividad=" . $idActividad);
+header("Location: $volver");
 exit();

@@ -8,29 +8,26 @@ require_once __DIR__ . "/../../controllers/ActividadController.php";
 $actividadController = new ActividadController();
 $actividades = $actividadController->listar();
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Actividades</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Actividades"); ?>
 <body>
 <div class="container mt-5">
-
-    <a href="../dashboard/home.php" class="text-decoration-none">&larr; Volver al inicio</a>
 
     <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
         <h2 class="mb-0">🎮 Actividades</h2>
         <a href="nuevo.php" class="btn btn-success">+ Nueva actividad</a>
     </div>
 
-    <div class="card">
+<?= flash_render() ?>
+
+<div class="mb-3">
+        <input type="search" class="form-control" placeholder="🔎 Buscar…" data-filtro-tabla="tablaActividades" aria-label="Buscar en la tabla">
+        <small class="text-muted" data-filtro-cuenta="tablaActividades"></small>
+    </div>
+
+        <div class="card">
         <div class="card-body">
-            <table class="table table-bordered">
+            <div class="table-responsive">
+            <table class="table table-bordered mb-0" id="tablaActividades">
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -48,10 +45,11 @@ $actividades = $actividadController->listar();
                         <td><?= htmlspecialchars($actividad['dba_codigo'] ?? '-') ?></td>
                         <td><?= htmlspecialchars($actividad['descripcion'] ?? '') ?></td>
                         <td>
+                            <a href="../juegos/jugar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>" class="btn btn-sm btn-outline-secondary" target="_blank" rel="noopener">▶️ Probar</a>
                             <a href="editar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
                             <a href="contenido.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>" class="btn btn-sm btn-outline-secondary">Preguntas</a>
                             <form method="POST" action="eliminar.php" class="d-inline"
-                                  onsubmit="return confirm('¿Eliminar esta actividad?');">
+                                  data-confirmar="¿Eliminar esta actividad?">
                                 <?= csrf_campo() ?>
                                 <input type="hidden" name="id_actividad" value="<?= (int) $actividad['id_actividad'] ?>">
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
@@ -59,8 +57,10 @@ $actividades = $actividadController->listar();
                         </td>
                     </tr>
                     <?php endforeach; endif; ?>
+                    <tr data-filtro-vacio hidden><td colspan="4" class="text-center text-muted">Sin resultados para esa búsqueda.</td></tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 

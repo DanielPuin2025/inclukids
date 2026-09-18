@@ -35,20 +35,9 @@ if (!$esAdmin) {
 // docente solo entre los cursos que tiene a cargo.
 $cursos = $esAdmin ? $cursoController->listar() : $cursoController->listarPorDocente($_SESSION["id_docente"]);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Editar estudiante</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Editar estudiante"); ?>
 <body>
 <div class="container mt-5" style="max-width: 500px;">
-
-    <a href="<?= htmlspecialchars($volverEstudiantes) ?>" class="text-decoration-none">&larr; Volver a Estudiantes</a>
 
     <h2 class="mt-3 mb-4">Editar estudiante</h2>
 

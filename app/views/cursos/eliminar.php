@@ -19,10 +19,14 @@ if ($idCurso > 0) {
     try {
         $cursoController->eliminar($idCurso);
     } catch (PDOException $e) {
-        die("No se pudo eliminar: probablemente tiene estudiantes o sesiones "
-            . "ligados a este curso. Elimínalos primero, o dime y hacemos "
-            . "un borrado en cascada. <a href='index.php'>Volver</a>");
+        error_log("IncluKids - no se pudo eliminar curso $idCurso: " . $e->getMessage());
+        flash_set("error", "No se pudo eliminar el curso: todavía tiene estudiantes "
+            . "o sesiones ligados. Muévelos o retíralos primero.");
+        header("Location: index.php");
+        exit();
     }
+    auditar("eliminar", "curso", $idCurso);
+    flash_set("exito", "Curso eliminado.");
 }
 
 header("Location: index.php");

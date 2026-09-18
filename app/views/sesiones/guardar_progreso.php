@@ -43,8 +43,10 @@ foreach ($estudiantes as $estudiante) {
 
     // Solo guarda si el docente sí marcó un estado para este estudiante,
     // y valida que sea uno de los 3 valores permitidos por el ENUM.
+    // Upsert: si ya había progreso de este estudiante en esta sesión, lo
+    // actualiza (permite corregir) en vez de crear una fila duplicada.
     if ($estado !== null && in_array($estado, $estadosValidos, true)) {
-        $progresoController->registrar($idSesion, $idEst, $estado, $observaciones);
+        $progresoController->registrarOActualizar($idSesion, $idEst, $estado, $observaciones);
     }
 }
 

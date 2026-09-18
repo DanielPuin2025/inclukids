@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 /**
  * Corta el acceso a las páginas de administración (gestión de cursos,
  * DBA, actividades, y el panel global) para cualquier sesión que no

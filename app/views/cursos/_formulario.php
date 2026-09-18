@@ -5,6 +5,7 @@
 // $docentes (lista para el selector).
 $esEdicion = $curso !== null;
 ?>
+<?= flash_render() ?>
 
 <form method="POST" action="guardar.php">
 

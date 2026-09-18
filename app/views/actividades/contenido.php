@@ -17,20 +17,9 @@ $contenidoController = new ContenidoActividadController();
 $preguntas = $contenidoController->listarPorActividad($idActividad);
 $siguienteOrden = count($preguntas) + 1;
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Preguntas de <?= htmlspecialchars($actividad['nombre']) ?></title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Preguntas de " . $actividad['nombre']); ?>
 <body>
 <div class="container mt-5" style="max-width: 700px;">
-
-    <a href="index.php" class="text-decoration-none">&larr; Volver a Actividades</a>
 
     <h2 class="mt-3 mb-1">Preguntas: <?= htmlspecialchars($actividad['nombre']) ?></h2>
     <p class="text-muted mb-4">
@@ -52,7 +41,7 @@ $siguienteOrden = count($preguntas) + 1;
                         <td><span class="badge bg-success"><?= htmlspecialchars($p['respuesta_correcta']) ?></span></td>
                         <td>
                             <form method="POST" action="eliminar_contenido.php" class="d-inline"
-                                  onsubmit="return confirm('¿Eliminar esta pregunta?');">
+                                  data-confirmar="¿Eliminar esta pregunta?">
                                 <?= csrf_campo() ?>
                                 <input type="hidden" name="id_contenido" value="<?= (int) $p['id_contenido'] ?>">
                                 <input type="hidden" name="id_actividad" value="<?= (int) $idActividad ?>">
@@ -66,6 +55,8 @@ $siguienteOrden = count($preguntas) + 1;
         </div>
     </div>
     <?php endif; ?>
+
+<?= flash_render() ?>
 
     <div class="card">
         <div class="card-body">

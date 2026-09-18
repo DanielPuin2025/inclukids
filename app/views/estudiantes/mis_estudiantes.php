@@ -7,32 +7,34 @@ $idDocente = $_SESSION["id_docente"];
 
 $estudianteController = new EstudianteController();
 $estudiantes = $estudianteController->listarPorDocente($idDocente);
+$nRetirados = $estudianteController->contarEliminados($idDocente);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mis estudiantes - IncluKids</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Mis estudiantes - IncluKids"); ?>
 <body>
 <div class="container mt-5">
 
-    <a href="../dashboard/visualizador.php" class="text-decoration-none">&larr; Volver a mi panel</a>
-
-    <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-4 flex-wrap gap-2">
         <h2 class="mb-0">👨‍🎓 Mis estudiantes</h2>
-        <a href="nuevo.php" class="btn btn-success">+ Nuevo estudiante</a>
+        <span class="d-flex gap-2 flex-wrap">
+            <a href="papelera.php" class="btn btn-outline-secondary">
+                🗑️ Retirados<?= $nRetirados > 0 ? " (" . $nRetirados . ")" : "" ?>
+            </a>
+            <a href="importar.php" class="btn btn-outline-secondary">📋 Importar</a>
+            <a href="nuevo.php" class="btn btn-success">+ Nuevo estudiante</a>
+        </span>
     </div>
 
-    <div class="card">
+    <?= flash_render() ?>
+
+<div class="mb-3">
+        <input type="search" class="form-control" placeholder="🔎 Buscar…" data-filtro-tabla="tablaMisEst" aria-label="Buscar en la tabla">
+        <small class="text-muted" data-filtro-cuenta="tablaMisEst"></small>
+    </div>
+
+        <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered mb-0">
+                <table class="table table-bordered mb-0" id="tablaMisEst">
                     <thead>
                         <tr>
                             <th>Nombres</th>
@@ -51,12 +53,21 @@ $estudiantes = $estudianteController->listarPorDocente($idDocente);
                             <td><?= htmlspecialchars($estudiante["nombres"]) ?></td>
                             <td><?= htmlspecialchars($estudiante["apellidos"]) ?></td>
                             <td><?= (int) $estudiante["grado"] ?>°<?= htmlspecialchars($estudiante["grupo"]) ?></td>
-                            <td>
+                            <td class="text-nowrap">
                                 <a href="editar.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-primary">Editar</a>
                                 <a href="../progreso/reporte_estudiante.php?id_estudiante=<?= (int) $estudiante['id_estudiante'] ?>" class="btn btn-sm btn-outline-secondary">📄 Reporte</a>
+                                <form method="POST" action="eliminar.php" class="d-inline"
+                                      data-confirmar="¿Retirar a <?= htmlspecialchars($estudiante["nombres"] . " " . $estudiante["apellidos"], ENT_QUOTES) ?>? Deja de aparecer en la lista, pero su progreso se guarda y puedes restaurarlo desde la papelera."
+                                      data-confirmar-boton="Retirar"
+                                      data-confirmar-titulo="Retirar estudiante">
+                                    <?= csrf_campo() ?>
+                                    <input type="hidden" name="id_estudiante" value="<?= (int) $estudiante['id_estudiante'] ?>">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Retirar</button>
+                                </form>
                             </td>
                         </tr>
                         <?php endforeach; endif; ?>
+                    <tr data-filtro-vacio hidden><td colspan="4" class="text-center text-muted">Sin resultados para esa búsqueda.</td></tr>
                     </tbody>
                 </table>
             </div>

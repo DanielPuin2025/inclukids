@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . "/../../helpers/session_boot.php";
+sesion_iniciar();
 
 if (!isset($_SESSION["id_docente"])) {
     header("Location: ../../../index.php");
@@ -11,6 +12,13 @@ require_once __DIR__ . "/../../controllers/ContenidoActividadController.php";
 
 $idActividad = (int) ($_GET["id_actividad"] ?? 0);
 $idSesion = (int) ($_GET["id_sesion"] ?? 0);
+
+// Sin id_sesion se entra en "vista previa": el docente abre el juego
+// desde el catálogo para explorarlo, sin una sesión de clase detrás.
+$urlVolver = $idSesion > 0
+    ? "../sesiones/confirmacion.php?id_sesion=$idSesion"
+    : "../actividades/index.php";
+$textoVolver = $idSesion > 0 ? "Volver a la sesión" : "Volver al catálogo";
 
 $actividadController = new ActividadController();
 $actividad = $actividadController->obtenerPorId($idActividad);
@@ -30,8 +38,9 @@ $totalPreguntas = count($preguntas);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
 <link href="/IncluKids/public/css/juegos.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=6" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=6" defer></script>
+<script src="/IncluKids/public/js/juegos-voz.js?v=3" defer></script>
 </head>
 <body class="juego">
 
@@ -52,7 +61,7 @@ $totalPreguntas = count($preguntas);
         Agrega contenido desde "Actividades" &rarr; "Preguntas" para
         esta actividad (id_actividad = <?= $idActividad ?>).
     </p>
-    <a href="../sesiones/confirmacion.php?id_sesion=<?= $idSesion ?>" class="btn-volver">&larr; Volver</a>
+    <a href="<?= htmlspecialchars($urlVolver) ?>" class="btn-volver">&larr; Volver</a>
 
 <?php else: ?>
 
@@ -95,12 +104,12 @@ $totalPreguntas = count($preguntas);
 
 <?php endif; ?>
 
-<script src="/IncluKids/public/js/juegos-comun.js"></script>
+<script src="/IncluKids/public/js/juegos-comun.js?v=2"></script>
 
 <?php if (!empty($preguntas)): ?>
 <script>
     const preguntas = <?= json_encode($preguntas, JSON_UNESCAPED_UNICODE) ?>;
-    const URL_VOLVER = "../sesiones/confirmacion.php?id_sesion=<?= (int) $idSesion ?>";
+    const URL_VOLVER = <?= json_encode($urlVolver) ?>;
 
     let indiceActual = 0;
     let resuelta = false; // true cuando ya se acertó la pregunta actual
@@ -199,7 +208,7 @@ $totalPreguntas = count($preguntas);
             IncluKidsJuegos.pantallaFinal(pantallaFinal, {
                 titulo: '¡Terminaste todas las preguntas!',
                 urlVolver: URL_VOLVER,
-                textoVolver: '← Volver a la sesión',
+                textoVolver: <?= json_encode("← " . $textoVolver) ?>,
                 detalle: preguntas.length + (preguntas.length === 1 ? ' pregunta' : ' preguntas') +
                     (fallos > 0 ? ' · ayudas: ' + fallos : ' · sin ayudas 🌟')
             });

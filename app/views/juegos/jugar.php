@@ -1,11 +1,18 @@
 <?php
-session_start();
+require_once __DIR__ . "/../../helpers/session_boot.php";
+sesion_iniciar();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
 require_once __DIR__ . "/../../controllers/ActividadController.php";
 
 $idActividad = (int) ($_GET["id_actividad"] ?? 0);
 $idSesion = (int) ($_GET["id_sesion"] ?? 0);
+
+// Sin id_sesion: "vista previa" del juego desde el catálogo, sin
+// sesión de clase detrás.
+$urlVolver = $idSesion > 0
+    ? "../sesiones/confirmacion.php?id_sesion=$idSesion"
+    : "../actividades/index.php";
 
 $actividadController = new ActividadController();
 $actividad = $actividadController->obtenerPorId($idActividad);
@@ -48,8 +55,8 @@ if ($archivo !== null && file_exists(__DIR__ . "/$archivo")) {
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=6" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=6" defer></script>
 </head>
 <body>
 <div class="container mt-5" style="max-width: 500px;">
@@ -60,7 +67,7 @@ if ($archivo !== null && file_exists(__DIR__ . "/$archivo")) {
             pero su pantalla de juego todavía no se ha construido.
         </p>
     </div>
-    <a href="../sesiones/confirmacion.php?id_sesion=<?= $idSesion ?>" class="btn btn-secondary">&larr; Volver a la sesión</a>
+    <a href="<?= htmlspecialchars($urlVolver) ?>" class="btn btn-secondary">&larr; <?= $idSesion > 0 ? "Volver a la sesión" : "Volver al catálogo" ?></a>
 </div>
 </body>
 </html>

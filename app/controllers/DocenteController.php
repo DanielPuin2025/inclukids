@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../models/Docente.php";
 
 class DocenteController
@@ -14,6 +16,12 @@ class DocenteController
     {
         $modelo = new Docente();
         return $modelo->obtenerPorId($idDocente);
+    }
+
+    public function buscarPorCorreo(string $correo): ?array
+    {
+        $modelo = new Docente();
+        return $modelo->buscarPorCorreo($correo);
     }
 
     public function crear($nombres, $apellidos, $correo, $contrasena)
@@ -32,6 +40,12 @@ class DocenteController
     {
         $modelo = new Docente();
         return $modelo->cambiarContrasena($idDocente, $nuevaContrasena);
+    }
+
+    public function marcarSolicitudPassword(int $idDocente): void
+    {
+        $modelo = new Docente();
+        $modelo->marcarSolicitudPassword($idDocente);
     }
 
     public function eliminar($idDocente)

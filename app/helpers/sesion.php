@@ -1,10 +1,13 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 /**
  * Cierre de sesión por inactividad + rotación periódica del id.
  *
  * Se llama al principio de cada vista autenticada, justo después de
- * session_start() y ANTES del guard de "hay que estar logueado".
+ * arrancar la sesión (sesion_iniciar(), app/helpers/session_boot.php)
+ * y ANTES del guard de "hay que estar logueado".
  *
  *   - Si pasaron más de SESION_TIMEOUT segundos desde la última
  *     petición, la sesión se destruye y se redirige al login con

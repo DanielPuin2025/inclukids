@@ -3,6 +3,7 @@ require __DIR__ . "/../../bootstrap.php";
 
 require_once __DIR__ . "/../../controllers/SesionClaseController.php";
 require_once __DIR__ . "/../../controllers/EstudianteController.php";
+require_once __DIR__ . "/../../controllers/ProgresoController.php";
 
 $idSesion = (int) ($_GET["id_sesion"] ?? 0);
 
@@ -24,24 +25,29 @@ if (!$esAdmin && (int) $sesion["id_docente"] !== (int) $_SESSION["id_docente"]) 
 
 $estudianteController = new EstudianteController();
 $estudiantes = $estudianteController->listarPorCurso($sesion["id_curso"]);
+
+// Progreso que YA se registró en esta sesión, por estudiante: sirve
+// para dejar el formulario pre-marcado y que la misma pantalla valga
+// para corregir, no solo para registrar por primera vez.
+$progresoPrevio = [];
+foreach ((new ProgresoController())->listarPorSesion($idSesion) as $p) {
+    $progresoPrevio[(int) $p["id_estudiante"]] = $p;
+}
+$hayProgresoPrevio = !empty($progresoPrevio);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Registrar progreso</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Registrar progreso"); ?>
 <body>
 <div class="container mt-5" style="max-width: 700px;">
 
-    <a href="../dashboard/visualizador.php" class="text-decoration-none">&larr; Volver a mi panel</a>
-
     <h2 class="mt-3 mb-1">Registrar progreso</h2>
     <p class="text-muted mb-4">Marca el avance de cada estudiante en esta sesión (fecha: <?= htmlspecialchars($sesion['fecha']) ?>)</p>
+
+    <?php if ($hayProgresoPrevio): ?>
+        <div class="alert alert-success">
+            Esta sesión ya tiene progreso registrado. Los cambios que guardes
+            aquí <strong>reemplazan</strong> lo anterior (no se duplica).
+        </div>
+    <?php endif; ?>
 
     <?php if (empty($estudiantes)): ?>
         <div class="alert alert-warning">
@@ -58,16 +64,21 @@ $estudiantes = $estudianteController->listarPorCurso($sesion["id_curso"]);
                     <div class="card-body">
                         <h5 class="card-title"><?= htmlspecialchars($estudiante['nombres'] . " " . $estudiante['apellidos']) ?></h5>
 
+                        <?php
+                        $idEst = (int) $estudiante['id_estudiante'];
+                        $previo = $progresoPrevio[$idEst] ?? null;
+                        $estadoPrevio = $previo["estado"] ?? null;
+                        ?>
                         <div class="btn-group w-100 mb-2" role="group">
                             <?php
-                            $idEst = (int) $estudiante['id_estudiante'];
                             $estados = ["Logrado" => "success", "En proceso" => "warning", "Requiere apoyo" => "danger"];
                             foreach ($estados as $estado => $color):
                             ?>
                                 <input type="radio" class="btn-check"
                                        name="estado_<?= $idEst ?>"
                                        id="estado_<?= $idEst ?>_<?= md5($estado) ?>"
-                                       value="<?= $estado ?>" required>
+                                       value="<?= $estado ?>" required
+                                       <?= $estadoPrevio === $estado ? 'checked' : '' ?>>
                                 <label class="btn btn-outline-<?= $color ?>"
                                        for="estado_<?= $idEst ?>_<?= md5($estado) ?>">
                                     <?= $estado ?>
@@ -77,13 +88,14 @@ $estudiantes = $estudianteController->listarPorCurso($sesion["id_curso"]);
 
                         <input type="text" class="form-control form-control-sm"
                                name="observaciones_<?= $idEst ?>"
-                               placeholder="Observaciones (opcional)">
+                               placeholder="Observaciones (opcional)"
+                               value="<?= htmlspecialchars($previo["observaciones"] ?? '') ?>">
                     </div>
                 </div>
             <?php endforeach; ?>
 
             <button type="submit" class="btn btn-primary btn-lg w-100">
-                Guardar progreso de todos
+                <?= $hayProgresoPrevio ? "Guardar cambios" : "Guardar progreso de todos" ?>
             </button>
         </form>
     <?php endif; ?>

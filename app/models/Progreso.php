@@ -1,5 +1,7 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../config/database.php";
 
 class Progreso
@@ -24,6 +26,34 @@ class Progreso
 
         $consulta = $this->conexion->prepare($sql);
         return $consulta->execute([$idSesion, $idEstudiante, $estado, $observaciones]);
+    }
+
+    /**
+     * Registra el avance de un estudiante en una sesión, o lo ACTUALIZA
+     * si ya existía uno. Así "Registrar progreso" sirve también para
+     * corregir un estado mal marcado o una observación mal escrita sin
+     * tener que borrar la sesión entera — y volver a guardar la misma
+     * sesión ya no crea filas duplicadas. La tabla no tiene índice
+     * único sobre (id_sesion, id_estudiante), por eso el SELECT previo
+     * en vez de un ON DUPLICATE KEY.
+     */
+    public function registrarOActualizar($idSesion, $idEstudiante, $estado, $observaciones)
+    {
+        $sel = $this->conexion->prepare(
+            "SELECT id_progreso FROM Progreso
+             WHERE id_sesion = ? AND id_estudiante = ? LIMIT 1"
+        );
+        $sel->execute([$idSesion, $idEstudiante]);
+        $idProgreso = $sel->fetchColumn();
+
+        if ($idProgreso) {
+            $upd = $this->conexion->prepare(
+                "UPDATE Progreso SET estado = ?, observaciones = ? WHERE id_progreso = ?"
+            );
+            return $upd->execute([$estado, $observaciones, $idProgreso]);
+        }
+
+        return $this->registrar($idSesion, $idEstudiante, $estado, $observaciones);
     }
 
     /**

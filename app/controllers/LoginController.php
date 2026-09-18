@@ -1,9 +1,12 @@
 <?php
 
+defined("INCLUKIDS") or exit("Acceso no permitido.");
+
 require_once __DIR__ . "/../models/Docente.php";
 require_once __DIR__ . "/../config/database.php";
 require_once __DIR__ . "/../helpers/csrf.php";
 require_once __DIR__ . "/../helpers/rate_limit.php";
+require_once __DIR__ . "/../helpers/password.php";
 
 class LoginController
 {
@@ -64,6 +67,16 @@ class LoginController
             $_SESSION["rol"] = $docente["rol"];
             $_SESSION["ultima_actividad"] = time();
             $_SESSION["sesion_regenerada"] = time();
+
+            // El administrador con una contraseña insegura (la de fábrica
+            // "admin123", u otra trivial) queda obligado a cambiarla: el
+            // guard de app/bootstrap.php lo manda a "Mi perfil" hasta que
+            // lo haga.
+            if ($docente["rol"] === "administrador" && password_politica_error($password) !== null) {
+                $_SESSION["forzar_cambio_password"] = true;
+            } else {
+                unset($_SESSION["forzar_cambio_password"]);
+            }
 
             $destino = ($docente["rol"] === "administrador" && $rolSeleccionado === "administrador")
                 ? "app/views/dashboard/home.php"

@@ -23,6 +23,8 @@ if ($esAdmin && $volverParam === "global") {
     $volver = "../progreso/global.php";
 } elseif ($esAdmin && preg_match('/^curso:(\d+)$/', $volverParam, $coincidencia)) {
     $volver = "../estudiantes/curso.php?id_curso=" . (int) $coincidencia[1];
+} elseif (!$esAdmin && $volverParam === "mis_sesiones") {
+    $volver = "mis_sesiones.php";
 } else {
     $volver = $esAdmin ? "../dashboard/home.php" : "../dashboard/visualizador.php";
 }
@@ -39,16 +41,21 @@ if (!$sesion) {
 // administrador puede borrar cualquiera (por ejemplo, para limpiar
 // sesiones de prueba).
 if (!$esAdmin && (int) $sesion["id_docente"] !== (int) $_SESSION["id_docente"]) {
-    die("No tienes permiso para eliminar esta sesión. <a href='" . htmlspecialchars($volver) . "'>Volver</a>");
+    flash_set("error", "No tienes permiso para eliminar esta sesión.");
+    header("Location: $volver");
+    exit();
 }
 
 try {
     // Borra también el progreso y las actividades registradas de
     // esta sesión — no tienen ningún significado sin ella.
     $sesionController->eliminar($idSesion);
+    auditar("eliminar", "sesion", $idSesion,
+        ($sesion["fecha"] ?? "") . " · curso " . ($sesion["id_curso"] ?? "?"));
+    flash_set("exito", "Sesión eliminada.");
 } catch (PDOException $e) {
-    die("No se pudo eliminar: " . htmlspecialchars($e->getMessage())
-        . " <a href='" . htmlspecialchars($volver) . "'>Volver</a>");
+    error_log("IncluKids - no se pudo eliminar sesión $idSesion: " . $e->getMessage());
+    flash_set("error", "No se pudo eliminar la sesión. Inténtalo de nuevo.");
 }
 
 header("Location: $volver");

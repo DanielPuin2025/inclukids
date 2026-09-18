@@ -53,16 +53,8 @@ $volver = $esAdmin
 
 $fechaGeneracion = date("d/m/Y");
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte de <?= htmlspecialchars($estudiante["nombres"] . " " . $estudiante["apellidos"]) ?> - IncluKids</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-<link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
+<?php
+$estiloReporte = <<<'HTML'
 <style>
     .reporte-acciones { margin: 24px 0; }
     .reporte-encabezado {
@@ -95,12 +87,17 @@ $fechaGeneracion = date("d/m/Y");
         .card { border: 1px solid #ccc !important; }
     }
 </style>
-</head>
+HTML;
+
+render_head(
+    "Reporte de " . $estudiante["nombres"] . " " . $estudiante["apellidos"] . " - IncluKids",
+    ["head_extra" => $estiloReporte]
+);
+?>
 <body>
 <div class="container mt-5" style="max-width: 800px;">
 
     <div class="no-imprimir reporte-acciones d-flex justify-content-between align-items-center">
-        <a href="<?= htmlspecialchars($volver) ?>" class="text-decoration-none">&larr; Volver</a>
         <button onclick="window.print()" class="btn btn-primary">🖨️ Imprimir / Guardar como PDF</button>
     </div>
 

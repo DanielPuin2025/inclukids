@@ -20,20 +20,9 @@ $dbaController = new DbaController();
 // El grado no se vuelve a preguntar: ya viene del curso elegido en el paso 1
 $dbaLista = $dbaController->listarPorMateriaGradoPeriodo($idMateria, $curso["grado"], $periodo);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Iniciar sesión de clase - Paso 4</title>
-<link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=4" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=4" defer></script>
-</head>
+<?php render_head("Iniciar sesión de clase - Paso 4"); ?>
 <body>
 <div class="container mt-5" style="max-width: 700px;">
-
-    <a href="paso3_periodo.php?id_curso=<?= $idCurso ?>&id_materia=<?= $idMateria ?>" class="text-decoration-none">&larr; Cambiar periodo</a>
 
     <h4 class="text-muted mt-3">Paso 4 de 5</h4>
     <h2 class="mb-1">¿Qué DBA vas a trabajar?</h2>
