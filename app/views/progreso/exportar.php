@@ -42,6 +42,18 @@ header("Cache-Control: no-store");
 $salida = fopen("php://output", "w");
 fwrite($salida, "\xEF\xBB\xBF");   // BOM: que Excel abra bien los acentos
 
+/**
+ * Excel/Sheets/LibreOffice interpretan como fórmula cualquier celda que
+ * empiece con =, +, -, @ (o tab/retorno de carro). Nombres, apellidos y
+ * observaciones los escribe libremente cualquier docente, así que antes
+ * de volcarlos a CSV se neutraliza ese primer carácter anteponiendo una
+ * comilla simple — el mitigante estándar contra "CSV injection".
+ */
+function csv_valor_seguro(string $valor): string
+{
+    return preg_match('/^[=+\-@\t\r]/', $valor) ? "'" . $valor : $valor;
+}
+
 $cabecera = ["Fecha", "Curso", "DBA", "Descripcion DBA", "Estudiante", "Estado", "Observaciones"];
 if ($conDocente) {
     $cabecera[] = "Docente";
@@ -53,17 +65,20 @@ foreach ($registros as $r) {
         ? (int) $r["grado"] . "\u{00B0}" . ($r["grupo"] ?? "")
         : "";
 
+    $estudiante = trim(($r["nombres"] ?? "") . " " . ($r["apellidos"] ?? ""));
+
     $fila = [
         $r["fecha"] ?? "",
         $curso,
         $r["dba_codigo"] ?? "",
         $r["dba_descripcion"] ?? "",
-        trim(($r["nombres"] ?? "") . " " . ($r["apellidos"] ?? "")),
+        csv_valor_seguro($estudiante),
         $r["estado"] ?? "",
-        $r["observaciones"] ?? "",
+        csv_valor_seguro($r["observaciones"] ?? ""),
     ];
     if ($conDocente) {
-        $fila[] = trim(($r["docente_nombres"] ?? "") . " " . ($r["docente_apellidos"] ?? ""));
+        $docente = trim(($r["docente_nombres"] ?? "") . " " . ($r["docente_apellidos"] ?? ""));
+        $fila[] = csv_valor_seguro($docente);
     }
     fputcsv($salida, $fila, ";");
 }
