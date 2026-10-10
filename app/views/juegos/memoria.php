@@ -189,8 +189,8 @@ if ($contenido) {
         100% { transform: translateY(105vh) translateX(var(--deriva, 40px)) rotate(var(--giro, 300deg)); opacity: 0; }
     }
 </style>
-<link href="/IncluKids/public/css/a11y.css?v=6" rel="stylesheet">
-<script src="/IncluKids/public/js/a11y.js?v=6" defer></script>
+<link href="/IncluKids/public/css/a11y.css?v=10" rel="stylesheet">
+<script src="/IncluKids/public/js/a11y.js?v=10" defer></script>
 <script src="/IncluKids/public/js/juegos-voz.js?v=3" defer></script>
 </head>
 <body>

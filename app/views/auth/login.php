@@ -22,8 +22,8 @@ unset($_SESSION["error_login"]);
     <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
     <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
     <link href="/IncluKids/public/css/login.css" rel="stylesheet">
-    <link href="/IncluKids/public/css/a11y.css?v=6" rel="stylesheet">
-    <script src="/IncluKids/public/js/a11y.js?v=6" defer></script>
+    <link href="/IncluKids/public/css/a11y.css?v=10" rel="stylesheet">
+    <script src="/IncluKids/public/js/a11y.js?v=10" defer></script>
 
 </head>
 

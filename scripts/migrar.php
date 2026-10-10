@@ -15,7 +15,15 @@
  *
  * Se apoya en la misma conexión que la app (app/config/database.php,
  * incluye app/config/database.local.php si existe).
+ *
+ * Defensa en profundidad: el .htaccess ya bloquea /scripts/ por URL,
+ * pero por si se despliega sin él, este chequeo corta la ejecución si
+ * alguien lo pide por HTTP en vez de por línea de comandos.
  */
+if (PHP_SAPI !== "cli") {
+    http_response_code(403);
+    die("Este script solo se ejecuta por línea de comandos.");
+}
 
 define("INCLUKIDS", true);
 require __DIR__ . "/../app/config/database.php";

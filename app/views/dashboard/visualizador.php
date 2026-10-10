@@ -66,6 +66,12 @@ foreach ($progresoPorEstudiante as $r) {
     <div class="avatar-menu__panel" id="avatarPanel">
         <div class="avatar-menu__nombre"><?= htmlspecialchars($_SESSION['nombre'] ?? '') ?></div>
 
+        <a href="../docentes/perfil.php" class="avatar-menu__item" style="text-decoration:none;">
+            <span>👤 Mi perfil</span>
+        </a>
+
+        <hr>
+
         <div class="avatar-menu__seccion">
             <div class="avatar-menu__titulo">♿ Accesibilidad</div>
 
@@ -98,6 +104,13 @@ foreach ($progresoPorEstudiante as $r) {
 </div>
 
 <div class="container mt-5">
+
+    <?php if (($_SESSION["rol"] ?? "docente") === "administrador"): ?>
+        <div class="panel-aviso-admin">
+            <span>👁️ Estás viendo el panel tal como lo vería un docente.</span>
+            <a href="../dashboard/home.php" class="btn btn-sm btn-outline-secondary">← Volver al panel de administración</a>
+        </div>
+    <?php endif; ?>
 
     <div class="panel-encabezado">
         <img src="/IncluKids/public/img/logo-inclukids.jpg" alt="IncluKids" class="panel-encabezado__logo">

@@ -23,7 +23,8 @@ defined("INCLUKIDS") or exit("Acceso no permitido.");
  *   css        => hojas extra de public/css/ (además de bootstrap,
  *                 inclukids y a11y). Un nombre suelto ("panel.css")
  *                 lleva ?v=ASSET_VER.
- *   icon       => true para incluir el favicon del proyecto.
+ *   icon       => favicon del proyecto. true por defecto (igual que en
+ *                 login y juegos); pasar false para omitirlo.
  *   head_extra => HTML crudo que se inyecta justo antes de </head>
  *                 (p. ej. un bloque <style> propio de esa vista).
  *
@@ -43,7 +44,7 @@ function asset_url(string $rel): string
 function render_head(string $titulo, array $opts = []): void
 {
     $cssExtra = $opts["css"] ?? [];
-    $conIcono = $opts["icon"] ?? false;
+    $conIcono = $opts["icon"] ?? true;
     $headExtra = $opts["head_extra"] ?? "";
 
     echo "<!DOCTYPE html>\n";

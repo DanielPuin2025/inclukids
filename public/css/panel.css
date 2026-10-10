@@ -12,6 +12,23 @@
     margin: 18px 0 28px;
 }
 
+/* ---------- Aviso "estás viendo esto como admin" ---------- */
+/* Solo aparece en visualizador.php cuando quien mira es el administrador
+   (Panel de un docente); un docente real nunca lo ve. */
+.panel-aviso-admin {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background-color: rgba(43, 95, 99, 0.08);
+    border: 1.5px solid var(--petroleo);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
 /* ---------- Encabezado de página (logo + título) ---------- */
 .panel-encabezado {
     display: flex;
@@ -525,6 +542,7 @@ body.alto-contraste a * {
     color: #FFEB3B !important;
 }
 body.alto-contraste .panel-tile,
+body.alto-contraste .panel-aviso-admin,
 body.alto-contraste .card,
 body.alto-contraste .card-header,
 body.alto-contraste .card-footer,

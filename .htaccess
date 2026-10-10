@@ -44,8 +44,11 @@
 
 # --- Código que nunca debe abrirse por URL ---
 # Estas carpetas (y app/bootstrap.php) solo se usan vía require_once.
+# scripts/ incluye reset_admin_password.php y migrar.php: pensados para
+# correr por CLI (php scripts\...php), no para exponerse por HTTP, donde
+# cualquiera podría dispararlos sin autenticación.
 <IfModule mod_alias.c>
-    RedirectMatch 404 (?i)/(app/(config|models|controllers|helpers)/|app/bootstrap\.php$|database/)
+    RedirectMatch 404 (?i)/(app/(config|models|controllers|helpers)/|app/bootstrap\.php$|database/|scripts/)
 </IfModule>
 
 # Volcados SQL, documentación y scripts sueltos: nunca como respuesta.
@@ -53,3 +56,9 @@
 <FilesMatch "\.(sql|md|sh|inc|bak|dist|json)$">
     Require all denied
 </FilesMatch>
+
+# --- Página 404 con la identidad visual de IncluKids ---
+# Cubre tanto una URL inexistente como los RedirectMatch 404 de arriba.
+# Si clonas el proyecto con otro nombre de carpeta (ver README), ajusta
+# esta ruta igual que el resto de rutas absolutas "/IncluKids/...".
+ErrorDocument 404 /IncluKids/public/404.html
