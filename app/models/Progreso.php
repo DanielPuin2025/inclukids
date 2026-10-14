@@ -4,7 +4,7 @@ defined("INCLUKIDS") or exit("Acceso no permitido.");
 
 require_once __DIR__ . "/../config/database.php";
 
-class Progreso
+class progreso
 {
     private $conexion;
 
@@ -21,7 +21,7 @@ class Progreso
      */
     public function registrar($idSesion, $idEstudiante, $estado, $observaciones)
     {
-        $sql = "INSERT INTO Progreso (id_sesion, id_estudiante, estado, observaciones)
+        $sql = "INSERT INTO progreso (id_sesion, id_estudiante, estado, observaciones)
                 VALUES (?, ?, ?, ?)";
 
         $consulta = $this->conexion->prepare($sql);
@@ -40,17 +40,17 @@ class Progreso
     public function registrarOActualizar($idSesion, $idEstudiante, $estado, $observaciones)
     {
         $sel = $this->conexion->prepare(
-            "SELECT id_progreso FROM Progreso
+            "SELECT id_progreso FROM progreso
              WHERE id_sesion = ? AND id_estudiante = ? LIMIT 1"
         );
         $sel->execute([$idSesion, $idEstudiante]);
-        $idProgreso = $sel->fetchColumn();
+        $idprogreso = $sel->fetchColumn();
 
-        if ($idProgreso) {
+        if ($idprogreso) {
             $upd = $this->conexion->prepare(
-                "UPDATE Progreso SET estado = ?, observaciones = ? WHERE id_progreso = ?"
+                "UPDATE progreso SET estado = ?, observaciones = ? WHERE id_progreso = ?"
             );
-            return $upd->execute([$estado, $observaciones, $idProgreso]);
+            return $upd->execute([$estado, $observaciones, $idprogreso]);
         }
 
         return $this->registrar($idSesion, $idEstudiante, $estado, $observaciones);
@@ -64,7 +64,7 @@ class Progreso
     {
         $sql = "SELECT p.id_progreso, p.estado, p.observaciones,
                        e.id_estudiante, e.nombres, e.apellidos
-                FROM Progreso p
+                FROM progreso p
                 LEFT JOIN Estudiantes e ON p.id_estudiante = e.id_estudiante
                 WHERE p.id_sesion = ?";
 
@@ -92,7 +92,7 @@ class Progreso
                        s.id_sesion, s.fecha,
                        c.grado, c.grupo,
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion
-                FROM Progreso p
+                FROM progreso p
                 INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
                 INNER JOIN Estudiantes e ON p.id_estudiante = e.id_estudiante
                 LEFT JOIN Cursos c ON s.id_curso = c.id_curso
@@ -117,7 +117,7 @@ class Progreso
                        e.id_estudiante, e.nombres, e.apellidos,
                        s.id_sesion, s.fecha,
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion
-                FROM Progreso p
+                FROM progreso p
                 INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
                 INNER JOIN Estudiantes e ON p.id_estudiante = e.id_estudiante
                 LEFT JOIN DBA d ON s.id_dba = d.id_dba
@@ -144,7 +144,7 @@ class Progreso
                        c.grado, c.grupo,
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion,
                        doc.id_docente, doc.nombres AS docente_nombres, doc.apellidos AS docente_apellidos
-                FROM Progreso p
+                FROM progreso p
                 INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
                 INNER JOIN Estudiantes e ON p.id_estudiante = e.id_estudiante
                 LEFT JOIN Cursos c ON s.id_curso = c.id_curso
@@ -178,7 +178,7 @@ class Progreso
                        m.nombre AS materia,
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion,
                        GROUP_CONCAT(DISTINCT a.nombre ORDER BY a.nombre SEPARATOR ', ') AS actividades
-                FROM Progreso p
+                FROM progreso p
                 INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
                 LEFT JOIN DBA d ON s.id_dba = d.id_dba
                 LEFT JOIN Materias m ON d.id_materia = m.id_materia
