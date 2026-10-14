@@ -26,6 +26,8 @@ class Database
     private $user = "root";
     private $password = "";
 
+    
+
     public function __construct()
     {
         $local = __DIR__ . "/database.local.php";
@@ -59,8 +61,9 @@ class Database
             // nunca al navegador: expondría datos de la infraestructura.
             error_log("IncluKids - fallo de conexion a la BD: " . $e->getMessage());
             http_response_code(500);
-            die("No se pudo conectar con la base de datos. "
-                . "Avisa a la persona que administra el sistema.");
+     
+    die("Error real de conexión: " . $e->getMessage());
+
         }
     }
 }

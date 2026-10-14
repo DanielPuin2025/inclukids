@@ -2,8 +2,8 @@
 defined("INCLUKIDS") or exit;
 
 return [
-    "host"     => "127.0.0.1",
+    "host"     => "sustentaciones2026_inclukids-db",
     "dbname"   => "inclukids",
     "user"     => "inclukids_user",
-    "password" => "",
+    "password" => "bye7mwnyt1q9h6enh602",
 ];
