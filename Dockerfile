@@ -6,13 +6,15 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 # Habilitar mod_rewrite
 RUN a2enmod rewrite
 
-# Clonar el repositorio en una carpeta temporal y mover su contenido directamente a la raíz web
+# Clonar el repositorio y estructurar la carpeta IncluKids esperada por las rutas del proyecto
 RUN rm -rf /var/www/html/* \
     && git clone https://github.com/DanielPuin2025/inclukids.git /tmp/inclukids \
-    && mv /tmp/inclukids/* /var/www/html/ \
+    && mkdir -p /var/www/html/IncluKids \
+    && cp -r /tmp/inclukids/* /var/www/html/IncluKids/ \
+    && cp -r /tmp/inclukids/* /var/www/html/ \
     && rm -rf /tmp/inclukids
 
-# Configurar Apache para que lea correctamente desde /var/www/html
+# Configurar Apache
 RUN echo '<VirtualHost *:80>\n\
     ServerAdmin webmaster@localhost\n\
     DocumentRoot /var/www/html\n\
