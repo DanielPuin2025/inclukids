@@ -1,26 +1,33 @@
 FROM php:8.2-apache
 
-# Habilitar mod_rewrite de Apache para las URLs del sistema
+# Instalar git y herramientas necesarias
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
+# Habilitar mod_rewrite de Apache
 RUN a2enmod rewrite
 
-# Permitir .htaccess y reescribir la ruta raíz de Apache de forma estricta
-RUN echo '<Directory /var/www/html/>\n\
-    Options Indexes FollowSymLinks\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>' > /etc/apache2/conf-available/override.conf \
-    && a2enconf override
+# Configurar VirtualHost y permitir .htaccess
+RUN echo '<VirtualHost *:80>\n\
+    ServerAdmin webmaster@localhost\n\
+    DocumentRoot /var/www/html\n\
+    DirectoryIndex index.php index.html\n\
+    <Directory /var/www/html>\n\
+        Options Indexes FollowSymLinks\n\
+        AllowOverride All\n\
+        Require all granted\n\
+    </Directory>\n\
+    ErrorLog ${APACHE_LOG_DIR}/error.log\n\
+    CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
+</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
-# Instalar extensiones necesarias para conectar con MySQL
+# Instalar extensiones de MySQL
 RUN docker-php-ext-install pdo pdo_mysql mysqli
 
-# Establecer el directorio de trabajo
-WORKDIR /var/www/html
+# Limpiar la carpeta por defecto de Apache y clonar tu repositorio directamente
+RUN rm -rf /var/www/html/*
+RUN git clone https://github.com/DanielPuin2025/inclukids.git /var/www/html/
 
-# Copiar todos los archivos del proyecto directamente al contenedor
-COPY . /var/www/html/
-
-# Asegurar que Apache sea el dueño absoluto de todos los archivos y permisos de lectura
+# Asegurar permisos correctos para Apache
 RUN chown -R www-data:www-data /var/www/html \
     && find /var/www/html -type d -exec chmod 755 {} \; \
     && find /var/www/html -type f -exec chmod 644 {} \;
