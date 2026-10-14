@@ -22,7 +22,7 @@ error_log
 
 # Configuración local (credenciales de BD fuera del repo).
 # Ver app/config/database.local.php.example
-app/config/database.local.php
+
 /.env
 
 # Respaldos generados por scripts/respaldo.*
