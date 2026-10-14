@@ -1,0 +1,46 @@
+.juego-salida {
+    position: sticky;
+    top: 8px;
+    z-index: 100;
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto 18px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.juego-salida a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 10px 20px;
+    border: 2px solid #2F6E73;
+    border-radius: 999px;
+    background: #fff;
+    color: #1D4448;
+    font: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.juego-salida a:hover {
+    background: #E7F1EA;
+}
+
+.juego-salida a:focus-visible {
+    outline: 3px solid #1D4448;
+    outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+    .juego-salida {
+        margin-bottom: 12px;
+    }
+
+    .juego-salida a {
+        min-height: 48px;
+        font-size: 16px;
+    }
+}

@@ -7,6 +7,7 @@ if (!isset($_SESSION["id_docente"])) {
     exit();
 }
 
+require_once __DIR__ . "/../../helpers/juegos.php";
 require_once __DIR__ . "/../../controllers/ActividadController.php";
 require_once __DIR__ . "/../../controllers/ContenidoActividadController.php";
 
@@ -15,10 +16,8 @@ $idSesion = (int) ($_GET["id_sesion"] ?? 0);
 
 // Sin id_sesion se entra en "vista previa": el docente abre el juego
 // desde el catálogo para explorarlo, sin una sesión de clase detrás.
-$urlVolver = $idSesion > 0
-    ? "../sesiones/confirmacion.php?id_sesion=$idSesion"
-    : "../actividades/index.php";
-$textoVolver = $idSesion > 0 ? "Volver a la sesión" : "Volver al catálogo";
+$urlVolver = juego_url_volver($idSesion);
+$textoVolver = $idSesion > 0 ? "Volver a la sesión" : "Salir de la prueba";
 
 $actividadController = new ActividadController();
 $actividad = $actividadController->obtenerPorId($idActividad);
@@ -38,11 +37,14 @@ $totalPreguntas = count($preguntas);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= htmlspecialchars($actividad['nombre']) ?></title>
 <link href="/IncluKids/public/css/juegos.css" rel="stylesheet">
+<link href="/IncluKids/public/css/juego-salida.css?v=1" rel="stylesheet">
 <link href="/IncluKids/public/css/a11y.css?v=10" rel="stylesheet">
 <script src="/IncluKids/public/js/a11y.js?v=10" defer></script>
 <script src="/IncluKids/public/js/juegos-voz.js?v=3" defer></script>
 </head>
 <body class="juego">
+
+<?php include __DIR__ . "/_salir.php"; ?>
 
 <div class="juego-encabezado">
     <h1><?= htmlspecialchars($actividad['nombre']) ?></h1>

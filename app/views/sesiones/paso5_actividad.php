@@ -52,7 +52,7 @@ $actividades = $actividadController->listarPorDba($idDba);
                             <strong><?= htmlspecialchars($actividad['nombre']) ?></strong><br>
                             <span class="text-muted small"><?= htmlspecialchars($actividad['descripcion'] ?? '') ?></span>
                         </label>
-                        <a href="../juegos/jugar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>"
+                        <a href="../juegos/jugar.php?id_actividad=<?= (int) $actividad['id_actividad'] ?>&amp;origen=paso5&amp;id_curso=<?= $idCurso ?>&amp;id_dba=<?= $idDba ?>"
                            class="btn btn-sm btn-outline-secondary float-end" target="_blank" rel="noopener">▶️ Probar</a>
                     </div>
                 <?php endforeach; ?>

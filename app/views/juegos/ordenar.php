@@ -3,6 +3,7 @@ require_once __DIR__ . "/../../helpers/session_boot.php";
 sesion_iniciar();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
+require_once __DIR__ . "/../../helpers/juegos.php";
 require_once __DIR__ . "/../../controllers/ActividadController.php";
 require_once __DIR__ . "/../../controllers/ContenidoJuegoController.php";
 
@@ -11,10 +12,8 @@ $idSesion = (int) ($_GET["id_sesion"] ?? 0);
 
 // Sin id_sesion se entra en "vista previa": el docente abre el juego
 // desde el catálogo para explorarlo, sin una sesión de clase detrás.
-$urlVolver = $idSesion > 0
-    ? "../sesiones/confirmacion.php?id_sesion=$idSesion"
-    : "../actividades/index.php";
-$textoVolver = $idSesion > 0 ? "Volver a la sesión" : "Volver al catálogo";
+$urlVolver = juego_url_volver($idSesion);
+$textoVolver = $idSesion > 0 ? "Volver a la sesión" : "Salir de la prueba";
 
 $actividadController = new ActividadController();
 $actividad = $actividadController->obtenerPorId($idActividad);
@@ -268,10 +267,13 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
     }
 </style>
 <link href="/IncluKids/public/css/a11y.css?v=10" rel="stylesheet">
+<link href="/IncluKids/public/css/juego-salida.css?v=1" rel="stylesheet">
 <script src="/IncluKids/public/js/a11y.js?v=10" defer></script>
 <script src="/IncluKids/public/js/juegos-voz.js?v=3" defer></script>
 </head>
 <body class="<?= $esRompecabezas ? 'rompecabezas' : '' ?>">
+
+<?php include __DIR__ . "/_salir.php"; ?>
 
 <h1><?= htmlspecialchars($actividad['nombre']) ?></h1>
 

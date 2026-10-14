@@ -3,6 +3,7 @@ require_once __DIR__ . "/../../helpers/session_boot.php";
 sesion_iniciar();
 if (!isset($_SESSION["id_docente"])) { header("Location: ../../../index.php"); exit(); }
 
+require_once __DIR__ . "/../../helpers/juegos.php";
 require_once __DIR__ . "/../../controllers/ActividadController.php";
 
 $idActividad = (int) ($_GET["id_actividad"] ?? 0);
@@ -10,9 +11,8 @@ $idSesion = (int) ($_GET["id_sesion"] ?? 0);
 
 // Sin id_sesion: "vista previa" del juego desde el catálogo, sin
 // sesión de clase detrás.
-$urlVolver = $idSesion > 0
-    ? "../sesiones/confirmacion.php?id_sesion=$idSesion"
-    : "../actividades/index.php";
+$urlVolver = juego_url_volver($idSesion);
+$textoVolver = $idSesion > 0 ? "Volver a la sesión" : "Salir de la prueba";
 
 $actividadController = new ActividadController();
 $actividad = $actividadController->obtenerPorId($idActividad);
@@ -44,7 +44,15 @@ $motorPorTipo = [
 $archivo = $motorPorTipo[(int) $actividad["id_tipo"]] ?? null;
 
 if ($archivo !== null && file_exists(__DIR__ . "/$archivo")) {
-    header("Location: $archivo?id_actividad=$idActividad&id_sesion=$idSesion");
+    $parametrosRetorno = "";
+    if ($idSesion <= 0 && ($_GET["origen"] ?? "") === "paso5") {
+        $idCurso = (int) ($_GET["id_curso"] ?? 0);
+        $idDba = (int) ($_GET["id_dba"] ?? 0);
+        if ($idCurso > 0 && $idDba > 0) {
+            $parametrosRetorno = "&origen=paso5&id_curso=$idCurso&id_dba=$idDba";
+        }
+    }
+    header("Location: $archivo?id_actividad=$idActividad&id_sesion=$idSesion$parametrosRetorno");
     exit();
 }
 ?>
@@ -67,7 +75,7 @@ if ($archivo !== null && file_exists(__DIR__ . "/$archivo")) {
             pero su pantalla de juego todavía no se ha construido.
         </p>
     </div>
-    <a href="<?= htmlspecialchars($urlVolver) ?>" class="btn btn-secondary">&larr; <?= $idSesion > 0 ? "Volver a la sesión" : "Volver al catálogo" ?></a>
+    <a href="<?= htmlspecialchars($urlVolver, ENT_QUOTES, "UTF-8") ?>" class="btn btn-secondary">&larr; <?= htmlspecialchars($textoVolver, ENT_QUOTES, "UTF-8") ?></a>
 </div>
 </body>
 </html>
