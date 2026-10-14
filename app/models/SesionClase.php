@@ -30,9 +30,9 @@ class SesionClase
                        c.grado, c.grupo,
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion,
                        (SELECT COUNT(*) FROM progreso p WHERE p.id_sesion = s.id_sesion) AS n_progreso
-                FROM SesionesClase s
-                LEFT JOIN Cursos c ON s.id_curso = c.id_curso
-                LEFT JOIN DBA d ON s.id_dba = d.id_dba
+                FROM sesionesclase s
+                LEFT JOIN cursos c ON s.id_curso = c.id_curso
+                LEFT JOIN dba d ON s.id_dba = d.id_dba
                 WHERE s.id_docente = ?
                 ORDER BY s.fecha DESC";
 
@@ -50,7 +50,7 @@ class SesionClase
     public function contarSinProgreso($idDocente)
     {
         $sql = "SELECT COUNT(*)
-                FROM SesionesClase s
+                FROM sesionesclase s
                 WHERE s.id_docente = ?
                   AND NOT EXISTS (
                       SELECT 1 FROM progreso p WHERE p.id_sesion = s.id_sesion
@@ -67,7 +67,7 @@ class SesionClase
      */
     public function crear($idDocente, $idCurso, $idDba, $fecha, $observaciones)
     {
-        $sql = "INSERT INTO SesionesClase (id_docente, id_curso, id_dba, fecha, observaciones)
+        $sql = "INSERT INTO sesionesclase (id_docente, id_curso, id_dba, fecha, observaciones)
                 VALUES (?, ?, ?, ?, ?)";
 
         $consulta = $this->conexion->prepare($sql);
@@ -91,9 +91,9 @@ class SesionClase
                        c.id_curso, c.grado, c.grupo,
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion,
                        doc.id_docente, doc.nombres AS docente_nombres, doc.apellidos AS docente_apellidos
-                FROM SesionesClase s
-                LEFT JOIN Cursos c ON s.id_curso = c.id_curso
-                LEFT JOIN DBA d ON s.id_dba = d.id_dba
+                FROM sesionesclase s
+                LEFT JOIN cursos c ON s.id_curso = c.id_curso
+                LEFT JOIN dba d ON s.id_dba = d.id_dba
                 LEFT JOIN docentes doc ON s.id_docente = doc.id_docente";
 
         $parametros = [];
@@ -113,7 +113,7 @@ class SesionClase
     public function obtenerPorId($idSesion)
     {
         $sql = "SELECT id_sesion, id_docente, id_curso, id_dba, fecha, observaciones
-                FROM SesionesClase
+                FROM sesionesclase
                 WHERE id_sesion = ?";
 
         $consulta = $this->conexion->prepare($sql);
@@ -142,7 +142,7 @@ class SesionClase
 
         try {
             $ins = $this->conexion->prepare(
-                "INSERT INTO SesionesClase (id_docente, id_curso, id_dba, fecha, observaciones)
+                "INSERT INTO sesionesclase (id_docente, id_curso, id_dba, fecha, observaciones)
                  VALUES (?, ?, ?, ?, ?)"
             );
             $ins->execute([
@@ -187,7 +187,7 @@ class SesionClase
             $this->conexion->prepare("DELETE FROM sesionactividad WHERE id_sesion = ?")
                 ->execute([$idSesion]);
 
-            $consulta = $this->conexion->prepare("DELETE FROM SesionesClase WHERE id_sesion = ?");
+            $consulta = $this->conexion->prepare("DELETE FROM sesionesclase WHERE id_sesion = ?");
             $consulta->execute([$idSesion]);
 
             $this->conexion->commit();

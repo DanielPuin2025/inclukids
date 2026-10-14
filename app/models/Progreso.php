@@ -65,7 +65,7 @@ class progreso
         $sql = "SELECT p.id_progreso, p.estado, p.observaciones,
                        e.id_estudiante, e.nombres, e.apellidos
                 FROM progreso p
-                LEFT JOIN Estudiantes e ON p.id_estudiante = e.id_estudiante
+                LEFT JOIN estudiantes e ON p.id_estudiante = e.id_estudiante
                 WHERE p.id_sesion = ?";
 
         $consulta = $this->conexion->prepare($sql);
@@ -93,10 +93,10 @@ class progreso
                        c.grado, c.grupo,
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion
                 FROM progreso p
-                INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
-                INNER JOIN Estudiantes e ON p.id_estudiante = e.id_estudiante
-                LEFT JOIN Cursos c ON s.id_curso = c.id_curso
-                LEFT JOIN DBA d ON s.id_dba = d.id_dba
+                INNER JOIN sesionesclase s ON p.id_sesion = s.id_sesion
+                INNER JOIN estudiantes e ON p.id_estudiante = e.id_estudiante
+                LEFT JOIN cursos c ON s.id_curso = c.id_curso
+                LEFT JOIN dba d ON s.id_dba = d.id_dba
                 WHERE s.id_docente = ?
                 ORDER BY s.fecha DESC, s.id_sesion DESC, e.nombres ASC, e.apellidos ASC";
 
@@ -118,9 +118,9 @@ class progreso
                        s.id_sesion, s.fecha,
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion
                 FROM progreso p
-                INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
-                INNER JOIN Estudiantes e ON p.id_estudiante = e.id_estudiante
-                LEFT JOIN DBA d ON s.id_dba = d.id_dba
+                INNER JOIN sesionesclase s ON p.id_sesion = s.id_sesion
+                INNER JOIN estudiantes e ON p.id_estudiante = e.id_estudiante
+                LEFT JOIN dba d ON s.id_dba = d.id_dba
                 WHERE s.id_curso = ?
                 ORDER BY s.fecha DESC, s.id_sesion DESC, e.nombres ASC, e.apellidos ASC";
 
@@ -145,10 +145,10 @@ class progreso
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion,
                        doc.id_docente, doc.nombres AS docente_nombres, doc.apellidos AS docente_apellidos
                 FROM progreso p
-                INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
-                INNER JOIN Estudiantes e ON p.id_estudiante = e.id_estudiante
-                LEFT JOIN Cursos c ON s.id_curso = c.id_curso
-                LEFT JOIN DBA d ON s.id_dba = d.id_dba
+                INNER JOIN sesionesclase s ON p.id_sesion = s.id_sesion
+                INNER JOIN estudiantes e ON p.id_estudiante = e.id_estudiante
+                LEFT JOIN cursos c ON s.id_curso = c.id_curso
+                LEFT JOIN dba d ON s.id_dba = d.id_dba
                 LEFT JOIN docentes doc ON s.id_docente = doc.id_docente";
 
         $parametros = [];
@@ -179,11 +179,11 @@ class progreso
                        d.codigo AS dba_codigo, d.descripcion AS dba_descripcion,
                        GROUP_CONCAT(DISTINCT a.nombre ORDER BY a.nombre SEPARATOR ', ') AS actividades
                 FROM progreso p
-                INNER JOIN SesionesClase s ON p.id_sesion = s.id_sesion
-                LEFT JOIN DBA d ON s.id_dba = d.id_dba
-                LEFT JOIN Materias m ON d.id_materia = m.id_materia
-                LEFT JOIN SesionActividad sa ON sa.id_sesion = s.id_sesion
-                LEFT JOIN Actividades a ON sa.id_actividad = a.id_actividad
+                INNER JOIN sesionesclase s ON p.id_sesion = s.id_sesion
+                LEFT JOIN dba d ON s.id_dba = d.id_dba
+                LEFT JOIN materias m ON d.id_materia = m.id_materia
+                LEFT JOIN sesionactividad sa ON sa.id_sesion = s.id_sesion
+                LEFT JOIN actividades a ON sa.id_actividad = a.id_actividad
                 WHERE p.id_estudiante = ?
                 GROUP BY p.id_progreso
                 ORDER BY s.fecha DESC, s.id_sesion DESC";

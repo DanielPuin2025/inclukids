@@ -20,7 +20,7 @@ class Materia
      */
     public function listar()
     {
-        $sql = "SELECT id_materia, nombre FROM Materias ORDER BY nombre";
+        $sql = "SELECT id_materia, nombre FROM materias ORDER BY nombre";
 
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute();
@@ -30,7 +30,7 @@ class Materia
 
     public function obtenerPorId($idMateria)
     {
-        $sql = "SELECT id_materia, nombre FROM Materias WHERE id_materia = ?";
+        $sql = "SELECT id_materia, nombre FROM materias WHERE id_materia = ?";
 
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute([$idMateria]);
