@@ -27,7 +27,8 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli
 RUN rm -rf /var/www/html/*
 RUN git clone https://github.com/DanielPuin2025/inclukids.git /var/www/html/
 
-# Asegurar permisos correctos para Apache
+# Asegurar que Apache sea el dueño de todo y dar permisos abiertos de lectura a carpetas web
 RUN chown -R www-data:www-data /var/www/html \
     && find /var/www/html -type d -exec chmod 755 {} \; \
-    && find /var/www/html -type f -exec chmod 644 {} \;
+    && find /var/www/html -type f -exec chmod 644 {} \; \
+    && chmod -R 777 /var/www/html/public
