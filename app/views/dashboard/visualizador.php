@@ -55,6 +55,7 @@ foreach ($progresoPorEstudiante as $r) {
 <link href="/IncluKids/public/css/bootstrap.min.css" rel="stylesheet">
 <link href="/IncluKids/public/css/inclukids.css" rel="stylesheet">
 <link href="<?= htmlspecialchars(asset_url('css/panel.css')) ?>" rel="stylesheet">
+<script src="<?= htmlspecialchars(asset_url('js/creditos.js')) ?>" defer></script>
 </head>
 <body>
 
