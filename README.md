@@ -34,12 +34,16 @@ con una vista global de todo el colegio.
    ```
 
 2. **Crear la base de datos y el esquema** (crea la BD `inclukids`,
-   las 12 tablas y los datos base: materias, tipos de actividad,
+   las 14 tablas y los datos base: materias, tipos de actividad,
    catálogo de DBA y la cuenta de administración):
 
    ```bash
    C:/xampp/mysql/bin/mysql -u root < IncluKids/database/schema.sql
    ```
+
+   **Solo para una instalación nueva:** `schema.sql` elimina y vuelve a
+   crear las tablas. No lo ejecutes sobre una base con información que
+   quieras conservar.
 
 3. **Cargar el contenido de actividades y juegos** (72 actividades,
    sus preguntas y su contenido jugable, tal cual producción):
@@ -47,6 +51,10 @@ con una vista global de todo el colegio.
    ```bash
    C:/xampp/mysql/bin/mysql -u root inclukids < IncluKids/database/seeds/9999_12_31_contenido_completo.sql
    ```
+
+   Este seed reemplaza el catálogo de actividades y su contenido; úsalo
+   en una instalación nueva, antes de registrar sesiones. No ejecutes los
+   `2026_*.sql`: son archivos históricos, no el seed completo.
 
 4. **Abrir** `http://localhost/IncluKids/`.
 
@@ -82,10 +90,49 @@ con una vista global de todo el colegio.
 
 ## Configuración de la base de datos
 
-Las credenciales están en [`app/config/database.php`](app/config/database.php)
-(`localhost`, usuario `root`, sin contraseña, BD `incluKids` — MySQL en
-Windows la trata como `inclukids`). Ajusta ese archivo si tu MySQL usa
-otras.
+Por defecto se usa `localhost`, usuario `root`, sin contraseña y BD
+`incluKids` (MySQL en Windows la trata como `inclukids`). En desarrollo,
+puedes crear `app/config/database.local.php` copiando
+`app/config/database.local.php.example`; ese archivo no se sube al repo.
+
+Para contenedores y EasyPanel, configura las variables de entorno
+`INCLUKIDS_DB_HOST`, `INCLUKIDS_DB_NAME`, `INCLUKIDS_DB_USER` y
+`INCLUKIDS_DB_PASSWORD` en el panel. Estas variables tienen prioridad
+sobre la configuración local. No pongas contraseñas en el Dockerfile ni
+en archivos versionados.
+
+El archivo `inclukids .sql` es un volcado de datos, no un seed: puede
+incluir información personal e historial. Restaúralo solo en una base
+separada y autorizada; no lo uses para inicializar producción.
+
+## Despliegue en EasyPanel
+
+1. Haz una copia de seguridad de la base de datos del VPS antes de
+   cambiarla. Los respaldos de este repositorio pueden reemplazar tablas
+   y contienen registros personales.
+2. Publica en GitHub los cambios que quieras desplegar. Configura la app
+   de EasyPanel para construir desde el repositorio, usando la raíz del
+   proyecto como contexto y `Dockerfile` como archivo. La imagen sirve la
+   app bajo `/IncluKids/` y redirige allí la raíz del dominio.
+3. Configura en EasyPanel `INCLUKIDS_DB_HOST`, `INCLUKIDS_DB_NAME`,
+   `INCLUKIDS_DB_USER` e `INCLUKIDS_DB_PASSWORD`. El host debe ser el
+   nombre interno del servicio MySQL/MariaDB en EasyPanel; `localhost`
+   apunta al propio contenedor PHP, no al contenedor de la base de datos.
+   Conecta ambos servicios a la misma red privada.
+4. Si vas a recuperar los datos del VPS, importa el volcado autorizado
+   `backups/inclukids_2026-09-09_1418_final.sql` solo después de respaldar
+   la base de destino. El volcado recrea tablas: no lo importes encima de
+   datos que deban conservarse. Mantén la base inaccesible desde Internet.
+5. Desde la consola del contenedor de la aplicación, ejecuta
+   `php scripts/migrar.php` y comprueba que termine correctamente antes
+   de probar el dominio. Las migraciones actualizan el esquema; no cargan
+   cursos, estudiantes, sesiones ni progreso.
+6. Prueba inicio de sesión, cursos, estudiantes y la vista de sesiones y
+   progreso. Configura el dominio y HTTPS en EasyPanel.
+
+Rota antes del despliegue cualquier contraseña que se haya incluido
+anteriormente en archivos de configuración o imágenes; sustituirla en el
+código no invalida copias antiguas.
 
 ### Volver a generar el esquema versionado desde una base viva
 

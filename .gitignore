@@ -24,6 +24,8 @@ error_log
 # Ver app/config/database.local.php.example
 
 /.env
+/app/config/database.local.php
+/inclukids .sql
 
 # Respaldos generados por scripts/respaldo.*
 /backups/

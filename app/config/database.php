@@ -15,8 +15,10 @@ defined("INCLUKIDS") or exit("Acceso no permitido.");
  *
  *     <?php return ["password" => "secreta", "dbname" => "inclukids"];
  *
- * Ese archivo está en .gitignore (no se sube al repo). Hay una
- * plantilla en app/config/database.local.php.example.
+ * También acepta INCLUKIDS_DB_HOST, INCLUKIDS_DB_NAME,
+ * INCLUKIDS_DB_USER e INCLUKIDS_DB_PASSWORD. Las variables de entorno
+ * tienen prioridad sobre el archivo local y son la opción para contenedores.
+ * Hay una plantilla local en app/config/database.local.php.example.
  */
 
 class Database
@@ -25,8 +27,6 @@ class Database
     private $dbname = "incluKids";
     private $user = "root";
     private $password = "";
-
-    
 
     public function __construct()
     {
@@ -39,6 +39,20 @@ class Database
                         $this->$clave = $cfg[$clave];
                     }
                 }
+            }
+        }
+
+        $variables = [
+            "host" => "INCLUKIDS_DB_HOST",
+            "dbname" => "INCLUKIDS_DB_NAME",
+            "user" => "INCLUKIDS_DB_USER",
+            "password" => "INCLUKIDS_DB_PASSWORD",
+        ];
+
+        foreach ($variables as $clave => $variable) {
+            $valor = getenv($variable);
+            if ($valor !== false) {
+                $this->$clave = $valor;
             }
         }
     }
@@ -61,11 +75,7 @@ class Database
             // nunca al navegador: expondría datos de la infraestructura.
             error_log("IncluKids - fallo de conexion a la BD: " . $e->getMessage());
             http_response_code(500);
-     
-    die("Error real de conexión: " . $e->getMessage());
-
-    
-
+            die("No fue posible conectar con la base de datos.");
         }
     }
 }

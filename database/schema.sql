@@ -5,7 +5,7 @@
 --  porque el repo solo tenía cambios incrementales y nunca el
 --  esquema completo.
 --
---  Crea la BD `inclukids`, sus 12 tablas y los datos base
+--  Crea la BD `inclukids`, sus 14 tablas y los datos base
 --  imprescindibles: materias, tipos de actividad, catálogo de DBA
 --  y la cuenta de administración.
 --

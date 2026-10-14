@@ -1,0 +1,7 @@
+.git
+.claude
+backups
+vendor
+app/config/database.local.php
+inclukids .sql
+*.sql.gz
