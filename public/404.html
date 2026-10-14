@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Página no encontrada - IncluKids</title>
+<link rel="icon" href="/IncluKids/public/img/logo-inclukids.jpg">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+    :root {
+        --tinta: #24303A;
+        --papel: #EEF2ED;
+        --papel-tarjeta: #FFFFFF;
+        --petroleo: #2B5F63;
+        --petroleo-oscuro: #1D4448;
+        --ocre: #C98A2B;
+        --borde: #D7DED9;
+        --texto-suave: #5B6B66;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--papel);
+        color: var(--tinta);
+        font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+        line-height: 1.55;
+        padding: 24px;
+    }
+
+    .tarjeta {
+        background-color: var(--papel-tarjeta);
+        border: 1.5px solid var(--borde);
+        border-radius: 14px;
+        max-width: 440px;
+        width: 100%;
+        padding: 40px 32px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(36, 48, 58, 0.08);
+    }
+
+    .tarjeta img {
+        height: 56px;
+        margin-bottom: 20px;
+    }
+
+    .codigo {
+        font-family: 'IBM Plex Mono', monospace;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--ocre);
+        font-size: 14px;
+        text-transform: uppercase;
+        margin: 0 0 6px;
+    }
+
+    h1 {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0 0 12px;
+        letter-spacing: -0.01em;
+    }
+
+    p {
+        color: var(--texto-suave);
+        font-size: 15px;
+        margin: 0 0 26px;
+    }
+
+    a.boton {
+        display: inline-block;
+        font-family: 'IBM Plex Mono', monospace;
+        font-weight: 600;
+        font-size: 13.5px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: white;
+        background-color: var(--petroleo);
+        border: 1.5px solid var(--petroleo);
+        border-radius: 6px;
+        padding: 0.6rem 1.3rem;
+        transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    a.boton:hover {
+        background-color: var(--petroleo-oscuro);
+        border-color: var(--petroleo-oscuro);
+    }
+</style>
+</head>
+<body>
+
+    <div class="tarjeta">
+        <img src="/IncluKids/public/img/logo-inclukids.jpg" alt="IncluKids">
+        <p class="codigo">Error 404</p>
+        <h1>No encontramos esta página</h1>
+        <p>
+            El enlace puede estar mal escrito o la página ya no existe.
+            Si crees que esto es un error, avísale a quien administra el
+            sistema.
+        </p>
+        <a class="boton" href="/IncluKids/">Ir al inicio</a>
+    </div>
+
+</body>
+</html>

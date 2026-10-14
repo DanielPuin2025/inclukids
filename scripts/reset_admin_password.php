@@ -8,7 +8,16 @@
  * Pensado para recuperar el acceso si se pierde la contraseña. Borra
  * este archivo cuando termines, o al menos cambia la contraseña desde
  * "Mi perfil" en cuanto entres.
+ *
+ * Defensa en profundidad: el .htaccess ya bloquea /scripts/ por URL,
+ * pero por si se despliega sin él, este chequeo corta la ejecución si
+ * alguien lo pide por HTTP en vez de por línea de comandos.
  */
+if (PHP_SAPI !== "cli") {
+    http_response_code(403);
+    die("Este script solo se ejecuta por línea de comandos.");
+}
+
 define("INCLUKIDS", true);
 require __DIR__ . "/../app/config/database.php";
 

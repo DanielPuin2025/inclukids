@@ -113,6 +113,7 @@ body.alto-contraste a * { color: #FFEB3B !important; }
 /* Tarjetas / piezas / zonas / opciones: fondo negro, borde blanco grueso */
 body.alto-contraste .card,
 body.alto-contraste .panel-tile,
+body.alto-contraste .panel-aviso-admin,
 body.alto-contraste .avatar-menu__panel,
 body.alto-contraste .opcion,
 body.alto-contraste .pieza,

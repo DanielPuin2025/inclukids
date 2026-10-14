@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"/c/xampp/php/php.exe\" scripts/migrar.php --list)",
+      "Bash(\"/c/xampp/php/php.exe\" scripts/migrar.php)",
+      "Bash(\"/c/xampp/mysql/bin/mysql.exe\" -u root -N -e \"SELECT id_docente, nombres, correo, rol FROM inclukids.docentes;\")",
+      "Bash(/c/xampp/php/php.exe -r ' *)",
+      "Bash(\"/c/xampp/mysql/bin/mysql.exe\" -u root -e \"SELECT id_recuperacion, id_docente, codigo_hash, intentos, expira_en FROM inclukids.recuperacion_password ORDER BY id_recuperacion DESC LIMIT 3;\")",
+      "Bash(\"/c/xampp/mysql/bin/mysql.exe\" -u root -e \"SELECT id_recuperacion, id_docente, intentos, usado_en FROM inclukids.recuperacion_password ORDER BY id_recuperacion DESC LIMIT 3;\")",
+      "Bash(\"/c/xampp/mysql/bin/mysql.exe\" -u root -e \"DELETE FROM inclukids.docentes WHERE correo='prueba.qa@inclukids.test';\")",
+      "Bash(\"/c/xampp/mysql/bin/mysql.exe\" -u root -e \"SELECT COUNT\\(*\\) AS quedan FROM inclukids.recuperacion_password;\")",
+      "Bash(git status *)",
+      "Bash(\"/c/xampp/mysql/bin/mysql.exe\" -u root -N -e \"SELECT contraseña FROM inclukids.docentes WHERE correo='admin@inclukids.com';\")",
+      "Bash(\"/c/xampp/mysql/bin/mysql.exe\" -u root -N -e \"SELECT COUNT\\(*\\) FROM inclukids.docentes;\")",
+      "Bash(curl -s -o /dev/null -w '%{http_code} %{redirect_url}\\\\n' -X POST http://localhost/IncluKids/app/views/auth/guardar_registro.php --data 'nombres=Bypass&apellidos=Test&correo=bypass@evil.test&password=Segura2026&password_confirmar=Segura2026')",
+      "Bash(git check-ignore *)",
+      "Bash(\"/c/xampp/php/php.exe\" -l app/views/progreso/exportar.php)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}
