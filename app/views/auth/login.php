@@ -24,6 +24,7 @@ unset($_SESSION["error_login"]);
     <link href="/IncluKids/public/css/login.css" rel="stylesheet">
     <link href="/IncluKids/public/css/a11y.css?v=10" rel="stylesheet">
     <script src="/IncluKids/public/js/a11y.js?v=10" defer></script>
+    <script src="/IncluKids/public/js/creditos.js?v=10" defer></script>
 
 </head>
 
