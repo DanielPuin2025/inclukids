@@ -267,10 +267,7 @@ $esRompecabezas = (int) $actividad["id_tipo"] === 3;
     }
 </style>
 <link href="/IncluKids/public/css/a11y.css?v=10" rel="stylesheet">
-<<<<<<< HEAD
 <link href="/IncluKids/public/css/juego-salida.css?v=1" rel="stylesheet">
-=======
->>>>>>> upstream/main
 <script src="/IncluKids/public/js/a11y.js?v=10" defer></script>
 <script src="/IncluKids/public/js/juegos-voz.js?v=3" defer></script>
 </head>
