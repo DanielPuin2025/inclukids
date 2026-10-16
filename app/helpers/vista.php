@@ -73,6 +73,7 @@ function render_head(string $titulo, array $opts = []): void
     echo "<script src=\"" . asset_url("js/confirmar.js") . "\" defer></script>\n";
     echo "<script src=\"" . asset_url("js/tabla-filtro.js") . "\" defer></script>\n";
     echo "<script src=\"" . asset_url("js/nav.js") . "\" defer></script>\n";
+    echo "<script src=\"" . asset_url("js/creditos.js") . "\" defer></script>\n";
 
     if ($headExtra !== "") {
         echo $headExtra . "\n";

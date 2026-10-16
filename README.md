@@ -147,6 +147,26 @@ C:/xampp/mysql/bin/mysqldump -u root --no-create-info --skip-extended-insert \
   > database/seeds/9999_12_31_contenido_completo.sql
 ```
 
+## Despliegue en un hosting
+
+El repositorio trae el código y el esquema, pero **no** las credenciales
+ni los respaldos (`backups/` y `app/config/database.local.php` están en
+`.gitignore`). Pasos:
+
+1. **Subir los archivos** dentro de una carpeta llamada `IncluKids`
+   (el código usa rutas absolutas `/IncluKids/...`; si va en la raíz del
+   dominio, los estilos e imágenes no cargan).
+2. **Crear la base de datos** desde el panel del hosting e importar
+   `database/schema.sql` (si el hosting no deja ejecutar `CREATE DATABASE`
+   / `USE`, quitar esas líneas del archivo) y luego
+   `database/seeds/9999_12_31_contenido_completo.sql`.
+3. **Crear `app/config/database.local.php`** copiando
+   `database.local.php.example` y poniendo `host`, `dbname`, `user` y
+   `password` del hosting. En Linux los nombres de BD distinguen
+   mayúsculas: el `dbname` debe coincidir exactamente con el creado.
+4. **Iniciar sesión como administrador** (ver arriba) y cambiar la
+   contraseña inicial.
+
 ## Estructura
 
 ```
