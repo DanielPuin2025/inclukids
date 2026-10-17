@@ -29,10 +29,10 @@ $cursoController = new CursoController();
 
 if ($idCurso === 0) {
     $cursoController->crear($grado, $grupo, $anio, $idDocente);
-    flash_set("exito", "Curso $grado°$grupo creado.");
+    flash_set("exito", "Curso {$grado}°{$grupo} creado.");
 } else {
     $cursoController->actualizar($idCurso, $grado, $grupo, $anio, $idDocente);
-    flash_set("exito", "Curso $grado°$grupo actualizado.");
+    flash_set("exito", "Curso {$grado}°{$grupo} actualizado.");
 }
 
 header("Location: index.php");
